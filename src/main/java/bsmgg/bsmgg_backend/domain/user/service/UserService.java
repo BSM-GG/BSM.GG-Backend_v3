@@ -31,10 +31,10 @@ public class UserService {
         }
         user.update(oauthUser);
 
-        Summoner summoner = summonerGetService.getSummonerByPuuid(user.getSummoner().getPuuid());
-        if (summoner == null) {
+        if (user.getSummoner() == null) {
             return jwtUtil.createToken(user.getUuid(), "", "");
         }
+        Summoner summoner = summonerGetService.getSummonerByPuuid(user.getSummoner().getPuuid());
         return jwtUtil.createToken(user.getUuid(), summoner.getGameName(), summoner.getTagLine());
 
     }

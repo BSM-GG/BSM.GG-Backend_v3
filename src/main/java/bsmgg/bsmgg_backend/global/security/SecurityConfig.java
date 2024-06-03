@@ -40,7 +40,7 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/api/summoner").authenticated()
-                        .anyRequest().permitAll())
+                        .requestMatchers("/**").permitAll())
 
                 .sessionManagement((session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))

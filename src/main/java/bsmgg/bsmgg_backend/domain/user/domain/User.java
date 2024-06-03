@@ -50,8 +50,12 @@ public class User {
 
     public void update(User user) {
         this.email = user.getEmail();
-        this.name = user.getName();
-        this.enrolledAt = user.getEnrolledAt();
         this.nickname = user.getNickname();
+        this.name = user.getName();
+        this.isGraduate = user.getIsGraduate();
+        this.enrolledAt = user.getEnrolledAt();
+        this.grade = user.getGrade();
+        this.classNo = user.getClassNo();
+        this.studentNo = user.getStudentNo();
     }
 }

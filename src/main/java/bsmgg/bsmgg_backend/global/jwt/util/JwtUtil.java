@@ -44,8 +44,6 @@ public class JwtUtil {
     private Integer refreshExpHour;
 
     public TokenDto createToken(UUID uuid, String gameName, String tagLine) {
-        ZonedDateTime now = ZonedDateTime.now();
-
         String accessToken = createAccessToken(uuid.toString());
 
         String refreshToken = createRefreshToken(uuid.toString());

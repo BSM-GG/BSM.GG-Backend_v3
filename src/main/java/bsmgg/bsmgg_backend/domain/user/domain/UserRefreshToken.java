@@ -16,7 +16,7 @@ public class UserRefreshToken {
 
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId
-    @JoinColumn(name = "user_uuid")
+    @JoinColumn(name = "userUuid")
     private User user;
 
     private String refreshToken;
