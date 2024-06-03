@@ -1,6 +1,8 @@
 package bsmgg.bsmgg_backend.global.jwt.auth;
 
 import bsmgg.bsmgg_backend.domain.user.repository.UserRepository;
+import bsmgg.bsmgg_backend.global.error.exception.BSMGGException;
+import bsmgg.bsmgg_backend.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,6 +21,6 @@ public class AuthDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUuid(UUID.fromString(username))
                 .map(AuthDetails::new)
-                .orElseThrow(() -> new RuntimeException("유저가 존재하지 않습니다."));
+                .orElseThrow(() -> new BSMGGException(ErrorCode.USER_NOT_FOUND));
     }
 }

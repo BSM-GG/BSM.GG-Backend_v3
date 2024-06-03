@@ -1,7 +1,6 @@
 package bsmgg.bsmgg_backend.domain.user.controller;
 
-import bsmgg.bsmgg_backend.domain.user.controller.dto.LoginRequestDto;
-import bsmgg.bsmgg_backend.domain.user.controller.dto.SignupRequestDto;
+import bsmgg.bsmgg_backend.domain.user.controller.dto.AssignRequestDto;
 import bsmgg.bsmgg_backend.domain.user.service.UserService;
 import bsmgg.bsmgg_backend.global.jwt.dto.TokenDto;
 import lombok.RequiredArgsConstructor;
@@ -19,15 +18,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("")
-    public
-
-    @PostMapping("/signup")
-    public void signup(@RequestBody SignupRequestDto requestDto) {
-        userService.create(requestDto);
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<TokenDto> login(@RequestBody LoginRequestDto requestDto) {
-        return ResponseEntity.ok(userService.login(requestDto));
+    public ResponseEntity<TokenDto> assignUser(@RequestBody AssignRequestDto dto) {
+        return ResponseEntity.ok(userService.assign(dto));
     }
 }

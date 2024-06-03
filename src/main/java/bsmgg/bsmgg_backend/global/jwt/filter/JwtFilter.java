@@ -10,11 +10,19 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -34,7 +42,7 @@ public class JwtFilter extends OncePerRequestFilter {
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT token", e);
         } catch (ExpiredJwtException e) {
-            log.info("Expired JWT token", e);
+            reissueAccessToken(request, response, e);
         } catch (UnsupportedJwtException e) {
             log.info("Unsupported JWT token", e);
         } catch (IllegalArgumentException e){
@@ -42,5 +50,37 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
+    }
+
+    private User parseUserSpecification(String token) {
+        String uuid = jwtUtil.extractUuid(token);
+        return new User(uuid, "", List.of(new SimpleGrantedAuthority("")));
+    }
+
+    private void reissueAccessToken(HttpServletRequest request, HttpServletResponse response, Exception exception) {
+        try {
+            String refreshToken = parseBearerToken(request, "Refresh-Token");
+            if (refreshToken == null) {
+                throw exception;
+            }
+            String oldAccessToken = parseBearerToken(request, HttpHeaders.AUTHORIZATION);
+            jwtUtil.validateRefreshToken(refreshToken, oldAccessToken);
+            String newAccessToken = jwtUtil.recreateAccessToken(oldAccessToken);
+            User user = parseUserSpecification(newAccessToken);
+            AbstractAuthenticationToken authenticated = UsernamePasswordAuthenticationToken.authenticated(user, newAccessToken, user.getAuthorities());
+            authenticated.setDetails(new WebAuthenticationDetails(request));
+            SecurityContextHolder.getContext().setAuthentication(authenticated);
+
+            response.setHeader("New-Authorization", newAccessToken);
+        } catch (Exception e) {
+            request.setAttribute("exception", e);
+        }
+    }
+
+    private String parseBearerToken(HttpServletRequest request, String headerName) {
+        return Optional.ofNullable(request.getHeader(headerName))
+                .filter(token -> token.substring(0, 7).equalsIgnoreCase("Bearer "))
+                .map(token -> token.substring(7))
+                .orElse(null);
     }
 }

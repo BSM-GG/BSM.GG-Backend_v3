@@ -1,46 +1,41 @@
 package bsmgg.bsmgg_backend.domain.user.service;
 
-import bsmgg.bsmgg_backend.domain.user.controller.dto.LoginRequestDto;
-import bsmgg.bsmgg_backend.domain.user.controller.dto.SignupRequestDto;
+import bsmgg.bsmgg_backend.domain.oauth.BsmOauthService;
+import bsmgg.bsmgg_backend.domain.riot.service.RiotApiService;
+import bsmgg.bsmgg_backend.domain.summoner.domain.Summoner;
+import bsmgg.bsmgg_backend.domain.summoner.service.SummonerGetService;
+import bsmgg.bsmgg_backend.domain.user.controller.dto.AssignRequestDto;
 import bsmgg.bsmgg_backend.domain.user.domain.User;
-import bsmgg.bsmgg_backend.domain.user.repository.UserRefreshTokenRepository;
 import bsmgg.bsmgg_backend.domain.user.repository.UserRepository;
-import bsmgg.bsmgg_backend.global.error.exception.ErrorCode;
-import bsmgg.bsmgg_backend.global.error.exception.GradException;
 import bsmgg.bsmgg_backend.global.jwt.dto.TokenDto;
 import bsmgg.bsmgg_backend.global.jwt.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
+    private final BsmOauthService bsmOauthService;
+    private final SummonerGetService summonerGetService;
     private final UserRepository userRepository;
-    private final UserRefreshTokenRepository userRefreshTokenRepository;
-    private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    private final RiotApiService riotApiService;
 
-    @Transactional
-    public void create(SignupRequestDto dto) {
-        if(userRepository.findByEmail(dto.email()).isPresent()) {
-            throw new GradException(ErrorCode.USER_ALREADY_REGISTERED);
+    public TokenDto assign(AssignRequestDto dto) {
+        User oauthUser = bsmOauthService.oauth(dto.authCode());
+        User user = userRepository.findByEmail(oauthUser.getEmail());
+        if (user == null) {
+            userRepository.save(oauthUser);
+            return jwtUtil.createToken(oauthUser.getUuid(), "", "");
         }
-        userRepository.save(User.from(dto, passwordEncoder));
-    }
+        user.update(oauthUser);
 
-    @Transactional
-    public TokenDto login(LoginRequestDto requestDto) {
-        Optional<User> user = userRepository.findByEmail(requestDto.email());
-        if(user.isEmpty())
-            throw new GradException(ErrorCode.USER_NOT_FOUND);
-        if (!passwordEncoder.matches(requestDto.password(), user.get().getPassword()))
-            throw new GradException(ErrorCode.ILLEGAL_PASSWORD);
+        Summoner summoner = summonerGetService.getSummonerByPuuid(user.getSummoner().getPuuid());
+        if (summoner == null) {
+            return jwtUtil.createToken(user.getUuid(), "", "");
+        }
+        return jwtUtil.createToken(user.getUuid(), summoner.getGameName(), summoner.getTagLine());
 
-        return jwtUtil.createToken("puuid");
     }
 }

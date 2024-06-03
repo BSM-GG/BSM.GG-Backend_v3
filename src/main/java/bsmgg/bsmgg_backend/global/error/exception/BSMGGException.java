@@ -5,6 +5,6 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class GradException extends RuntimeException{
+public class BSMGGException extends RuntimeException{
     private final ErrorCode errorCode;
 }

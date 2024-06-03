@@ -1,12 +1,9 @@
 package bsmgg.bsmgg_backend.domain.user.domain;
 
-import bsmgg.bsmgg_backend.domain.user.controller.dto.SignupRequestDto;
+import bsmgg.bsmgg_backend.domain.summoner.domain.Summoner;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import leehj050211.bsmOauth.type.BsmUserRole;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -14,34 +11,47 @@ import java.util.UUID;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uuid;
-    @Column(nullable = false)
-    private String puuid;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name="puuid")
+    private Summoner summoner;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true, length = 32)
     private String email;
-    @Column(nullable = false)
-    private Integer code;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 8)
+    private Long code;
+    @Column(nullable = false, length = 30)
     private String nickname;
-    @Column(nullable = false)
+    @Setter
+    @Column(nullable = false, length = 30)
     private String name;
     @Column(nullable = false)
-    private String role;
+    private BsmUserRole role;
 
-    @Column(nullable = true)
-    private Boolean isGraduate;
-    @Column(nullable = true)
-    private Integer enrolledAt;
-    @Column(nullable = true)
-    private Integer grade;
-    @Column(nullable = true)
-    private Integer classNo;
-    @Column(nullable = true)
-    private Integer studentNo;
+    @Setter
+    @Column
+    private Boolean isGraduate = false;
+    @Setter
+    private Integer enrolledAt = 0;
+    @Setter
+    @Column(length = 1)
+    private Integer grade = 0;
+    @Setter
+    @Column(length = 1)
+    private Integer classNo = 0;
+    @Setter
+    @Column(length = 2)
+    private Integer studentNo = 0;
 
+    public void update(User user) {
+        this.email = user.getEmail();
+        this.name = user.getName();
+        this.enrolledAt = user.getEnrolledAt();
+        this.nickname = user.getNickname();
+    }
 }
