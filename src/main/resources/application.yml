@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: BSM.GG-Backend
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DB_URL}:3306/bsmgg
+    username: ${DB_USER}
+    password: ${DB_PW}
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+
+server:
+  port: 8000
+
+springdoc:
+  swagger-ui:
+    path: /api-test
+    groups-order: DESC
+    tags-sorter: alpha
+    operations-sorter: method
+  paths-to-match:
+    - /api/**
+
+jwt:
+  secret-key: ${SECRET_KEY}
+  prefix: ${PREFIX}
+  access-expiration-minutes: ${ACCESS_EXP_MIN}
+  refresh-expiration-hours: ${REFRESH_EXP_HOUR}
+
+riot:
+  asia-url: ${RIOT_ASIA_URL}
+  lol-url: ${RIOT_LOL_URL}
+  kr-url: ${RIOT_KR_URL}
+  season-started-time: ${SEASON_STARTED_TIME}
+  api-key: ${RIOT_API_KEY}
