@@ -17,6 +17,6 @@ public class SummonerController {
 
     @PostMapping("")
     public void assign(@RequestBody SummonerRequestDto dto) {
-        summonerService.saveSummoner(dto);
+        summonerService.assign(dto);
     }
 }

@@ -23,6 +23,8 @@ public enum ErrorCode {
     NOT_VALID_HEADER_ERROR(404, "Request Not Found"),
     INTERNAL_SERVER_ERROR(500, "Internal Server Error Exception"),
 
+    I_AM_TEAPOT(418, "히히 안녕 나는 티팟이야."),
+
     //Jwt
     INVALID_TOKEN(403, "잘못된 토큰입니다."),
     EXPIRED_TOKEN(403, "만료된 토큰입니다."),
