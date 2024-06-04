@@ -12,11 +12,11 @@ import java.util.UUID;
 public class UserRefreshToken {
 
     @Id
-    private UUID userUuid;
+    private UUID userId;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @MapsId
-    @JoinColumn(name = "userUuid")
+    @JoinColumn(name = "user_id")
     private User user;
 
     private String refreshToken;

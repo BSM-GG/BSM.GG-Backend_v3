@@ -7,6 +7,8 @@ import bsmgg.bsmgg_backend.global.error.exception.ErrorCode;
 import bsmgg.bsmgg_backend.global.jwt.auth.AuthDetails;
 import bsmgg.bsmgg_backend.global.jwt.auth.AuthDetailsService;
 import bsmgg.bsmgg_backend.global.jwt.dto.TokenDto;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -18,7 +20,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
-import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.Date;
@@ -96,7 +97,7 @@ public class JwtUtil {
     }
 
     public void validateRefreshToken(String refreshToken, String oldAccessToken) {
-        String uuid = extractUuid(oldAccessToken);
+        String uuid = extractUuid(refreshToken);
         int reissueLimit = refreshExpHour * 60 / accessExpMin;
         userRefreshTokenService.get(UUID.fromString(uuid), reissueLimit)
                 .filter(memberRefreshToken -> memberRefreshToken.validateRefreshToken(refreshToken))
@@ -117,4 +118,8 @@ public class JwtUtil {
                 .get("uuid")
                 .toString();
     }
+
+//    public Jws<Claims> validateAndParseToken(String token) {
+//        return Jwts.parser().
+//    }
 }

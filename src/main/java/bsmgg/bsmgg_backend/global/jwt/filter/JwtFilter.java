@@ -37,10 +37,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
             if(token != null) {
                 String accessToken = parseBearerToken(request, HttpHeaders.AUTHORIZATION);
-                User user = parseUserSpecification(accessToken);
-                AbstractAuthenticationToken authenticated = UsernamePasswordAuthenticationToken.authenticated(user, accessToken, user.getAuthorities());
-                authenticated.setDetails(new WebAuthenticationDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authenticated);
+                Authentication authentication = jwtUtil.getAuthentication(token);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT token", e);

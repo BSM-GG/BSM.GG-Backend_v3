@@ -14,7 +14,16 @@ public class UserRefreshTokenService {
 
     private final UserRefreshTokenRepository userRefreshTokenRepository;
 
-    public Optional<UserRefreshToken> get(UUID uuid, int reissueCount) {
-        return userRefreshTokenRepository.findByUserUuidAndReissueCountLessThan(uuid, reissueCount);
+    public Optional<UserRefreshToken> get(UUID id, int reissueCount) {
+        return userRefreshTokenRepository.findByUserIdAndReissueCountLessThan(id, reissueCount);
     }
+
+    public Optional<UserRefreshToken> getById(UUID id) {
+        return userRefreshTokenRepository.findById(id);
+    }
+
+    public void save(UserRefreshToken userRefreshToken) {
+        userRefreshTokenRepository.save(userRefreshToken);
+    }
+
 }

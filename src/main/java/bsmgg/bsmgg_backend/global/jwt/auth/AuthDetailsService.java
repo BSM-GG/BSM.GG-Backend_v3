@@ -19,7 +19,7 @@ public class AuthDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUuid(UUID.fromString(username))
+        return userRepository.findById(UUID.fromString(username))
                 .map(AuthDetails::new)
                 .orElseThrow(() -> new BSMGGException(ErrorCode.USER_NOT_FOUND));
     }
