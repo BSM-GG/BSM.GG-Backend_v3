@@ -7,8 +7,6 @@ import bsmgg.bsmgg_backend.global.error.exception.ErrorCode;
 import bsmgg.bsmgg_backend.global.jwt.auth.AuthDetails;
 import bsmgg.bsmgg_backend.global.jwt.auth.AuthDetailsService;
 import bsmgg.bsmgg_backend.global.jwt.dto.TokenDto;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -83,8 +81,8 @@ public class JwtUtil {
         return bearer.split(" ")[1].trim();
     }
 
-    public String recreateAccessToken(String oldAccessToken) {
-        String uuid = extractUuid(oldAccessToken);
+    public String recreateAccessToken(String refreshToken) {
+        String uuid = extractUuid(refreshToken);
         int reissueLimit = refreshExpHour * 60 / accessExpMin;
         userRefreshTokenService.get(UUID.fromString(uuid), reissueLimit)
                 .ifPresentOrElse(
@@ -96,7 +94,7 @@ public class JwtUtil {
         return createAccessToken(uuid);
     }
 
-    public void validateRefreshToken(String refreshToken, String oldAccessToken) {
+    public void validateRefreshToken(String refreshToken) {
         String uuid = extractUuid(refreshToken);
         int reissueLimit = refreshExpHour * 60 / accessExpMin;
         userRefreshTokenService.get(UUID.fromString(uuid), reissueLimit)
@@ -118,8 +116,4 @@ public class JwtUtil {
                 .get("uuid")
                 .toString();
     }
-
-//    public Jws<Claims> validateAndParseToken(String token) {
-//        return Jwts.parser().
-//    }
 }

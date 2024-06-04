@@ -6,13 +6,11 @@ import bsmgg.bsmgg_backend.domain.summoner.service.SummonerGetService;
 import bsmgg.bsmgg_backend.domain.user.controller.dto.AssignRequestDto;
 import bsmgg.bsmgg_backend.domain.user.domain.User;
 import bsmgg.bsmgg_backend.domain.user.domain.UserRefreshToken;
-import bsmgg.bsmgg_backend.domain.user.repository.UserRefreshTokenRepository;
 import bsmgg.bsmgg_backend.domain.user.repository.UserRepository;
 import bsmgg.bsmgg_backend.global.jwt.dto.TokenDto;
 import bsmgg.bsmgg_backend.global.jwt.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service

@@ -23,6 +23,7 @@ public enum ErrorCode {
     NOT_VALID_HEADER_ERROR(404, "Request Not Found"),
     INTERNAL_SERVER_ERROR(500, "Internal Server Error Exception"),
 
+    REST_CLIENT_EXCEPTION(500, "Rest Client Exception"),
     I_AM_TEAPOT(418, "히히 안녕 나는 티팟이야."),
 
     //Jwt
