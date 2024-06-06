@@ -1,6 +1,6 @@
 package bsmgg.bsmgg_backend.domain.riot.dto;
 
-public record LeagueEntryDTO(
+public record LeagueEntryDto(
         String leagueId,
         String summonerId,
         String queueType,

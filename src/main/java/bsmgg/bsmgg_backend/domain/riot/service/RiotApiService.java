@@ -2,14 +2,15 @@ package bsmgg.bsmgg_backend.domain.riot.service;
 
 import bsmgg.bsmgg_backend.domain.riot.dto.MatchDto;
 import bsmgg.bsmgg_backend.domain.riot.dto.RiotAccountDto;
-import bsmgg.bsmgg_backend.domain.riot.dto.LeagueEntryDTO;
-import bsmgg.bsmgg_backend.domain.riot.dto.SummonerDTO;
+import bsmgg.bsmgg_backend.domain.riot.dto.LeagueEntryDto;
+import bsmgg.bsmgg_backend.domain.riot.dto.SummonerDto;
 import bsmgg.bsmgg_backend.global.error.exception.BSMGGException;
 import bsmgg.bsmgg_backend.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
@@ -47,17 +48,17 @@ public class RiotApiService {
         );
     }
 
-    public SummonerDTO getSummoner(String puuid) {
+    public SummonerDto getSummoner(String puuid) {
         return throwRequest(
                 String.format("%s/summoner/v4/summoners/by-puuid/%s?api_key=%s", riotKrUrl, puuid, apiKey),
-                SummonerDTO.class
+                SummonerDto.class
         );
     }
 
-    public LeagueEntryDTO getRank(String riotId) {
+    public LeagueEntryDto getRank(String riotId) {
         return throwRequest(
                 String.format("%s/league/v4/entries/by-summoner/%s?api_key=%s", riotKrUrl, riotId, apiKey),
-                LeagueEntryDTO.class
+                LeagueEntryDto.class
         );
     }
 
@@ -85,7 +86,10 @@ public class RiotApiService {
             throw new BSMGGException(ErrorCode.INVALID_OR_EXPIRED_RIOT_TOKEN);
         } catch (HttpClientErrorException.NotFound e) {
             throw new BSMGGException(ErrorCode.SUMMONER_NOT_FOUND);
-        } catch (Exception e) {
+        } catch(RestClientException e) {
+            throw new BSMGGException(ErrorCode.INTERNAL_SERVER_ERROR);
+        } catch(Exception e) {
+            e.printStackTrace();
             throw new BSMGGException(ErrorCode.I_AM_TEAPOT);
         }
     }

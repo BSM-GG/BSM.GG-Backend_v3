@@ -1,5 +1,7 @@
 package bsmgg.bsmgg_backend.domain.summoner.domain;
 
+import bsmgg.bsmgg_backend.domain.riot.dto.RiotAccountDto;
+import bsmgg.bsmgg_backend.domain.riot.dto.SummonerDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -7,7 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 
 @Entity
 @Getter
@@ -27,37 +28,57 @@ public class Summoner {
     @Column(nullable = false, length = 20)
     private String tagLine;
     @Column(nullable = false)
-    private Long profileIcon;
+    private Integer profileIcon;
     @Column(nullable = false)
     private Long level;
-    @Column(nullable = false, length = 15)
+    @Column(nullable = false)
+    private Long revisionDate;
+    @Column(length = 15)
+    @Builder.Default
     private String solo_tier = "";
-    @Column(nullable = false)
+    @Column
+    @Builder.Default
     private Long solo_lp = 0L;
-    @Column(nullable = false)
+    @Column
+    @Builder.Default
     private Long solo_wins = 0L;
-    @Column(nullable = false)
+    @Column
+    @Builder.Default
     private Long solo_loses = 0L;
-    @Column(nullable = false)
+    @Column
+    @Builder.Default
     private Long solo_point = 0L;
-    @Column(nullable = false, length = 15)
+    @Column(length = 15)
+    @Builder.Default
     private String flex_tier = "";
-    @Column(nullable = false)
+    @Column
+    @Builder.Default
     private Long flex_lp = 0L;
-    @Column(nullable = false)
+    @Column
+    @Builder.Default
     private Long flex_wins = 0L;
-    @Column(nullable = false)
+    @Column
+    @Builder.Default
     private Long flex_loses = 0L;
-    @Column(nullable = false)
+    @Column
+    @Builder.Default
     private Long flex_point = 0L;
-    @Column(nullable = false, length = 15)
+    @Column(length = 15)
+    @Builder.Default
     private String most1 = "";
-    @Column(nullable = false, length = 15)
+    @Column( length = 15)
+    @Builder.Default
     private String most2 = "";
-    @Column(nullable = false, length = 15)
+    @Column(length = 15)
+    @Builder.Default
     private String most3 = "";
     @Column(nullable = false)
-    @Value("${riot.season-started-time}")
     private Long last_updated;
 
+    public void updateAccount(RiotAccountDto account, SummonerDto summoner) {
+        gameName = account.gameName();
+        tagLine = account.tagLine();
+        level = summoner.summonerLevel();
+        profileIcon = summoner.profileIconId();
+    }
 }

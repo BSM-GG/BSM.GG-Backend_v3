@@ -71,16 +71,6 @@ public class JwtUtil {
                 .compact();
     }
 
-    public String resolveJwt(HttpServletRequest request) {
-        String bearer = request.getHeader("Authorization");
-
-        if (bearer == null || !bearer.startsWith(prefix)) {
-            return null;
-        }
-
-        return bearer.split(" ")[1].trim();
-    }
-
     public String recreateAccessToken(String refreshToken) {
         String uuid = extractUuid(refreshToken);
         int reissueLimit = refreshExpHour * 60 / accessExpMin;

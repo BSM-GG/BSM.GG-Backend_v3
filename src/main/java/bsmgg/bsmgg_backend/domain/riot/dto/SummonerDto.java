@@ -1,6 +1,6 @@
 package bsmgg.bsmgg_backend.domain.riot.dto;
 
-public record SummonerDTO(
+public record SummonerDto(
         String accountId,
         Integer profileIconId,
         Long revisionDate,
