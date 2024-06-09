@@ -1,11 +1,12 @@
 package bsmgg.bsmgg_backend.domain.riot.service;
 
+import bsmgg.bsmgg_backend.domain.riot.dto.LeagueEntryDTO;
 import bsmgg.bsmgg_backend.domain.riot.dto.MatchDto;
 import bsmgg.bsmgg_backend.domain.riot.dto.RiotAccountDto;
-import bsmgg.bsmgg_backend.domain.riot.dto.LeagueEntryDto;
 import bsmgg.bsmgg_backend.domain.riot.dto.SummonerDto;
 import bsmgg.bsmgg_backend.global.error.exception.BSMGGException;
 import bsmgg.bsmgg_backend.global.error.exception.ErrorCode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -55,10 +56,10 @@ public class RiotApiService {
         );
     }
 
-    public LeagueEntryDto getRank(String riotId) {
+    public LeagueEntryDTO[] getRank(String riotId) {
         return throwRequest(
                 String.format("%s/league/v4/entries/by-summoner/%s?api_key=%s", riotKrUrl, riotId, apiKey),
-                LeagueEntryDto.class
+                LeagueEntryDTO[].class
         );
     }
 
@@ -79,14 +80,17 @@ public class RiotApiService {
 
     public <T> T throwRequest(String url, Class<T> responseType) {
         try {
-            T account = restTemplate.getForObject(url, responseType);
-            System.out.println(account);
-            return account;
+            String jsonResponse = restTemplate.getForObject(url, String.class);
+            System.out.println("Response: " + jsonResponse);
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.readValue(jsonResponse, responseType);
         } catch (HttpClientErrorException.Forbidden e) {
             throw new BSMGGException(ErrorCode.INVALID_OR_EXPIRED_RIOT_TOKEN);
         } catch (HttpClientErrorException.NotFound e) {
             throw new BSMGGException(ErrorCode.SUMMONER_NOT_FOUND);
         } catch(RestClientException e) {
+            e.printStackTrace();
             throw new BSMGGException(ErrorCode.INTERNAL_SERVER_ERROR);
         } catch(Exception e) {
             e.printStackTrace();

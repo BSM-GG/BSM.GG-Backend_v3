@@ -1,5 +1,6 @@
 package bsmgg.bsmgg_backend.domain.summoner.domain;
 
+import bsmgg.bsmgg_backend.domain.riot.dto.LeagueEntryDTO;
 import bsmgg.bsmgg_backend.domain.riot.dto.RiotAccountDto;
 import bsmgg.bsmgg_backend.domain.riot.dto.SummonerDto;
 import jakarta.persistence.Column;
@@ -35,34 +36,34 @@ public class Summoner {
     private Long revisionDate;
     @Column(length = 15)
     @Builder.Default
-    private String solo_tier = "";
+    private String soloTier = "";
     @Column
     @Builder.Default
-    private Long solo_lp = 0L;
+    private Integer soloLp = 0;
     @Column
     @Builder.Default
-    private Long solo_wins = 0L;
+    private Integer soloWins = 0;
     @Column
     @Builder.Default
-    private Long solo_loses = 0L;
+    private Integer soloLoses = 0;
     @Column
     @Builder.Default
-    private Long solo_point = 0L;
+    private Integer soloPoint = 0;
     @Column(length = 15)
     @Builder.Default
-    private String flex_tier = "";
+    private String flexTier = "";
     @Column
     @Builder.Default
-    private Long flex_lp = 0L;
+    private Integer flexLp = 0;
     @Column
     @Builder.Default
-    private Long flex_wins = 0L;
+    private Integer flexWins = 0;
     @Column
     @Builder.Default
-    private Long flex_loses = 0L;
+    private Integer flexLoses = 0;
     @Column
     @Builder.Default
-    private Long flex_point = 0L;
+    private Integer flexPoint = 0;
     @Column(length = 15)
     @Builder.Default
     private String most1 = "";
@@ -73,12 +74,53 @@ public class Summoner {
     @Builder.Default
     private String most3 = "";
     @Column(nullable = false)
-    private Long last_updated;
+    private Long lastUpdated;
 
     public void updateAccount(RiotAccountDto account, SummonerDto summoner) {
         gameName = account.gameName();
         tagLine = account.tagLine();
         level = summoner.summonerLevel();
         profileIcon = summoner.profileIconId();
+    }
+
+    public void updateRank(LeagueEntryDTO solo, LeagueEntryDTO flex) {
+        if(solo != null) {
+            soloTier = String.format("%s %s", solo.tier(), solo.rank());
+            soloLp = solo.leaguePoints();
+            soloWins = solo.wins();
+            soloLoses = solo.losses();
+            soloPoint = getTierPoint(solo.tier()) + getRankPoint(solo.rank()) + soloLp;
+        }
+        if(flex != null) {
+            flexTier = String.format("%s %s", flex.tier(), flex.rank());
+            flexLp = flex.leaguePoints();
+            flexWins = flex.wins();
+            flexLoses = flex.losses();
+            flexPoint = getTierPoint(flex.tier()) + getRankPoint(flex.rank()) + soloLp;
+        }
+    }
+
+    private Integer getTierPoint(String tier) {
+        return switch (tier) {
+            case "IRON" -> 1000;
+            case "BRONZE" -> 2000;
+            case "SILVER" -> 3000;
+            case "GOLD" -> 4000;
+            case "PLATINUM" -> 5000;
+            case "EMERALD" -> 6000;
+            case "DIAMOND" -> 7000;
+            case "MASTER", "GRAND MASTER", "CHALLENGER" -> 8000;
+            default -> 0;
+        };
+    }
+
+    private Integer getRankPoint(String rank) {
+        return switch (rank) {
+            case "I" -> 1000;
+            case "II" -> 2000;
+            case "III" -> 3000;
+            case "IV" -> 4000;
+            default -> 0;
+        };
     }
 }
