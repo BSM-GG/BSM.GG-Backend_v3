@@ -17,6 +17,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+    @Setter
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="puuid")
     private Summoner summoner;

@@ -9,6 +9,7 @@ import bsmgg.bsmgg_backend.domain.summoner.domain.Summoner;
 import bsmgg.bsmgg_backend.domain.summoner.repository.SummonerRepository;
 import bsmgg.bsmgg_backend.domain.user.domain.User;
 import bsmgg.bsmgg_backend.domain.user.service.UserGetService;
+import bsmgg.bsmgg_backend.domain.user.service.UserPostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class SummonerService {
 
     private final RiotApiService riotApiService;
     private final UserGetService userGetService;
+    private final UserPostService userPostService;
     private final SummonerRepository summonerRepository;
 
     @Value("${riot.season-started-time}")
@@ -29,14 +31,18 @@ public class SummonerService {
 
     public void assign(SummonerRequestDto dto) {
         RiotAccountDto account = riotApiService.getAccount(dto.gameName(), dto.tagLine());
-        saveSummoner(account);
+        Summoner summoner = saveSummoner(account);
 
         User user = userGetService.getUser();
-        System.out.println(user);
-
+        if(user == null){
+            System.out.println("히히 빔");
+            return;
+        }
+        user.setSummoner(summoner);
+        userPostService.save(user);
     }
 
-    public void saveSummoner(RiotAccountDto account) {
+    public Summoner saveSummoner(RiotAccountDto account) {
         SummonerDto riotSummoner = riotApiService.getSummoner(account.puuid());
 
         Optional<Summoner> existingSummoner = summonerRepository.findById(account.puuid());
@@ -65,7 +71,6 @@ public class SummonerService {
                 .filter(entry -> "RANKED_FLEX_SR".equals(entry.queueType()))
                 .findFirst().orElse(null);
         summoner.updateRank(solo, flex);
-
-        summonerRepository.save(summoner);
+        return summonerRepository.save(summoner);
     }
 }

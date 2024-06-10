@@ -90,7 +90,6 @@ public class RiotApiService {
         } catch (HttpClientErrorException.NotFound e) {
             throw new BSMGGException(ErrorCode.SUMMONER_NOT_FOUND);
         } catch(RestClientException e) {
-            e.printStackTrace();
             throw new BSMGGException(ErrorCode.INTERNAL_SERVER_ERROR);
         } catch(Exception e) {
             e.printStackTrace();

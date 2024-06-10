@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -15,8 +17,12 @@ public class UserGetService {
     private final UserRepository userRepository;
 
     public User getUser() {
+        String stringId = getUserUuid();
+        if (Objects.equals(stringId, "anonymousUser")) {
+            return null;
+        }
         UUID id = UUID.fromString(getUserUuid());
-        return userRepository.findById(id).orElseThrow();
+        return userRepository.findById(id).orElse(null);
     }
 
     public String getUserUuid() {
