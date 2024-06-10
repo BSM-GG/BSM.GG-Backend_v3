@@ -39,7 +39,6 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
 
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/api/summoner").authenticated()
                         .requestMatchers("/**").permitAll())
 
                 .sessionManagement((session) -> session

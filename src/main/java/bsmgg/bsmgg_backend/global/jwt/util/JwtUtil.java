@@ -88,7 +88,7 @@ public class JwtUtil {
         String uuid = extractUuid(refreshToken);
         int reissueLimit = refreshExpHour * 60 / accessExpMin;
         userRefreshTokenService.get(UUID.fromString(uuid), reissueLimit)
-                .filter(memberRefreshToken -> memberRefreshToken.validateRefreshToken(refreshToken))
+                .filter(userRefreshToken -> userRefreshToken.validateRefreshToken(refreshToken))
                 .orElseThrow(() -> new BSMGGException(ErrorCode.EXPIRED_REFRESH_TOKEN));
     }
 

@@ -1,4 +1,4 @@
-package bsmgg.bsmgg_backend.global.oauth.config;
+package bsmgg.bsmgg_backend.global.oauth;
 
 import leehj050211.bsmOauth.BsmOauth;
 import org.springframework.beans.factory.annotation.Value;

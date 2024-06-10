@@ -17,7 +17,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -28,8 +27,9 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         try {
-            String accessToken = parseBearerToken(request, HttpHeaders.AUTHORIZATION);
+            String accessToken = request.getHeader(HttpHeaders.AUTHORIZATION);
             if (accessToken != null) {
+                accessToken = accessToken.replace("Bearer ", "").trim();
                 Authentication authentication = jwtUtil.getAuthentication(accessToken);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
@@ -48,7 +48,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
     private void reissueAccessToken(HttpServletRequest request, HttpServletResponse response, Exception exception) {
         try {
-            String refreshToken = parseBearerToken(request, "Refresh-Token");
+            String refreshToken = request.getHeader("Refresh-Token");
             if (refreshToken == null) {
                 throw exception;
             }
@@ -60,12 +60,5 @@ public class JwtFilter extends OncePerRequestFilter {
         } catch (Exception e) {
             request.setAttribute("exception", e);
         }
-    }
-
-    private String parseBearerToken(HttpServletRequest request, String headerName) {
-        return Optional.ofNullable(request.getHeader(headerName))
-                .filter(token -> token.substring(0, 7).equalsIgnoreCase("Bearer "))
-                .map(token -> token.substring(7))
-                .orElse(null);
     }
 }
