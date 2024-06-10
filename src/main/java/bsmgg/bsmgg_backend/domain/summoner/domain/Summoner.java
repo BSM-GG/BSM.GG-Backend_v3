@@ -1,15 +1,15 @@
 package bsmgg.bsmgg_backend.domain.summoner.domain;
 
+import bsmgg.bsmgg_backend.domain.match.domain.Match;
+import bsmgg.bsmgg_backend.domain.participant.domain.Participant;
 import bsmgg.bsmgg_backend.domain.riot.dto.LeagueEntryDTO;
 import bsmgg.bsmgg_backend.domain.riot.dto.RiotAccountDto;
 import bsmgg.bsmgg_backend.domain.riot.dto.SummonerDto;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -21,9 +21,14 @@ public class Summoner {
     @Id
     @Column(length = 100)
     private String puuid;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "participant_id")
+    @JsonManagedReference
+    private List<Participant> participant;
+
     @Column(unique = true, nullable = false, length = 100)
     private String riotId;
-
     @Column(nullable = false, length = 50)
     private String gameName;
     @Column(nullable = false, length = 20)
@@ -33,7 +38,8 @@ public class Summoner {
     @Column(nullable = false)
     private Long level;
     @Column(nullable = false)
-    private Long revisionDate;
+    @Builder.Default
+    private Long revisionDate = 0L;
     @Column(length = 15)
     @Builder.Default
     private String soloTier = "";
@@ -74,6 +80,7 @@ public class Summoner {
     @Builder.Default
     private String most3 = "";
     @Column(nullable = false)
+    @Setter
     private Long lastUpdated;
 
     public void updateAccount(RiotAccountDto account, SummonerDto summoner) {
