@@ -55,10 +55,9 @@ public class MatchService {
                     lastMatchTime = newMatch.getGameEndAt();
             }
             summoner.setLastUpdated(lastMatchTime);
-            summonerPostService.save(summoner);
             if (matchIds.size() < 100)
                 break;
         }
-        summonerPostService.saveSummoner(dto.gameName(), dto.tagLine());
+        summonerPostService.updateMostChampions(summoner);
     }
 }

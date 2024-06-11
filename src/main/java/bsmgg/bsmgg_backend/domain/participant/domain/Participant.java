@@ -17,7 +17,8 @@ import lombok.NoArgsConstructor;
 public class Participant {
 
     @Id
-    private String puuid;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "match_id")
@@ -25,7 +26,6 @@ public class Participant {
     private Match match;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId
     @JoinColumn(name = "puuid")
     @JsonBackReference
     private Summoner summoner;
@@ -65,7 +65,8 @@ public class Participant {
     @Column
     private Integer sightWard;
     @Column
-    private Integer visionScore;
+    @Builder.Default
+    private Integer visionScore = 0;
     @Column
     private Integer skillUsed;
     @Column
@@ -77,19 +78,19 @@ public class Participant {
     @Column
     private Integer spell2Used;
     @Column
-    private Integer item1;
+    private String item1;
     @Column
-    private Integer item2;
+    private String item2;
     @Column
-    private Integer item3;
+    private String item3;
     @Column
-    private Integer item4;
+    private String item4;
     @Column
-    private Integer item5;
+    private String item5;
     @Column
-    private Integer item6;
+    private String item6;
     @Column
-    private Integer ward;
+    private String ward;
     @Column
     private String mainPerk;
     @Column
@@ -99,7 +100,7 @@ public class Participant {
     @Column
     private String mainPerkPart3;
     @Column
-    private Integer subPerkStyle;
+    private String subPerkStyle;
     @Column
     private String subPerkPart1;
     @Column

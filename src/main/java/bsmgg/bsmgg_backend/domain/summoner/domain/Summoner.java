@@ -129,4 +129,20 @@ public class Summoner {
             default -> 0;
         };
     }
+
+    public void setMostChampions(List<String> mostChampions) {
+        int len = mostChampions.size();
+        if(len >= 3){
+            most1 = mostChampions.get(0);
+            most2 = mostChampions.get(1);
+            most3 = mostChampions.get(2);
+        }
+        else if(len == 2){
+            most1 = mostChampions.get(0);
+            most2 = mostChampions.get(1);
+        }
+        else if(len == 1){
+            most1 = mostChampions.get(0);
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package bsmgg.bsmgg_backend.domain.summoner.service;
 
+import bsmgg.bsmgg_backend.domain.participant.service.ParticipantGetService;
 import bsmgg.bsmgg_backend.domain.riot.dto.LeagueEntryDTO;
 import bsmgg.bsmgg_backend.domain.riot.dto.RiotAccountDto;
 import bsmgg.bsmgg_backend.domain.riot.dto.SummonerDto;
@@ -17,6 +18,7 @@ import java.util.List;
 public class SummonerPostService {
 
     private final RiotApiService riotApiService;
+    private final ParticipantGetService participantGetService;
     private final SummonerGetService summonerGetService;
     private final SummonerRepository summonerRepository;
 
@@ -28,7 +30,7 @@ public class SummonerPostService {
         return summonerRepository.save(summoner);
     }
 
-    public Summoner saveSummoner(String gameName, String tagLine) {
+    public Summoner updateSummoner(String gameName, String tagLine) {
         RiotAccountDto account = riotApiService.getAccount(gameName, tagLine);
         SummonerDto riotSummoner = riotApiService.getSummoner(account.puuid());
 
@@ -52,11 +54,18 @@ public class SummonerPostService {
         LeagueEntryDTO solo = getRank(rank, "RANKED_SOLO_5x5");
         LeagueEntryDTO flex = getRank(rank, "RANKED_FLEX_SR");
         summoner.updateRank(solo, flex);
-        return save(summoner);
+        return summoner;
     }
 
     private LeagueEntryDTO getRank(List<LeagueEntryDTO> rank, String matchType) {
         return rank.stream().filter(entry -> entry.queueType().equals(matchType))
                 .findFirst().orElse(null);
+    }
+
+    public void updateMostChampions(Summoner summoner) {
+        List<String> mostChampions = participantGetService.getMostChampions(summoner.getPuuid());
+        summoner = updateSummoner(summoner.getGameName(), summoner.getTagLine());
+        summoner.setMostChampions(mostChampions);
+        save(summoner);
     }
 }

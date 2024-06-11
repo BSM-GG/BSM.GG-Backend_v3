@@ -1,6 +1,5 @@
 package bsmgg.bsmgg_backend.domain.summoner.service;
 
-import bsmgg.bsmgg_backend.domain.riot.service.RiotApiService;
 import bsmgg.bsmgg_backend.domain.summoner.controller.dto.SummonerRequestDto;
 import bsmgg.bsmgg_backend.domain.summoner.domain.Summoner;
 import bsmgg.bsmgg_backend.domain.user.domain.User;
@@ -18,7 +17,8 @@ public class SummonerService {
     private final UserPostService userPostService;
 
     public void assign(SummonerRequestDto dto) {
-        Summoner summoner = summonerPostService.saveSummoner(dto.gameName(), dto.tagLine());
+        Summoner summoner = summonerPostService.updateSummoner(dto.gameName(), dto.tagLine());
+        summonerPostService.save(summoner);
 
         User user = userGetService.getUser();
         if(user == null){
