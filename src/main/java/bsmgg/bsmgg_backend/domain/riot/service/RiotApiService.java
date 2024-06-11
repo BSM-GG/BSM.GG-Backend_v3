@@ -6,7 +6,6 @@ import bsmgg.bsmgg_backend.domain.riot.dto.RiotAccountDto;
 import bsmgg.bsmgg_backend.domain.riot.dto.SummonerDto;
 import bsmgg.bsmgg_backend.global.error.exception.BSMGGException;
 import bsmgg.bsmgg_backend.global.error.exception.ErrorCode;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -93,9 +92,8 @@ public class RiotApiService {
             throw new BSMGGException(ErrorCode.INVALID_OR_EXPIRED_RIOT_TOKEN);
         } catch (HttpClientErrorException.NotFound e) {
             throw new BSMGGException(ErrorCode.SUMMONER_NOT_FOUND);
-//        } catch(RestClientException e) {
-//        e.printStackTrace();
-//        throw new BSMGGException(ErrorCode.INTERNAL_SERVER_ERROR);
+        } catch(RestClientException e) {
+            throw new BSMGGException(ErrorCode.INTERNAL_SERVER_ERROR);
         } catch(Exception e) {
             e.printStackTrace();
             throw new BSMGGException(ErrorCode.I_AM_TEAPOT);

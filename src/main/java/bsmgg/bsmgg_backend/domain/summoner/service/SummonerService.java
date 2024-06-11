@@ -1,6 +1,5 @@
 package bsmgg.bsmgg_backend.domain.summoner.service;
 
-import bsmgg.bsmgg_backend.domain.riot.dto.RiotAccountDto;
 import bsmgg.bsmgg_backend.domain.riot.service.RiotApiService;
 import bsmgg.bsmgg_backend.domain.summoner.controller.dto.SummonerRequestDto;
 import bsmgg.bsmgg_backend.domain.summoner.domain.Summoner;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class SummonerService {
 
-    private final RiotApiService riotApiService;
     private final SummonerPostService summonerPostService;
     private final UserGetService userGetService;
     private final UserPostService userPostService;

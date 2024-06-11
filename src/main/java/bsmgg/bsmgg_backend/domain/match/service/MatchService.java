@@ -2,7 +2,6 @@ package bsmgg.bsmgg_backend.domain.match.service;
 
 import bsmgg.bsmgg_backend.domain.match.domain.Match;
 import bsmgg.bsmgg_backend.domain.match.repository.MatchRepository;
-import bsmgg.bsmgg_backend.domain.participant.service.ParticipantGetService;
 import bsmgg.bsmgg_backend.domain.participant.service.ParticipantService;
 import bsmgg.bsmgg_backend.domain.riot.dto.MatchDto;
 import bsmgg.bsmgg_backend.domain.riot.dto.ParticipantDto;
@@ -27,7 +26,6 @@ public class MatchService {
     private final SummonerGetService summonerGetService;
     private final SummonerPostService summonerPostService;
     private final ParticipantService participantService;
-    private final ParticipantGetService participantGetService;
     private final MatchPostService matchPostService;
     private final MatchRepository matchRepository;
 
@@ -62,6 +60,5 @@ public class MatchService {
                 break;
         }
         summonerPostService.saveSummoner(dto.gameName(), dto.tagLine());
-        //List<String> mostChampions = participantGetService.getMostChampionsById(summoner.getPuuid());
     }
 }
