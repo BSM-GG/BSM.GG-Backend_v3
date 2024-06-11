@@ -14,10 +14,10 @@ public record InfoDto(
         String gameType,
         String gameVersion,
         Integer mapId,
-        List<ParticipantDto> participant,
+        List<ParticipantDto> participants,
         String platformId,
         Integer queueId,
-        TeamDto teams,
+        List<TeamDto> teams,
         String tournamentCode
 ) {
 }

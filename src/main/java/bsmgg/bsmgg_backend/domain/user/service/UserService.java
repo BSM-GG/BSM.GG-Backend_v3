@@ -37,7 +37,7 @@ public class UserService {
         if (user.getSummoner() == null) {
             return ads(user, "", "");
         }
-        Summoner summoner = summonerGetService.getSummonerByPuuid(user.getSummoner().getPuuid());
+        Summoner summoner = summonerGetService.getSummonerById(user.getSummoner().getPuuid());
         return ads(user, summoner.getGameName(), summoner.getTagLine());
     }
 

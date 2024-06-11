@@ -1,5 +1,8 @@
 package bsmgg.bsmgg_backend.domain.riot.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public record ParticipantDto(
         Integer allInPings,
         Integer assistMePings,
@@ -97,7 +100,7 @@ public record ParticipantDto(
         Integer summoner1Id,
         Integer summoner2Casts,
         Integer summoner2Id,
-        Integer summonerId,
+        String summonerId,
         Integer summonerLevel,
         String summonerName,
         Boolean teamEarlySurrendered,
@@ -130,6 +133,6 @@ public record ParticipantDto(
         Integer visionWardsBoughtInGame,
         Integer wardsKilled,
         Integer wardsPlaced,
-        Integer win
+        Boolean win
 ) {
 }

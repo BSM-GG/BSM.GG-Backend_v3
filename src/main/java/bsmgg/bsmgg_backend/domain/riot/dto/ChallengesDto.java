@@ -1,113 +1,119 @@
 package bsmgg.bsmgg_backend.domain.riot.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+
 import java.util.List;
 
-public record ChallengesDto(
-        Integer AssistStreakCount12,
-        Integer abilityUses,
-        Integer acesBefore15Minutes,
-        Integer alliedJungleMonsterKills,
-        Integer baronTakedowns,
-        Integer blastConeOppositeOpponentCount,
-        Integer bountyGold,
-        Integer buffsStolen,
-        Integer completeSupportQuestInTime,
-        Integer controlWardsPlaced,
-        Double damagePerMinute,
-        Double damageTakenOnTeamPercentage,
-        Integer dancedWithRiftHerald,
-        Integer deathsByEnemyChamps,
-        Integer dodgeSkillShotsSmallWindow,
-        Integer doubleAces,
-        Integer dragonTakedowns,
-        List<Integer> legendaryItemUsed,
-        Double effectiveHealAndShielding,
-        Integer elderDragonKillsWithOpposingSoul,
-        Integer elderDragonMultikills,
-        Integer enemyChampionImmobilizations,
-        Integer enemyJungleMonsterKills,
-        Integer epicMonsterKillsNearEnemyJungler,
-        Integer epicMonsterKillsWithin30SecondsOfSpawn,
-        Integer epicMonsterSteals,
-        Integer epicMonsterStolenWithoutSmite,
-        Integer firstTurretKilled,
-        Double firstTurretKilledTime,
-        Integer flawlessAces,
-        Integer fullTeamTakedown,
-        Double gameLength,
-        Integer getTakedownsInAllLanesEarlyJungleAsLaner,
-        Double goldPerMinute,
-        Integer hadOpenNexus,
-        Integer immobilizeAndKillWithAlly,
-        Integer initialBuffCount,
-        Integer initialCrabCount,
-        Integer jungleCsBefore10Minutes,
-        Integer junglerTakedownsNearDamagedEpicMonster,
-        Double kda,
-        Integer killAfterHiddenWithAlly,
-        Integer killedChampTookFullTeamDamageSurvived,
-        Integer killingSprees,
-        Double killParticipation,
-        Integer killsNearEnemyTurret,
-        Integer killsOnOtherLanesEarlyJungleAsLaner,
-        Integer killsOnRecentlyHealedByAramPack,
-        Integer killsUnderOwnTurret,
-        Integer killsWithHelpFromEpicMonster,
-        Integer knockEnemyIntoTeamAndKill,
-        Integer kTurretsDestroyedBeforePlatesFall,
-        Integer landSkillShotsEarlyGame,
-        Integer laneMinionsFirst10Minutes,
-        Integer lostAnInhibitor,
-        Integer maxKillDeficit,
-        Integer mejaisFullStackInTime,
-        Integer moreEnemyJungleThanOpponent,
-        Integer multiKillOneSpell,
-        Integer multikills,
-        Integer multikillsAfterAggressiveFlash,
-        Integer multiTurretRiftHeraldCount,
-        Integer outerTurretExecutesBefore10Minutes,
-        Integer outnumberedKills,
-        Integer outnumberedNexusKill,
-        Integer perfectDragonSoulsTaken,
-        Integer perfectGame,
-        Integer pickKillWithAlly,
-        Integer poroExplosions,
-        Integer quickCleanse,
-        Integer quickFirstTurret,
-        Integer quickSoloKills,
-        Integer riftHeraldTakedowns,
-        Integer saveAllyFromDeath,
-        Integer scuttleCrabKills,
-        Integer shortestTimeToAceFromFirstTakedown,
-        Integer skillshotsDodged,
-        Integer skillshotsHit,
-        Integer snowballsHit,
-        Integer soloBaronKills,
-        Integer soloKills,
-        Integer stealthWardsPlaced,
-        Integer survivedSingleDigitHpCount,
-        Integer survivedThreeImmobilizesInFight,
-        Integer takedownOnFirstTurret,
-        Integer takedowns,
-        Integer takedownsAfterGainingLevelAdvantage,
-        Integer takedownsBeforeJungleMinionSpawn,
-        Integer takedownsFirstXMinutes,
-        Integer takedownsInAlcove,
-        Integer takedownsInEnemyFountain,
-        Integer teamBaronKills,
-        Double teamDamagePercentage,
-        Integer teamElderDragonKills,
-        Integer teamRiftHeraldKills,
-        Integer tookLargeDamageSurvived,
-        Integer turretPlatesTaken,
-        Integer turretsTakenWithRiftHerald,
-        Integer turretTakedowns,
-        Integer twentyMinionsIn3SecondsCount,
-        Integer twoWardsOneSweeperCount,
-        Integer unseenRecalls,
-        Integer visionScorePerMinute,
-        Integer wardsGuarded,
-        Integer wardTakedowns,
-        Integer wardTakedownsBefore20M
-) {
+@Getter
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class ChallengesDto {
+    @JsonProperty("12AssistStreakCount")
+    private Integer assistStreakCount12;
+    private Integer abilityUses;
+    private Integer acesBefore15Minutes;
+    private Integer alliedJungleMonsterKills;
+    private Integer baronTakedowns;
+    private Integer blastConeOppositeOpponentCount;
+    private Integer bountyGold;
+    private Integer buffsStolen;
+    private Integer completeSupportQuestInTime;
+    private Integer controlWardsPlaced;
+    private Float damagePerMinute;
+    private Float damageTakenOnTeamPercentage;
+    private Integer dancedWithRiftHerald;
+    private Integer deathsByEnemyChamps;
+    private Integer dodgeSkillShotsSmallWindow;
+    private Integer doubleAces;
+    private Integer dragonTakedowns;
+    private List<Integer> legendaryItemUsed;
+    private Float effectiveHealAndShielding;
+    private Integer elderDragonKillsWithOpposingSoul;
+    private Integer elderDragonMultikills;
+    private Integer enemyChampionImmobilizations;
+    private Integer enemyJungleMonsterKills;
+    private Integer epicMonsterKillsNearEnemyJungler;
+    private Integer epicMonsterKillsWithin30SecondsOfSpawn;
+    private Integer epicMonsterSteals;
+    private Integer epicMonsterStolenWithoutSmite;
+    private Integer firstTurretKilled;
+    private Float firstTurretKilledTime;
+    private Integer flawlessAces;
+    private Integer fullTeamTakedown;
+    private Float gameLength;
+    private Integer getTakedownsInAllLanesEarlyJungleAsLaner;
+    private Float goldPerMinute;
+    private Integer hadOpenNexus;
+    private Integer immobilizeAndKillWithAlly;
+    private Integer initialBuffCount;
+    private Integer initialCrabCount;
+    private Integer jungleCsBefore10Minutes;
+    private Integer junglerTakedownsNearDamagedEpicMonster;
+    private Float kda;
+    private Integer killAfterHiddenWithAlly;
+    private Integer killedChampTookFullTeamDamageSurvived;
+    private Integer killingSprees;
+    private Float killParticipation;
+    private Integer killsNearEnemyTurret;
+    private Integer killsOnOtherLanesEarlyJungleAsLaner;
+    private Integer killsOnRecentlyHealedByAramPack;
+    private Integer killsUnderOwnTurret;
+    private Integer killsWithHelpFromEpicMonster;
+    private Integer knockEnemyIntoTeamAndKill;
+    private Integer kTurretsDestroyedBeforePlatesFall;
+    private Integer landSkillShotsEarlyGame;
+    private Integer laneMinionsFirst10Minutes;
+    private Integer lostAnInhibitor;
+    private Integer maxKillDeficit;
+    private Integer mejaisFullStackInTime;
+    private Integer moreEnemyJungleThanOpponent;
+    private Integer multiKillOneSpell;
+    private Integer multikills;
+    private Integer multikillsAfterAggressiveFlash;
+    private Integer multiTurretRiftHeraldCount;
+    private Integer outerTurretExecutesBefore10Minutes;
+    private Integer outnumberedKills;
+    private Integer outnumberedNexusKill;
+    private Integer perfectDragonSoulsTaken;
+    private Integer perfectGame;
+    private Integer pickKillWithAlly;
+    private Integer poroExplosions;
+    private Integer quickCleanse;
+    private Integer quickFirstTurret;
+    private Integer quickSoloKills;
+    private Integer riftHeraldTakedowns;
+    private Integer saveAllyFromDeath;
+    private Integer scuttleCrabKills;
+    private Float shortestTimeToAceFromFirstTakedown;
+    private Integer skillshotsDodged;
+    private Integer skillshotsHit;
+    private Integer snowballsHit;
+    private Integer soloBaronKills;
+    private Integer soloKills;
+    private Integer stealthWardsPlaced;
+    private Integer survivedSingleDigitHpCount;
+    private Integer survivedThreeImmobilizesInFight;
+    private Integer takedownOnFirstTurret;
+    private Integer takedowns;
+    private Integer takedownsAfterGainingLevelAdvantage;
+    private Integer takedownsBeforeJungleMinionSpawn;
+    private Integer takedownsFirstXMinutes;
+    private Integer takedownsInAlcove;
+    private Integer takedownsInEnemyFountain;
+    private Integer teamBaronKills;
+    private Float teamDamagePercentage;
+    private Integer teamElderDragonKills;
+    private Integer teamRiftHeraldKills;
+    private Integer tookLargeDamageSurvived;
+    private Integer turretPlatesTaken;
+    private Integer turretsTakenWithRiftHerald;
+    private Integer turretTakedowns;
+    private Integer twentyMinionsIn3SecondsCount;
+    private Integer twoWardsOneSweeperCount;
+    private Integer unseenRecalls;
+    private Float visionScorePerMinute;
+    private Integer wardsGuarded;
+    private Integer wardTakedowns;
+    private Integer wardTakedownsBefore20M;
 }

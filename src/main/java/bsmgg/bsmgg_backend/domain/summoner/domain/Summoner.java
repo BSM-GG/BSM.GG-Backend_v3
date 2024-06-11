@@ -1,6 +1,5 @@
 package bsmgg.bsmgg_backend.domain.summoner.domain;
 
-import bsmgg.bsmgg_backend.domain.match.domain.Match;
 import bsmgg.bsmgg_backend.domain.participant.domain.Participant;
 import bsmgg.bsmgg_backend.domain.riot.dto.LeagueEntryDTO;
 import bsmgg.bsmgg_backend.domain.riot.dto.RiotAccountDto;
@@ -23,7 +22,7 @@ public class Summoner {
     private String puuid;
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "participant_id")
+    @JoinColumn(name = "puuid")
     @JsonManagedReference
     private List<Participant> participant;
 

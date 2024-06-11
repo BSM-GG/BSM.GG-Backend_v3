@@ -37,15 +37,15 @@ public class Participant {
     @Column
     private Integer championLevel;
     @Column
-    private Integer lane;
+    private String lane;
     @Column
     private String team;
     @Column
-    private Integer kill;
+    private Integer kills;
     @Column
-    private Integer assist;
+    private Integer assists;
     @Column
-    private Integer death;
+    private Integer deaths;
     @Column
     private Integer cs;
     @Column

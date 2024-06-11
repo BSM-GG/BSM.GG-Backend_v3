@@ -6,9 +6,11 @@ import bsmgg.bsmgg_backend.domain.riot.dto.RiotAccountDto;
 import bsmgg.bsmgg_backend.domain.riot.dto.SummonerDto;
 import bsmgg.bsmgg_backend.global.error.exception.BSMGGException;
 import bsmgg.bsmgg_backend.global.error.exception.ErrorCode;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
@@ -56,16 +58,16 @@ public class RiotApiService {
         );
     }
 
-    public LeagueEntryDTO[] getRank(String riotId) {
-        return throwRequest(
+    public List<LeagueEntryDTO> getRank(String riotId) {
+        return Arrays.asList(throwRequest(
                 String.format("%s/league/v4/entries/by-summoner/%s?api_key=%s", riotKrUrl, riotId, apiKey),
                 LeagueEntryDTO[].class
-        );
+        ));
     }
 
     public MatchDto getMatch(String matchId) {
         return throwRequest(
-                String.format("%s/match/v5/matches/%s?api_key=%s", riotAsiaUrl, matchId, apiKey),
+                String.format("%s/match/v5/matches/%s?api_key=%s", riotLolUrl, matchId, apiKey),
                 MatchDto.class
         );
     }
@@ -73,24 +75,27 @@ public class RiotApiService {
     public List<String> getMatches(String puuid, Long startTime) {
         return Arrays.asList(throwRequest(
                 String.format("%s/match/v5/matches/by-puuid/%s/ids?startTime=%d&start=0&count=100&api_key=%s"
-                        , riotAsiaUrl, puuid, startTime, apiKey),
+                        , riotLolUrl, puuid, startTime, apiKey),
                 String[].class
         ));
     }
 
     public <T> T throwRequest(String url, Class<T> responseType) {
         try {
-            String jsonResponse = restTemplate.getForObject(url, String.class);
-            System.out.println("Response: " + jsonResponse);
+            ResponseEntity<Object> jsonResponse = restTemplate.getForEntity(url, Object.class);
 
             ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.readValue(jsonResponse, responseType);
+            String stringResponse = objectMapper.writeValueAsString(jsonResponse.getBody());
+            System.out.println("Header  : " + jsonResponse.getHeaders());
+            System.out.println("Response: " + jsonResponse.getBody());
+            return objectMapper.readValue(stringResponse, responseType);
         } catch (HttpClientErrorException.Forbidden e) {
             throw new BSMGGException(ErrorCode.INVALID_OR_EXPIRED_RIOT_TOKEN);
         } catch (HttpClientErrorException.NotFound e) {
             throw new BSMGGException(ErrorCode.SUMMONER_NOT_FOUND);
-        } catch(RestClientException e) {
-            throw new BSMGGException(ErrorCode.INTERNAL_SERVER_ERROR);
+//        } catch(RestClientException e) {
+//        e.printStackTrace();
+//        throw new BSMGGException(ErrorCode.INTERNAL_SERVER_ERROR);
         } catch(Exception e) {
             e.printStackTrace();
             throw new BSMGGException(ErrorCode.I_AM_TEAPOT);
