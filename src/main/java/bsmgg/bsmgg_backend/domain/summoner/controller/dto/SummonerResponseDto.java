@@ -3,9 +3,7 @@ package bsmgg.bsmgg_backend.domain.summoner.controller.dto;
 import bsmgg.bsmgg_backend.domain.summoner.domain.Summoner;
 import bsmgg.bsmgg_backend.domain.user.domain.User;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 
 public record SummonerResponseDto(

@@ -10,8 +10,6 @@ import bsmgg.bsmgg_backend.domain.summoner.controller.dto.SummonerRequestDto;
 import bsmgg.bsmgg_backend.domain.summoner.domain.Summoner;
 import bsmgg.bsmgg_backend.domain.summoner.service.SummonerGetService;
 import bsmgg.bsmgg_backend.domain.summoner.service.SummonerPostService;
-import bsmgg.bsmgg_backend.global.error.exception.BSMGGException;
-import bsmgg.bsmgg_backend.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +30,6 @@ public class MatchService {
     public void saveMatches(SummonerRequestDto dto) {
         Summoner summoner = summonerGetService.getSummonerByRiotName(dto.gameName().replace(" ", ""), dto.tagLine());
 
-        long lastMatchTime = 0L;
         List<String> matchIds;
         while(true) {
             matchIds = riotApiService.getMatches(summoner.getPuuid(), summoner.getLastUpdated());

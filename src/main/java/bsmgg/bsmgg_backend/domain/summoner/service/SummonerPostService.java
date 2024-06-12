@@ -26,8 +26,8 @@ public class SummonerPostService {
     private Long seasonStartedTime;
 
 
-    public Summoner save(Summoner summoner) {
-        return summonerRepository.save(summoner);
+    public void save(Summoner summoner) {
+        summonerRepository.save(summoner);
     }
 
     public Summoner updateSummoner(String gameName, String tagLine) {
