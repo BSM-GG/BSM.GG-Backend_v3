@@ -27,4 +27,8 @@ public class UserGetService {
     public String getUserUuid() {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
+
+    public User getUserById(String puuid) {
+        return userRepository.findBySummonerPuuid(puuid).orElse(null);
+    }
 }

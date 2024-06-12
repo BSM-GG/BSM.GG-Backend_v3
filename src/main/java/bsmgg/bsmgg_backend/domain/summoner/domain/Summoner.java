@@ -122,10 +122,10 @@ public class Summoner {
 
     private Integer getRankPoint(String rank) {
         return switch (rank) {
-            case "I" -> 1000;
-            case "II" -> 2000;
-            case "III" -> 3000;
-            case "IV" -> 4000;
+            case "I" -> 100;
+            case "II" -> 200;
+            case "III" -> 300;
+            case "IV" -> 400;
             default -> 0;
         };
     }

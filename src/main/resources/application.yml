@@ -15,11 +15,11 @@ spring:
     open-in-view: false
 
   graphql:
-    graphiql:
-      enabled: true
     schema:
       printer:
         enabled: true
+    graphiql:
+      enabled: true
 
 server:
   port: 8000

@@ -30,16 +30,15 @@ public class MatchService {
     private final MatchRepository matchRepository;
 
     public void saveMatches(SummonerRequestDto dto) {
-        Summoner summoner = summonerGetService.getSummonerByRiotName(dto.gameName(), dto.tagLine())
-                .orElseThrow(() -> new BSMGGException(ErrorCode.SUMMONER_NOT_FOUND));
+        Summoner summoner = summonerGetService.getSummonerByRiotName(dto.gameName().replace(" ", ""), dto.tagLine());
 
+        long lastMatchTime = 0L;
         List<String> matchIds;
         while(true) {
             matchIds = riotApiService.getMatches(summoner.getPuuid(), summoner.getLastUpdated());
             if (matchIds.isEmpty())
                 break;
 
-            long lastMatchTime = 0L;
             for (String matchId : matchIds) {
                 Optional<Match> existingMatch = matchRepository.findById(matchId);
                 if (existingMatch.isPresent())
@@ -52,12 +51,11 @@ public class MatchService {
                 participantService.saveAll(newMatch, participants);
 
                 if(newMatch.getGameEndAt() != null)
-                    lastMatchTime = newMatch.getGameEndAt();
+                    summoner.setLastUpdated(newMatch.getGameEndAt());
             }
-            summoner.setLastUpdated(lastMatchTime);
             if (matchIds.size() < 100)
                 break;
         }
-        summonerPostService.updateMostChampions(summoner);
+        summonerPostService.updateMostChampions(summoner, summoner.getLastUpdated());
     }
 }

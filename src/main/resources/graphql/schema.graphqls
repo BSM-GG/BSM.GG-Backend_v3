@@ -1,0 +1,35 @@
+type Query {
+    hello: String
+    getSummoner(name: String): SummonerResponseDto!
+}
+
+type SummonerResponseDto {
+    # user
+    email: String
+    code: Int
+    nickname: String
+    name: String
+    role: String
+    isGraduate: Boolean
+    enrolledAt: Int
+    grade: Int
+    classNo: Int
+    studentNo: Int
+    # summoner
+    gameName: String!
+    tagLine: String!
+    profileIcon: Int!
+    level: Int!
+    soloTier: String
+    soloLp: Int
+    soloWins: Int
+    soloLoses: Int
+    flexTier: String
+    flexLp: Int
+    flexWins: Int
+    flexLoses: Int
+    mostChampions: [String]
+    soloPoint: Int!
+    flexPoint: Int!
+    ranking: Int!
+}

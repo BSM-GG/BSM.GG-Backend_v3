@@ -3,11 +3,16 @@ package bsmgg.bsmgg_backend.domain.summoner.service;
 import bsmgg.bsmgg_backend.domain.riot.dto.ParticipantDto;
 import bsmgg.bsmgg_backend.domain.summoner.domain.Summoner;
 import bsmgg.bsmgg_backend.domain.summoner.repository.SummonerRepository;
+import bsmgg.bsmgg_backend.domain.summoner.repository.dto.SummonerRanking;
+import bsmgg.bsmgg_backend.global.error.exception.BSMGGException;
+import bsmgg.bsmgg_backend.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -22,8 +27,9 @@ public class SummonerGetService {
         return summonerRepository.findByPuuid(puuid);
     }
 
-    public Optional<Summoner> getSummonerByRiotName(String gameName, String tagLine) {
-        return summonerRepository.findByGameNameAndTagLine(gameName, tagLine);
+    public Summoner getSummonerByRiotName(String gameName, String tagLine) {
+        return summonerRepository.findByGameNameAndTagLine(gameName, tagLine)
+                .orElseThrow(() -> new BSMGGException(ErrorCode.SUMMONER_NOT_FOUND));
     }
 
     public Summoner getSummonerByParticipant(ParticipantDto dto) {
@@ -41,5 +47,26 @@ public class SummonerGetService {
             );
         }
         return summoner;
+    }
+
+    public List<String> getMostChampions(Summoner summoner) {
+        List<String> mostChampions = new ArrayList<>();
+        if (!Objects.equals(summoner.getMost1(), ""))
+            mostChampions.add(summoner.getMost1());
+        if (!Objects.equals(summoner.getMost2(), ""))
+            mostChampions.add(summoner.getMost2());
+        if (!Objects.equals(summoner.getMost3(), ""))
+            mostChampions.add(summoner.getMost3());
+        return mostChampions;
+    }
+
+    public SummonerRanking getSummonerWithRank(String puuid) {
+        return summonerRepository.findAllWithRank(puuid);
+    }
+
+    public SummonerRanking getSummonerWithRank(String gameName, String tagLine) {
+        return summonerRepository.findAllWithRank(gameName, tagLine).orElseGet(
+                () -> new SummonerRanking(getSummonerByRiotName(gameName, tagLine))
+        );
     }
 }

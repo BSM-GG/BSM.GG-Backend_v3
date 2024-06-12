@@ -82,9 +82,9 @@ public class RiotApiService {
     public <T> T throwRequest(String url, Class<T> responseType) {
         try {
             ResponseEntity<Object> jsonResponse = restTemplate.getForEntity(url, Object.class);
-
             ObjectMapper objectMapper = new ObjectMapper();
             String stringResponse = objectMapper.writeValueAsString(jsonResponse.getBody());
+            System.out.println("Url     : " + url);
             System.out.println("Header  : " + jsonResponse.getHeaders());
             System.out.println("Response: " + jsonResponse.getBody());
             return objectMapper.readValue(stringResponse, responseType);
