@@ -5,7 +5,6 @@ import bsmgg.bsmgg_backend.domain.user.domain.User;
 
 import java.util.List;
 
-
 public record SummonerResponseDto(
         String email,
         Long code,

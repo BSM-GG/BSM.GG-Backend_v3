@@ -4,6 +4,7 @@ import bsmgg.bsmgg_backend.domain.riot.dto.ParticipantDto;
 import bsmgg.bsmgg_backend.domain.summoner.domain.Summoner;
 import bsmgg.bsmgg_backend.domain.summoner.repository.SummonerRankingRepository;
 import bsmgg.bsmgg_backend.domain.summoner.repository.SummonerRepository;
+import bsmgg.bsmgg_backend.domain.summoner.repository.dto.RankingDto;
 import bsmgg.bsmgg_backend.domain.summoner.repository.dto.SummonerRanking;
 import bsmgg.bsmgg_backend.global.error.exception.BSMGGException;
 import bsmgg.bsmgg_backend.global.error.exception.ErrorCode;
@@ -63,12 +64,22 @@ public class SummonerGetService {
     }
 
     public SummonerRanking getSummonerWithRank(String puuid) {
-        return summonerRankingRepository.findAllWithRank(puuid);
+        Summoner summoner = getSummonerById(puuid);
+        return injectSummonerRanking(summoner);
     }
 
     public SummonerRanking getSummonerWithRank(String gameName, String tagLine) {
-        return summonerRankingRepository.findAllWithRank(gameName, tagLine).orElseGet(
-                () -> new SummonerRanking(getSummonerByRiotName(gameName, tagLine))
-        );
+        Summoner summoner = getSummonerByRiotName(gameName, tagLine);
+        return injectSummonerRanking(summoner);
+    }
+
+    public SummonerRanking injectSummonerRanking(Summoner summoner) {
+        List<RankingDto> dtos = summonerRankingRepository.findAllRanking();
+        for (RankingDto dto : dtos) {
+            if (dto.puuid().equals(summoner.getPuuid())) {
+                return new SummonerRanking(summoner, dto.ranking());
+            }
+        }
+        return new SummonerRanking(summoner);
     }
 }

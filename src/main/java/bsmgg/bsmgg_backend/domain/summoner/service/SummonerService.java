@@ -7,6 +7,8 @@ import bsmgg.bsmgg_backend.domain.summoner.repository.dto.SummonerRanking;
 import bsmgg.bsmgg_backend.domain.user.domain.User;
 import bsmgg.bsmgg_backend.domain.user.service.UserGetService;
 import bsmgg.bsmgg_backend.domain.user.service.UserPostService;
+import bsmgg.bsmgg_backend.global.error.exception.BSMGGException;
+import bsmgg.bsmgg_backend.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +42,8 @@ public class SummonerService {
             rankedSummoner = summonerGetService.getSummonerWithRank(user.getSummoner().getPuuid());
         } else {
             String[] nameInfo = name.split("-");
+            if (nameInfo.length != 2)
+                throw new BSMGGException(ErrorCode.SUMMONER_NOT_FOUND);
             rankedSummoner = summonerGetService.getSummonerWithRank(nameInfo[0], nameInfo[1]);
             user = userGetService.getUserById(rankedSummoner.summoner().getPuuid());
         }
