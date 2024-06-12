@@ -2,6 +2,7 @@ package bsmgg.bsmgg_backend.domain.summoner.service;
 
 import bsmgg.bsmgg_backend.domain.riot.dto.ParticipantDto;
 import bsmgg.bsmgg_backend.domain.summoner.domain.Summoner;
+import bsmgg.bsmgg_backend.domain.summoner.repository.SummonerRankingRepository;
 import bsmgg.bsmgg_backend.domain.summoner.repository.SummonerRepository;
 import bsmgg.bsmgg_backend.domain.summoner.repository.dto.SummonerRanking;
 import bsmgg.bsmgg_backend.global.error.exception.BSMGGException;
@@ -19,6 +20,7 @@ import java.util.Objects;
 public class SummonerGetService {
 
     private final SummonerRepository summonerRepository;
+    private final SummonerRankingRepository summonerRankingRepository;
 
     @Value("${riot.season-started-time}")
     private Long seasonStartedTime;
@@ -61,11 +63,11 @@ public class SummonerGetService {
     }
 
     public SummonerRanking getSummonerWithRank(String puuid) {
-        return summonerRepository.findAllWithRank(puuid);
+        return summonerRankingRepository.findAllWithRank(puuid);
     }
 
     public SummonerRanking getSummonerWithRank(String gameName, String tagLine) {
-        return summonerRepository.findAllWithRank(gameName, tagLine).orElseGet(
+        return summonerRankingRepository.findAllWithRank(gameName, tagLine).orElseGet(
                 () -> new SummonerRanking(getSummonerByRiotName(gameName, tagLine))
         );
     }

@@ -28,7 +28,7 @@ public class MatchService {
     private final MatchRepository matchRepository;
 
     public void saveMatches(SummonerRequestDto dto) {
-        Summoner summoner = summonerGetService.getSummonerByRiotName(dto.gameName().replace(" ", ""), dto.tagLine());
+        Summoner summoner = summonerGetService.getSummonerByRiotName(dto.gameName(), dto.tagLine());
 
         List<String> matchIds;
         while(true) {

@@ -1,7 +1,9 @@
 package bsmgg.bsmgg_backend.domain.summoner.repository.dto;
 
 import bsmgg.bsmgg_backend.domain.summoner.domain.Summoner;
+import lombok.Builder;
 
+@Builder
 public record SummonerRanking(
         Summoner summoner,
         Integer ranking

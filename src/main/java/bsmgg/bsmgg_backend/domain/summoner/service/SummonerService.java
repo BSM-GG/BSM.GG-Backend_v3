@@ -36,16 +36,14 @@ public class SummonerService {
     public SummonerResponseDto getSummoner(String name) {
         User user = userGetService.getUser();
         SummonerRanking rankedSummoner;
-        Summoner summoner;
         if (user != null) {
             rankedSummoner = summonerGetService.getSummonerWithRank(user.getSummoner().getPuuid());
-            summoner = rankedSummoner.summoner();
         } else {
             String[] nameInfo = name.split("-");
             rankedSummoner = summonerGetService.getSummonerWithRank(nameInfo[0], nameInfo[1]);
-            summoner = rankedSummoner.summoner();
-            user = userGetService.getUserById(summoner.getPuuid());
+            user = userGetService.getUserById(rankedSummoner.summoner().getPuuid());
         }
+        Summoner summoner = rankedSummoner.summoner();
         List<String> mostChampions = summonerGetService.getMostChampions(summoner);
         return new SummonerResponseDto(user, summoner, mostChampions, rankedSummoner.ranking());
     }
