@@ -12,8 +12,8 @@ type SummonerResponseDto {
     # user
     email: String
     code: Int
-    nickname: String
     name: String
+    nickname: String
     role: String
     isGraduate: Boolean
     enrolledAt: Int

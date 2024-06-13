@@ -1,10 +1,10 @@
 package bsmgg.bsmgg_backend.domain.summoner.service;
 
 import bsmgg.bsmgg_backend.domain.riot.dto.ParticipantDto;
+import bsmgg.bsmgg_backend.domain.summoner.controller.dto.SummonerResponseDto;
 import bsmgg.bsmgg_backend.domain.summoner.domain.Summoner;
 import bsmgg.bsmgg_backend.domain.summoner.repository.SummonerRankingRepository;
 import bsmgg.bsmgg_backend.domain.summoner.repository.SummonerRepository;
-import bsmgg.bsmgg_backend.domain.summoner.repository.dto.SummonerRanking;
 import bsmgg.bsmgg_backend.global.error.exception.BSMGGException;
 import bsmgg.bsmgg_backend.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -62,32 +62,32 @@ public class SummonerGetService {
         return mostChampions;
     }
 
-    public SummonerRanking getSummonerWithRank(String puuid) {
-        List<SummonerRanking> dtos = getSummonerRanking();
-        for (SummonerRanking dto : dtos) {
-            if (dto.summoner().getPuuid().equals(puuid)) {
+    public SummonerResponseDto getSummonerWithRank(String puuid) {
+        List<SummonerResponseDto> dtos = getSummonerRanking();
+        for (SummonerResponseDto dto : dtos) {
+            if (dto.puuid().equals(puuid)) {
                 return dto;
             }
         }
-        return new SummonerRanking(getSummonerById(puuid));
+        return new SummonerResponseDto(getSummonerById(puuid));
     }
 
-    public SummonerRanking getSummonerWithRank(String gameName, String tagLine) {
-        List<SummonerRanking> dtos = getSummonerRanking();
-        for (SummonerRanking dto : dtos) {
-            if (dto.summoner().getGameName().equalsIgnoreCase(gameName)
-            && dto.summoner().getTagLine().equalsIgnoreCase(tagLine)) {
+    public SummonerResponseDto getSummonerWithRank(String gameName, String tagLine) {
+        List<SummonerResponseDto> dtos = getSummonerRanking();
+        for (SummonerResponseDto dto : dtos) {
+            if (dto.gameName().replace(" ", "").equalsIgnoreCase(gameName.replace(" ", ""))
+            && dto.tagLine().replace(" ", "").equalsIgnoreCase(tagLine.replace(" ", ""))) {
                 return dto;
             }
         }
-        return new SummonerRanking(getSummonerByRiotName(gameName, tagLine));
+        return new SummonerResponseDto(getSummonerByRiotName(gameName, tagLine));
     }
 
-    public List<SummonerRanking> getSummonerRanking() {
+    public List<SummonerResponseDto> getSummonerRanking() {
         return summonerRankingRepository.findAllWithRanking(-1);
     }
 
-    public List<SummonerRanking> getSummonerRanking(int page) {
+    public List<SummonerResponseDto> getSummonerRanking(int page) {
         return summonerRankingRepository.findAllWithRanking(page);
     }
 }

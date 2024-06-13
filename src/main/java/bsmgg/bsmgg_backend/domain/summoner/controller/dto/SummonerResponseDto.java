@@ -1,20 +1,24 @@
 package bsmgg.bsmgg_backend.domain.summoner.controller.dto;
 
 import bsmgg.bsmgg_backend.domain.summoner.domain.Summoner;
-import bsmgg.bsmgg_backend.domain.user.domain.User;
+import lombok.Builder;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@Builder
 public record SummonerResponseDto(
         String email,
         Long code,
         String name,
         String nickname,
+        String role,
         Boolean isGraduate,
         Integer enrolledAt,
         Integer grade,
         Integer classNo,
         Integer studentNo,
+        String puuid,
         String gameName,
         String tagLine,
         Integer profileIcon,
@@ -32,17 +36,19 @@ public record SummonerResponseDto(
         Integer flexPoint,
         Integer ranking
 ) {
-    public SummonerResponseDto(User user, Summoner summoner, List<String> mostChampions, Integer ranking) {
+    public SummonerResponseDto(Summoner summoner) {
         this(
-                user.getEmail(),
-                user.getCode(),
-                user.getName(),
-                user.getNickname(),
-                user.getIsGraduate(),
-                user.getEnrolledAt(),
-                user.getGrade(),
-                user.getClassNo(),
-                user.getStudentNo(),
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                summoner.getPuuid(),
                 summoner.getGameName(),
                 summoner.getTagLine(),
                 summoner.getProfileIcon(),
@@ -55,10 +61,16 @@ public record SummonerResponseDto(
                 summoner.getFlexLp(),
                 summoner.getFlexWins(),
                 summoner.getFlexLoses(),
-                mostChampions,
+                new ArrayList<>() {
+                    {
+                        add(summoner.getMost1());
+                        add(summoner.getMost2());
+                        add(summoner.getMost3());
+                    }
+                },
                 summoner.getSoloPoint(),
                 summoner.getFlexPoint(),
-                ranking
+                -1
         );
     }
 }
