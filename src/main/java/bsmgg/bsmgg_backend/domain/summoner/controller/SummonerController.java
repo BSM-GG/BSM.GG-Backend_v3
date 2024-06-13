@@ -1,5 +1,6 @@
 package bsmgg.bsmgg_backend.domain.summoner.controller;
 
+import bsmgg.bsmgg_backend.domain.summoner.controller.dto.SummonerRankingResponseDto;
 import bsmgg.bsmgg_backend.domain.summoner.controller.dto.SummonerRequestDto;
 import bsmgg.bsmgg_backend.domain.summoner.controller.dto.SummonerResponseDto;
 import bsmgg.bsmgg_backend.domain.summoner.service.SummonerService;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,5 +29,10 @@ public class SummonerController {
     @QueryMapping
     public SummonerResponseDto getSummoner(@Argument String name) {
         return summonerService.getSummoner(name);
+    }
+
+    @QueryMapping
+    public SummonerRankingResponseDto getRanking(@Argument Integer page) {
+        return summonerService.getRanking(page);
     }
 }

@@ -1,6 +1,11 @@
 type Query {
-    hello: String
     getSummoner(name: String): SummonerResponseDto!
+    getRanking(page: Int): SummonerRankingResponseDto
+}
+
+type SummonerRankingResponseDto{
+    summonerResponseDto: [SummonerResponseDto]
+    page: Int
 }
 
 type SummonerResponseDto {

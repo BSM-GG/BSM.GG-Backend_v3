@@ -1,5 +1,6 @@
 package bsmgg.bsmgg_backend.domain.summoner.service;
 
+import bsmgg.bsmgg_backend.domain.summoner.controller.dto.SummonerRankingResponseDto;
 import bsmgg.bsmgg_backend.domain.summoner.controller.dto.SummonerRequestDto;
 import bsmgg.bsmgg_backend.domain.summoner.controller.dto.SummonerResponseDto;
 import bsmgg.bsmgg_backend.domain.summoner.domain.Summoner;
@@ -12,6 +13,7 @@ import bsmgg.bsmgg_backend.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -48,5 +50,16 @@ public class SummonerService {
         }
         List<String> mostChampions = summonerGetService.getMostChampions(rankedSummoner.summoner());
         return new SummonerResponseDto(rankedSummoner.user(), rankedSummoner.summoner(), mostChampions, rankedSummoner.ranking());
+    }
+
+    public SummonerRankingResponseDto getRanking(Integer page) {
+        if (page == null) page = 0;
+        List<SummonerRanking> summoners = summonerGetService.getSummonerRanking(page);
+        List<SummonerResponseDto> list = new ArrayList<>();
+        for (SummonerRanking s : summoners) {
+            List<String> mostChampions = summonerGetService.getMostChampions(s.summoner());
+            list.add(new SummonerResponseDto(s.user(), s.summoner(), mostChampions, s.ranking()));
+        }
+        return new SummonerRankingResponseDto(list, page);
     }
 }

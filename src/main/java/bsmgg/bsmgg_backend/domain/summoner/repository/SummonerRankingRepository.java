@@ -72,13 +72,17 @@ public class SummonerRankingRepository {
         );
     }
 
-    public List<SummonerRanking> findAllWithRanking() {
-        return jdbcTemplate.query("""
+    public List<SummonerRanking> findAllWithRanking(int page) {
+        String query = """
                 select *, rank() over(
                     order by solo_point desc
                     ) as ranking
                 from summoner s
-                join bsmgg.user u on s.puuid = u.puuid;
-                """, rowMapper);
+                join bsmgg.user u on s.puuid = u.puuid
+                """;
+        if (page >= 0) {
+            query += "limit "+page*10+", 10";
+        }
+        return jdbcTemplate.query(query, rowMapper);
     }
 }

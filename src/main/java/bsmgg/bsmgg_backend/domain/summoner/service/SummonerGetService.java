@@ -84,6 +84,10 @@ public class SummonerGetService {
     }
 
     public List<SummonerRanking> getSummonerRanking() {
-        return summonerRankingRepository.findAllWithRanking();
+        return summonerRankingRepository.findAllWithRanking(-1);
+    }
+
+    public List<SummonerRanking> getSummonerRanking(int page) {
+        return summonerRankingRepository.findAllWithRanking(page);
     }
 }
