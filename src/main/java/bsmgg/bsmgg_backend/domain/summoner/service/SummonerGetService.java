@@ -64,22 +64,27 @@ public class SummonerGetService {
     }
 
     public SummonerRanking getSummonerWithRank(String puuid) {
-        Summoner summoner = getSummonerById(puuid);
-        return injectSummonerRanking(summoner);
+        List<SummonerRanking> dtos = getSummonerRanking();
+        for (SummonerRanking dto : dtos) {
+            if (dto.summoner().getPuuid().equals(puuid)) {
+                return dto;
+            }
+        }
+        return new SummonerRanking(getSummonerById(puuid));
     }
 
     public SummonerRanking getSummonerWithRank(String gameName, String tagLine) {
-        Summoner summoner = getSummonerByRiotName(gameName, tagLine);
-        return injectSummonerRanking(summoner);
-    }
-
-    public SummonerRanking injectSummonerRanking(Summoner summoner) {
-        List<RankingDto> dtos = summonerRankingRepository.findAllRanking();
-        for (RankingDto dto : dtos) {
-            if (dto.puuid().equals(summoner.getPuuid())) {
-                return new SummonerRanking(summoner, dto.ranking());
+        List<SummonerRanking> dtos = getSummonerRanking();
+        for (SummonerRanking dto : dtos) {
+            if (dto.summoner().getGameName().equals(gameName)
+            && dto.summoner().getTagLine().equals(tagLine)) {
+                return dto;
             }
         }
-        return new SummonerRanking(summoner);
+        return new SummonerRanking(getSummonerByRiotName(gameName, tagLine));
+    }
+
+    public List<SummonerRanking> getSummonerRanking() {
+        return summonerRankingRepository.findAllWithRanking();
     }
 }

@@ -45,10 +45,8 @@ public class SummonerService {
             if (nameInfo.length != 2)
                 throw new BSMGGException(ErrorCode.SUMMONER_NOT_FOUND);
             rankedSummoner = summonerGetService.getSummonerWithRank(nameInfo[0], nameInfo[1]);
-            user = userGetService.getUserById(rankedSummoner.summoner().getPuuid());
         }
-        Summoner summoner = rankedSummoner.summoner();
-        List<String> mostChampions = summonerGetService.getMostChampions(summoner);
-        return new SummonerResponseDto(user, summoner, mostChampions, rankedSummoner.ranking());
+        List<String> mostChampions = summonerGetService.getMostChampions(rankedSummoner.summoner());
+        return new SummonerResponseDto(rankedSummoner.user(), rankedSummoner.summoner(), mostChampions, rankedSummoner.ranking());
     }
 }

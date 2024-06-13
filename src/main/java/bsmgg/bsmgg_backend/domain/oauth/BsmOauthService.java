@@ -43,7 +43,7 @@ public class BsmOauthService {
                 .nickname(resource.getNickname())
                 .name(resource.getRole() == BsmUserRole.STUDENT ?
                         resource.getStudent().getName() : resource.getTeacher().getName())
-                .role(resource.getRole())
+                .role(resource.getRole().toString())
                 .build();
         if(resource.getRole() == BsmUserRole.STUDENT) {
             user.setName(resource.getStudent().getName());

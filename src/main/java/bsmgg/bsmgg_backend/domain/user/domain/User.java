@@ -32,7 +32,7 @@ public class User {
     @Column(nullable = false, length = 30)
     private String name;
     @Column(nullable = false)
-    private BsmUserRole role;
+    private String role;
 
     @Setter
     @Column
