@@ -4,8 +4,6 @@ import bsmgg.bsmgg_backend.domain.summoner.domain.Summoner;
 import bsmgg.bsmgg_backend.domain.summoner.repository.dto.RankingDto;
 import bsmgg.bsmgg_backend.domain.summoner.repository.dto.SummonerRanking;
 import bsmgg.bsmgg_backend.domain.user.domain.User;
-import io.swagger.v3.oas.models.media.EmailSchema;
-import leehj050211.bsmOauth.type.BsmUserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -60,6 +58,7 @@ public class SummonerRankingRepository {
                             .classNo(rs.getInt("class_no"))
                             .studentNo(rs.getInt("student_no"))
                             .build())
+                    .ranking(rs.getInt("ranking"))
                     .build();
 
     public List<RankingDto> findPuuidWithRanking() {

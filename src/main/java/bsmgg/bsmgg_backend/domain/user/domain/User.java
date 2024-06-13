@@ -2,7 +2,6 @@ package bsmgg.bsmgg_backend.domain.user.domain;
 
 import bsmgg.bsmgg_backend.domain.summoner.domain.Summoner;
 import jakarta.persistence.*;
-import leehj050211.bsmOauth.type.BsmUserRole;
 import lombok.*;
 
 import java.util.UUID;

@@ -4,7 +4,6 @@ import bsmgg.bsmgg_backend.domain.riot.dto.ParticipantDto;
 import bsmgg.bsmgg_backend.domain.summoner.domain.Summoner;
 import bsmgg.bsmgg_backend.domain.summoner.repository.SummonerRankingRepository;
 import bsmgg.bsmgg_backend.domain.summoner.repository.SummonerRepository;
-import bsmgg.bsmgg_backend.domain.summoner.repository.dto.RankingDto;
 import bsmgg.bsmgg_backend.domain.summoner.repository.dto.SummonerRanking;
 import bsmgg.bsmgg_backend.global.error.exception.BSMGGException;
 import bsmgg.bsmgg_backend.global.error.exception.ErrorCode;
@@ -76,8 +75,8 @@ public class SummonerGetService {
     public SummonerRanking getSummonerWithRank(String gameName, String tagLine) {
         List<SummonerRanking> dtos = getSummonerRanking();
         for (SummonerRanking dto : dtos) {
-            if (dto.summoner().getGameName().equals(gameName)
-            && dto.summoner().getTagLine().equals(tagLine)) {
+            if (dto.summoner().getGameName().equalsIgnoreCase(gameName)
+            && dto.summoner().getTagLine().equalsIgnoreCase(tagLine)) {
                 return dto;
             }
         }
