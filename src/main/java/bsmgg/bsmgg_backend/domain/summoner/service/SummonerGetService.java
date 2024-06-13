@@ -11,9 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -49,17 +47,6 @@ public class SummonerGetService {
             );
         }
         return summoner;
-    }
-
-    public List<String> getMostChampions(Summoner summoner) {
-        List<String> mostChampions = new ArrayList<>();
-        if (!Objects.equals(summoner.getMost1(), ""))
-            mostChampions.add(summoner.getMost1());
-        if (!Objects.equals(summoner.getMost2(), ""))
-            mostChampions.add(summoner.getMost2());
-        if (!Objects.equals(summoner.getMost3(), ""))
-            mostChampions.add(summoner.getMost3());
-        return mostChampions;
     }
 
     public SummonerResponseDto getSummonerWithRank(String puuid) {

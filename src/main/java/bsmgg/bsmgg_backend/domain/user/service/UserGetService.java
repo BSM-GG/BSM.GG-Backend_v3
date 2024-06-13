@@ -27,20 +27,4 @@ public class UserGetService {
     public String getUserUuid() {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
-
-    public User getUserById(String puuid) {
-        return userRepository.findBySummonerPuuid(puuid).orElseGet(
-                () -> User.builder()
-                        .email("")
-                        .code(0L)
-                        .name("")
-                        .nickname("")
-                        .isGraduate(false)
-                        .enrolledAt(0)
-                        .grade(0)
-                        .classNo(0)
-                        .studentNo(0)
-                        .build()
-        );
-    }
 }

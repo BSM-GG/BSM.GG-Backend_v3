@@ -32,9 +32,6 @@ public class JwtUtil {
     @Value("${jwt.secret-key}")
     private String secretKey;
 
-    @Value("${jwt.prefix}")
-    private String prefix;
-
     @Value("${jwt.access-expiration-minutes}")
     private Integer accessExpMin;
 

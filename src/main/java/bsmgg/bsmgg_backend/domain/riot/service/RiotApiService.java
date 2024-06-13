@@ -32,16 +32,6 @@ public class RiotApiService {
     private String riotLolUrl;
     @Value("${riot.api-key}")
     private String apiKey;
-    @Value("${riot.season-started-time}")
-    private String seasonStartedTime;
-
-
-    public RiotAccountDto getAccount(String puuid) {
-        return throwRequest(
-                String.format("%s/account/v1/accounts/by-puuid/%s?api_key=%s", riotAsiaUrl, puuid, apiKey),
-                RiotAccountDto.class
-        );
-    }
 
     public RiotAccountDto getAccount(String gameName, String tagLine) {
         return throwRequest(
