@@ -75,4 +75,37 @@ public record SummonerResponseDto(
                 userCount
         );
     }
+
+    public SummonerResponseDto(SummonerResponseDto dto, Integer userCount) {
+        this(
+                dto.email(),
+                dto.code(),
+                dto.name(),
+                dto.nickname(),
+                dto.role(),
+                dto.isGraduate(),
+                dto.enrolledAt(),
+                dto.grade(),
+                dto.classNo(),
+                dto.studentNo(),
+                dto.puuid(),
+                dto.gameName(),
+                dto.tagLine(),
+                dto.profileIcon(),
+                dto.level(),
+                dto.soloTier(),
+                dto.soloLp(),
+                dto.soloWins(),
+                dto.soloLoses(),
+                dto.soloPoint(),
+                dto.flexTier(),
+                dto.flexLp(),
+                dto.flexWins(),
+                dto.flexLoses(),
+                dto.flexPoint(),
+                dto.mostChampions(),
+                dto.ranking(),
+                userCount
+        );
+    }
 }

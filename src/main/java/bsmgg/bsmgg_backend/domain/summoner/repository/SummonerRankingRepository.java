@@ -49,7 +49,7 @@ public class SummonerRankingRepository {
                     .classNo(rs.getInt("class_no"))
                     .studentNo(rs.getInt("student_no"))
                     .ranking(rs.getInt("ranking"))
-                    .userCount(rs.getRow())
+                    .userCount(0)
                     .build();
 
     public List<SummonerResponseDto> findAllWithRanking(int page) {

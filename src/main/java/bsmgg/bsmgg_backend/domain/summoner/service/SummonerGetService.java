@@ -61,24 +61,24 @@ public class SummonerGetService {
 
     public SummonerResponseDto getSummonerWithRank(String puuid) {
         List<SummonerResponseDto> dtos = getSummonerRanking();
+        Integer userCount = userGetService.getUserCount();
         for (SummonerResponseDto dto : dtos) {
             if (dto.puuid().equals(puuid)) {
-                return dto;
+                return new SummonerResponseDto(dto, userCount);
             }
         }
-        Integer userCount = userGetService.getUserCount();
         return new SummonerResponseDto(getSummonerById(puuid), userCount);
     }
 
     public SummonerResponseDto getSummonerWithRank(String gameName, String tagLine) {
         List<SummonerResponseDto> dtos = getSummonerRanking();
+        Integer userCount = userGetService.getUserCount();
         for (SummonerResponseDto dto : dtos) {
             if (dto.gameName().replace(" ", "").equalsIgnoreCase(gameName.replace(" ", ""))
             && dto.tagLine().replace(" ", "").equalsIgnoreCase(tagLine.replace(" ", ""))) {
-                return dto;
+                return new SummonerResponseDto(dto, userCount);
             }
         }
-        Integer userCount = userGetService.getUserCount();
         return new SummonerResponseDto(getSummonerByRiotName(gameName, tagLine), userCount);
     }
 
