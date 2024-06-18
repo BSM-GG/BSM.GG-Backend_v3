@@ -52,16 +52,13 @@ public class SummonerRankingRepository {
                     .userCount(0)
                     .build();
 
-    private final String defaultQuery = """
-            select *, rank() over(
-                order by solo_point desc
-                ) as ranking
-            from summoner s
-            join bsmgg.user u on s.puuid = u.puuid
-            """;
-
     public List<SummonerResponseDto> findAllWithRanking(int page) {
-        String query = defaultQuery;
+        String query = """
+                select *, rank() over(
+                    order by solo_point desc
+                    ) as ranking
+                from summoner s
+                join bsmgg.user u on s.puuid = u.puuid""";
         if (page >= 0) {
             query += "limit " + page * 10 + ", 10";
         }

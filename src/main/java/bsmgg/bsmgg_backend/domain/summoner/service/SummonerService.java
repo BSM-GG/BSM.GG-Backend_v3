@@ -64,7 +64,6 @@ public class SummonerService {
         long diff = nowTime - startTime;
         long week = 60 * 60 * 24 * 7L;
         long div = diff / week;
-        long mod = diff % week;
         long prevWeekStart = (div - 1) * week + startTime;
         long prevWeekEnd = div* week + startTime;
 

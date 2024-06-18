@@ -44,5 +44,4 @@ riot:
   asia-url: ${RIOT_ASIA_URL}
   kr-url: ${RIOT_KR_URL}
   season-started-time: ${SEASON_STARTED_TIME}
-  week-started-time: ${riot.season-started-time} - (60 * 60 * 24 * 2)
   api-key: ${RIOT_API_KEY}

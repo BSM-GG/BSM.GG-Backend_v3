@@ -41,6 +41,9 @@ public class Participant {
     @Column
     private String team;
     @Column
+    @Builder.Default
+    private Integer killRate = 0;
+    @Column
     private Integer kills;
     @Column
     private Integer assists;
