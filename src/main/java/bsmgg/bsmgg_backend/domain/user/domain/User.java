@@ -25,7 +25,7 @@ public class User {
     private String email;
     @Column(nullable = false, length = 8)
     private Long code;
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false)
     private String nickname;
     @Setter
     @Column(nullable = false, length = 30)

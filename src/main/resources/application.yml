@@ -4,7 +4,7 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${DB_URL}:3306/bsmgg
+    url: ${DB_URL}
     username: ${DB_USER}
     password: ${DB_PW}
 
@@ -20,6 +20,7 @@ spring:
         enabled: true
     graphiql:
       enabled: true
+    path: /api/graphql
 
 server:
   port: 8000
@@ -41,7 +42,6 @@ jwt:
 
 riot:
   asia-url: ${RIOT_ASIA_URL}
-  lol-url: ${RIOT_LOL_URL}
   kr-url: ${RIOT_KR_URL}
   season-started-time: ${SEASON_STARTED_TIME}
   api-key: ${RIOT_API_KEY}

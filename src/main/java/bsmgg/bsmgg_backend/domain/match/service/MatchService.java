@@ -1,7 +1,11 @@
 package bsmgg.bsmgg_backend.domain.match.service;
 
+import bsmgg.bsmgg_backend.domain.match.controller.dto.MatchInfoResponseDto;
+import bsmgg.bsmgg_backend.domain.match.controller.dto.MatchResponseDto;
 import bsmgg.bsmgg_backend.domain.match.domain.Match;
 import bsmgg.bsmgg_backend.domain.match.repository.MatchRepository;
+import bsmgg.bsmgg_backend.domain.participant.dto.ParticipantResponseDto;
+import bsmgg.bsmgg_backend.domain.participant.service.ParticipantGetService;
 import bsmgg.bsmgg_backend.domain.participant.service.ParticipantService;
 import bsmgg.bsmgg_backend.domain.riot.dto.MatchDto;
 import bsmgg.bsmgg_backend.domain.riot.dto.ParticipantDto;
@@ -11,8 +15,11 @@ import bsmgg.bsmgg_backend.domain.summoner.domain.Summoner;
 import bsmgg.bsmgg_backend.domain.summoner.service.SummonerGetService;
 import bsmgg.bsmgg_backend.domain.summoner.service.SummonerPostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,12 +33,13 @@ public class MatchService {
     private final ParticipantService participantService;
     private final MatchPostService matchPostService;
     private final MatchRepository matchRepository;
+    private final ParticipantGetService participantGetService;
 
     public void saveMatches(SummonerRequestDto dto) {
         Summoner summoner = summonerGetService.getSummonerByRiotName(dto.gameName(), dto.tagLine());
 
         List<String> matchIds;
-        while(true) {
+        while (true) {
             matchIds = riotApiService.getMatches(summoner.getPuuid(), summoner.getLastUpdated());
             if (matchIds.isEmpty())
                 break;
@@ -47,12 +55,29 @@ public class MatchService {
                 List<ParticipantDto> participants = match.info().participants();
                 participantService.saveAll(newMatch, participants);
 
-                if(newMatch.getGameEndAt() != null)
+                if (newMatch.getGameEndAt() != null)
                     summoner.setLastUpdated(newMatch.getGameEndAt());
             }
             if (matchIds.size() < 100)
                 break;
         }
         summonerPostService.updateMostChampions(summoner, summoner.getLastUpdated());
+    }
+
+    public MatchResponseDto getMatches(String name, Integer page) {
+        Summoner summoner = summonerGetService.getSummonerByRiotName(name);
+        if (page == null) page = 0;
+        List<Match> matches = matchRepository.findAllBySummoner
+                (summoner.getPuuid(), PageRequest.of(page, 10, Sort.by("id").descending()));
+        List<Boolean> isWins = matchRepository.findIsWinBySummoner
+                (summoner.getPuuid(), PageRequest.of(page, 10, Sort.by("id").descending()));
+
+        List<MatchInfoResponseDto> matchResponse = new ArrayList<>();
+        for (int i = 0; i < matches.size(); i++) {
+            List<ParticipantResponseDto> participants = participantGetService.getAllByMatches(matches.get(i));
+            matchResponse.add(new MatchInfoResponseDto(matches.get(i), isWins.get(i), participants));
+        }
+
+        return new MatchResponseDto(matchResponse, page);
     }
 }

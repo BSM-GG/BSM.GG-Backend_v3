@@ -5,6 +5,7 @@ import bsmgg.bsmgg_backend.domain.summoner.controller.dto.SummonerResponseDto;
 import bsmgg.bsmgg_backend.domain.summoner.domain.Summoner;
 import bsmgg.bsmgg_backend.domain.summoner.repository.SummonerRankingRepository;
 import bsmgg.bsmgg_backend.domain.summoner.repository.SummonerRepository;
+import bsmgg.bsmgg_backend.domain.user.service.UserGetService;
 import bsmgg.bsmgg_backend.global.error.exception.BSMGGException;
 import bsmgg.bsmgg_backend.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SummonerGetService {
 
+    private final UserGetService userGetService;
     private final SummonerRepository summonerRepository;
     private final SummonerRankingRepository summonerRankingRepository;
 
@@ -29,6 +31,14 @@ public class SummonerGetService {
 
     public Summoner getSummonerByRiotName(String gameName, String tagLine) {
         return summonerRepository.findByGameNameAndTagLine(gameName, tagLine)
+                .orElseThrow(() -> new BSMGGException(ErrorCode.SUMMONER_NOT_FOUND));
+    }
+
+    public Summoner getSummonerByRiotName(String name) {
+        String[] nameInfo = name.split("-");
+        if (nameInfo.length != 2)
+            throw new BSMGGException(ErrorCode.SUMMONER_NOT_FOUND);
+        return summonerRepository.findByGameNameAndTagLine(nameInfo[0], nameInfo[1])
                 .orElseThrow(() -> new BSMGGException(ErrorCode.SUMMONER_NOT_FOUND));
     }
 
@@ -56,7 +66,8 @@ public class SummonerGetService {
                 return dto;
             }
         }
-        return new SummonerResponseDto(getSummonerById(puuid));
+        Integer userCount = userGetService.getUserCount();
+        return new SummonerResponseDto(getSummonerById(puuid), userCount);
     }
 
     public SummonerResponseDto getSummonerWithRank(String gameName, String tagLine) {
@@ -67,7 +78,8 @@ public class SummonerGetService {
                 return dto;
             }
         }
-        return new SummonerResponseDto(getSummonerByRiotName(gameName, tagLine));
+        Integer userCount = userGetService.getUserCount();
+        return new SummonerResponseDto(getSummonerByRiotName(gameName, tagLine), userCount);
     }
 
     public List<SummonerResponseDto> getSummonerRanking() {

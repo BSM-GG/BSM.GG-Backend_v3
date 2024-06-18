@@ -20,4 +20,5 @@ public interface ParticipantRepository extends JpaRepository<Participant, String
             ORDER BY COUNT(p.champion) desc
             """)
     List<String> findMostChampionsByPuuid(String puuid);
+
 }

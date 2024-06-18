@@ -27,16 +27,17 @@ public record SummonerResponseDto(
         Integer soloLp,
         Integer soloWins,
         Integer soloLoses,
+        Integer soloPoint,
         String flexTier,
         Integer flexLp,
         Integer flexWins,
         Integer flexLoses,
-        List<String> mostChampions,
-        Integer soloPoint,
         Integer flexPoint,
-        Integer ranking
+        List<String> mostChampions,
+        Integer ranking,
+        Integer userCount
 ) {
-    public SummonerResponseDto(Summoner summoner) {
+    public SummonerResponseDto(Summoner summoner, Integer userCount) {
         this(
                 null,
                 null,
@@ -57,10 +58,12 @@ public record SummonerResponseDto(
                 summoner.getSoloLp(),
                 summoner.getSoloWins(),
                 summoner.getSoloLoses(),
+                summoner.getSoloPoint(),
                 summoner.getFlexTier(),
                 summoner.getFlexLp(),
                 summoner.getFlexWins(),
                 summoner.getFlexLoses(),
+                summoner.getFlexPoint(),
                 new ArrayList<>() {
                     {
                         add(summoner.getMost1());
@@ -68,9 +71,8 @@ public record SummonerResponseDto(
                         add(summoner.getMost3());
                     }
                 },
-                summoner.getSoloPoint(),
-                summoner.getFlexPoint(),
-                -1
+                -1,
+                userCount
         );
     }
 }

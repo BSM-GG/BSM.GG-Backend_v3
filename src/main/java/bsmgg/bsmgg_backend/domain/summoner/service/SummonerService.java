@@ -37,16 +37,14 @@ public class SummonerService {
 
     public SummonerResponseDto getSummoner(String name) {
         User user = userGetService.getUser();
-        SummonerResponseDto responseDto;
         if (user != null) {
-            responseDto = summonerGetService.getSummonerWithRank(user.getSummoner().getPuuid());
+            return summonerGetService.getSummonerWithRank(user.getSummoner().getPuuid());
         } else {
             String[] nameInfo = name.split("-");
             if (nameInfo.length != 2)
                 throw new BSMGGException(ErrorCode.SUMMONER_NOT_FOUND);
-            responseDto = summonerGetService.getSummonerWithRank(nameInfo[0], nameInfo[1]);
+            return summonerGetService.getSummonerWithRank(nameInfo[0], nameInfo[1]);
         }
-        return responseDto;
     }
 
     public SummonerRankingResponseDto getRanking(Integer page) {
