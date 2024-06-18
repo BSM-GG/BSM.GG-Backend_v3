@@ -1,5 +1,6 @@
 package bsmgg.bsmgg_backend.domain.user.repository;
 
+import bsmgg.bsmgg_backend.domain.summoner.domain.Summoner;
 import bsmgg.bsmgg_backend.domain.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,4 +19,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
             JOIN u.summoner s
             """)
     Integer findCount();
+
+    User findBySummoner(Summoner summoner);
 }

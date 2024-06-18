@@ -28,7 +28,7 @@ public class SummonerService {
         summonerPostService.save(summoner);
 
         User user = userGetService.getUser();
-        if (user == null) {
+        if (user == null || userGetService.getUserBySummoner(summoner) != null) {
             return;
         }
         user.setSummoner(summoner);

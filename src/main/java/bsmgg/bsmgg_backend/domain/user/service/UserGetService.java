@@ -1,5 +1,6 @@
 package bsmgg.bsmgg_backend.domain.user.service;
 
+import bsmgg.bsmgg_backend.domain.summoner.domain.Summoner;
 import bsmgg.bsmgg_backend.domain.user.domain.User;
 import bsmgg.bsmgg_backend.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,5 +31,9 @@ public class UserGetService {
 
     public Integer getUserCount() {
         return userRepository.findCount();
+    }
+
+    public User getUserBySummoner(Summoner summoner) {
+        return userRepository.findBySummoner(summoner);
     }
 }
