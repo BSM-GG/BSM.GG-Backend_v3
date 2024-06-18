@@ -1,5 +1,6 @@
 package bsmgg.bsmgg_backend.domain.summoner.controller;
 
+import bsmgg.bsmgg_backend.domain.summoner.controller.dto.ChangResponseDto;
 import bsmgg.bsmgg_backend.domain.summoner.controller.dto.SummonerRankingResponseDto;
 import bsmgg.bsmgg_backend.domain.summoner.controller.dto.SummonerRequestDto;
 import bsmgg.bsmgg_backend.domain.summoner.controller.dto.SummonerResponseDto;
@@ -32,5 +33,10 @@ public class SummonerController {
     @QueryMapping
     public SummonerRankingResponseDto getRanking(@Argument Integer page) {
         return summonerService.getRanking(page);
+    }
+
+    @QueryMapping
+    public ChangResponseDto getChang() {
+        return summonerService.getChang();
     }
 }

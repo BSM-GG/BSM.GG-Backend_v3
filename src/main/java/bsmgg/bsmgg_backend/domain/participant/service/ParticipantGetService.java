@@ -1,6 +1,7 @@
 package bsmgg.bsmgg_backend.domain.participant.service;
 
 import bsmgg.bsmgg_backend.domain.match.domain.Match;
+import bsmgg.bsmgg_backend.domain.participant.dto.ChangInfoDto;
 import bsmgg.bsmgg_backend.domain.participant.dto.ParticipantResponseDto;
 import bsmgg.bsmgg_backend.domain.participant.repository.ParticipantJdbcRepository;
 import bsmgg.bsmgg_backend.domain.participant.repository.ParticipantRepository;
@@ -22,5 +23,9 @@ public class ParticipantGetService {
 
     public List<ParticipantResponseDto> getAllByMatches(Match match) {
         return participantJdbcRepository.findAllByMatchIn(match);
+    }
+
+    public ChangInfoDto getChangByPuuid(String puuid, long prevWeekStart, long prevWeekEnd) {
+        return participantJdbcRepository.findChangByPuuid(puuid, prevWeekStart, prevWeekEnd);
     }
 }

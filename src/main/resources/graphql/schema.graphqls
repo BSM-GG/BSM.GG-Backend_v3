@@ -2,6 +2,7 @@ type Query {
     getSummoner(name: String): SummonerResponseDto!
     getRanking(page: Int): SummonerRankingResponseDto
     getMatches(name: String!, page: Int): MatchResponseDto
+    getChang: ChangResponseDto
 }
 
 type SummonerRankingResponseDto{
@@ -74,8 +75,32 @@ type ParticipantResponseDto{
     damage: Int
     gainDamage: Int
     cs: Int
+    visionScore: Int
     sightWard: Int
     visionWard: Int
     items: [String]
     ward: String
+}
+
+type ChangResponseDto{
+    summonerInfo: SummonerResponseDto
+    changInfo: ChangInfoDto
+}
+
+type ChangInfoDto{
+    playedGames: Int
+    winGames: Int
+    loseGames: Int
+    kills: Int
+    deaths: Int
+    assists: Int
+    goldSpent: Int
+    skillUse: Int
+    playTime: Int
+    spellUse: Int
+    damage: Int
+    gainDamage: Int
+    wardPlaced: Int
+    visionScore: Int
+    cs: Int
 }

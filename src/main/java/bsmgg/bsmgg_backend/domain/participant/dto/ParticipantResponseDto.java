@@ -27,6 +27,7 @@ public record ParticipantResponseDto(
         Integer damage,
         Integer gainDamage,
         Integer cs,
+        Integer visionScore,
         Integer sightWard,
         Integer visionWard,
         List<String> items,

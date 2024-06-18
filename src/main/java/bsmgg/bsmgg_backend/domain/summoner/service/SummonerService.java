@@ -1,5 +1,6 @@
 package bsmgg.bsmgg_backend.domain.summoner.service;
 
+import bsmgg.bsmgg_backend.domain.summoner.controller.dto.ChangResponseDto;
 import bsmgg.bsmgg_backend.domain.summoner.controller.dto.SummonerRankingResponseDto;
 import bsmgg.bsmgg_backend.domain.summoner.controller.dto.SummonerRequestDto;
 import bsmgg.bsmgg_backend.domain.summoner.controller.dto.SummonerResponseDto;
@@ -10,6 +11,7 @@ import bsmgg.bsmgg_backend.domain.user.service.UserPostService;
 import bsmgg.bsmgg_backend.global.error.exception.BSMGGException;
 import bsmgg.bsmgg_backend.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +24,9 @@ public class SummonerService {
     private final UserGetService userGetService;
     private final UserPostService userPostService;
     private final SummonerGetService summonerGetService;
+
+    @Value("${riot.season-started-time}")
+    private Long seasonStartedTime;
 
     public void assign(SummonerRequestDto dto) {
         Summoner summoner = summonerPostService.updateSummoner(dto.gameName().replace(" ", ""), dto.tagLine());
@@ -36,8 +41,8 @@ public class SummonerService {
     }
 
     public SummonerResponseDto getSummoner(String name) {
-        User user = userGetService.getUser();
-        if (user != null) {
+        if (name == null || name.isEmpty()) {
+            User user = userGetService.getUser();
             return summonerGetService.getSummonerWithRank(user.getSummoner().getPuuid());
         } else {
             String[] nameInfo = name.split("-");
@@ -51,5 +56,18 @@ public class SummonerService {
         if (page == null) page = 0;
         List<SummonerResponseDto> summoners = summonerGetService.getSummonerRanking(page);
         return new SummonerRankingResponseDto(summoners, page);
+    }
+
+    public ChangResponseDto getChang() {
+        long nowTime = System.currentTimeMillis() / 1000;
+        long startTime = seasonStartedTime - (3600*24*2);
+        long diff = nowTime - startTime;
+        long week = 60 * 60 * 24 * 7L;
+        long div = diff / week;
+        long mod = diff % week;
+        long prevWeekStart = (div - 1) * week + startTime;
+        long prevWeekEnd = div* week + startTime;
+
+        return summonerGetService.getChang(prevWeekStart, prevWeekEnd);
     }
 }

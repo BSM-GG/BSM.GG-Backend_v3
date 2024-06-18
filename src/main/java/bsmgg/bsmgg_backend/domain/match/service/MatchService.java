@@ -68,9 +68,9 @@ public class MatchService {
         Summoner summoner = summonerGetService.getSummonerByRiotName(name);
         if (page == null) page = 0;
         List<Match> matches = matchRepository.findAllBySummoner
-                (summoner.getPuuid(), PageRequest.of(page, 10, Sort.by("id").descending()));
+                (summoner.getPuuid(), PageRequest.of(page, 10, Sort.by("game_end_at").descending()));
         List<Boolean> isWins = matchRepository.findIsWinBySummoner
-                (summoner.getPuuid(), PageRequest.of(page, 10, Sort.by("id").descending()));
+                (summoner.getPuuid(), PageRequest.of(page, 10, Sort.by("game_end_at").descending()));
 
         List<MatchInfoResponseDto> matchResponse = new ArrayList<>();
         for (int i = 0; i < matches.size(); i++) {

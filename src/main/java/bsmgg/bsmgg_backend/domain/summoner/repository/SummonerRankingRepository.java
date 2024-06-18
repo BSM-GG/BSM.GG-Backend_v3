@@ -52,17 +52,37 @@ public class SummonerRankingRepository {
                     .userCount(0)
                     .build();
 
+    private final String defaultQuery = """
+            select *, rank() over(
+                order by solo_point desc
+                ) as ranking
+            from summoner s
+            join bsmgg.user u on s.puuid = u.puuid
+            """;
+
     public List<SummonerResponseDto> findAllWithRanking(int page) {
-        String query = """
-                select *, rank() over(
-                    order by solo_point desc
-                    ) as ranking
-                from summoner s
-                join bsmgg.user u on s.puuid = u.puuid
-                """;
+        String query = defaultQuery;
         if (page >= 0) {
-            query += "limit "+page*10+", 10";
+            query += "limit " + page * 10 + ", 10";
         }
         return jdbcTemplate.query(query, mapper);
+    }
+
+    public String findChangPuuidByTimes(long prevWeekStart, long prevWeekEnd) {
+        String query = """
+                select p.puuid
+                from summoner s
+                         join bsmgg.user u on s.puuid = u.puuid
+                         join bsmgg.participant p on s.puuid = p.puuid
+                         join bsmgg.matches m on m.id = p.match_id
+                where m.game_started_at >= ?
+                  and m.game_end_at <= ?
+                group by (p.puuid)
+                order by count(p.puuid) desc
+                limit 1
+                """;
+        return jdbcTemplate.queryForObject(query,
+                (rs, rowNum) -> rs.getString("puuid"),
+                prevWeekStart, prevWeekEnd);
     }
 }

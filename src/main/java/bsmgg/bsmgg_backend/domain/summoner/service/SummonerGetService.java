@@ -1,6 +1,9 @@
 package bsmgg.bsmgg_backend.domain.summoner.service;
 
+import bsmgg.bsmgg_backend.domain.participant.dto.ChangInfoDto;
+import bsmgg.bsmgg_backend.domain.participant.service.ParticipantGetService;
 import bsmgg.bsmgg_backend.domain.riot.dto.ParticipantDto;
+import bsmgg.bsmgg_backend.domain.summoner.controller.dto.ChangResponseDto;
 import bsmgg.bsmgg_backend.domain.summoner.controller.dto.SummonerResponseDto;
 import bsmgg.bsmgg_backend.domain.summoner.domain.Summoner;
 import bsmgg.bsmgg_backend.domain.summoner.repository.SummonerRankingRepository;
@@ -21,6 +24,7 @@ public class SummonerGetService {
     private final UserGetService userGetService;
     private final SummonerRepository summonerRepository;
     private final SummonerRankingRepository summonerRankingRepository;
+    private final ParticipantGetService participantGetService;
 
     @Value("${riot.season-started-time}")
     private Long seasonStartedTime;
@@ -88,5 +92,12 @@ public class SummonerGetService {
 
     public List<SummonerResponseDto> getSummonerRanking(int page) {
         return summonerRankingRepository.findAllWithRanking(page);
+    }
+
+    public ChangResponseDto getChang(long prevWeekStart, long prevWeekEnd) {
+        String puuid = summonerRankingRepository.findChangPuuidByTimes(prevWeekStart, prevWeekEnd);
+        SummonerResponseDto summonerInfo = getSummonerWithRank(puuid);
+        ChangInfoDto changInfo = participantGetService.getChangByPuuid(puuid, prevWeekStart, prevWeekEnd);
+        return new ChangResponseDto(summonerInfo, changInfo);
     }
 }
