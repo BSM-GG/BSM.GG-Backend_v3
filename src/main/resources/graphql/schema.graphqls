@@ -63,12 +63,13 @@ type ParticipantResponseDto{
     level: Int
     champion: String
     championLevel: Int
-    lane: String
+    lane: Int
     team: String
     spell1: String
     spell2: String
     mainPerk: String
     subPerk: String
+    killRate: Int
     kills: Int
     assists: Int
     deaths: Int

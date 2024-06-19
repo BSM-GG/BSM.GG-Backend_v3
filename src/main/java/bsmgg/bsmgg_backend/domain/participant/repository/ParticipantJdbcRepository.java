@@ -1,6 +1,7 @@
 package bsmgg.bsmgg_backend.domain.participant.repository;
 
 import bsmgg.bsmgg_backend.domain.match.domain.Match;
+import bsmgg.bsmgg_backend.domain.match.repository.dto.MatchInfoDto;
 import bsmgg.bsmgg_backend.domain.participant.dto.ChangInfoDto;
 import bsmgg.bsmgg_backend.domain.participant.dto.ParticipantResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -27,12 +28,13 @@ public class ParticipantJdbcRepository {
                     .level(rs.getInt("level"))
                     .champion(rs.getString("champion"))
                     .championLevel(rs.getInt("champion_level"))
-                    .lane(rs.getString("lane"))
+                    .lane(rs.getInt("lane"))
                     .team(rs.getString("team"))
                     .spell1(rs.getString("spell1"))
                     .spell2(rs.getString("spell2"))
                     .mainPerk(rs.getString("main_perk"))
                     .subPerk(rs.getString("sub_perk_style"))
+                    .killRate(rs.getInt("kill_rate"))
                     .kills(rs.getInt("kills"))
                     .assists(rs.getInt("assists"))
                     .deaths(rs.getInt("deaths"))
@@ -75,14 +77,14 @@ public class ParticipantJdbcRepository {
                     .build();
 
 
-    public List<ParticipantResponseDto> findAllByMatchIn(Match match) {
+    public List<ParticipantResponseDto> findAllByMatchIn(MatchInfoDto match) {
         String query = """
                 SELECT *
                 FROM participant p
                 JOIN bsmgg.summoner s ON s.puuid = p.puuid
                 WHERE match_id = ?
                 """;
-        return jdbcTemplate.query(query, participantRowMapper, match.getId());
+        return jdbcTemplate.query(query, participantRowMapper, match.id());
     }
 
     public ChangInfoDto findChangByPuuid(String puuid, long prevWeekStart, long prevWeekEnd) {

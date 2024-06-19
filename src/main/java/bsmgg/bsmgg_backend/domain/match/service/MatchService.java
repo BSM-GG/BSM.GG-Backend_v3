@@ -3,7 +3,9 @@ package bsmgg.bsmgg_backend.domain.match.service;
 import bsmgg.bsmgg_backend.domain.match.controller.dto.MatchInfoResponseDto;
 import bsmgg.bsmgg_backend.domain.match.controller.dto.MatchResponseDto;
 import bsmgg.bsmgg_backend.domain.match.domain.Match;
+import bsmgg.bsmgg_backend.domain.match.repository.MatchJdbcRepository;
 import bsmgg.bsmgg_backend.domain.match.repository.MatchRepository;
+import bsmgg.bsmgg_backend.domain.match.repository.dto.MatchInfoDto;
 import bsmgg.bsmgg_backend.domain.participant.dto.ParticipantResponseDto;
 import bsmgg.bsmgg_backend.domain.participant.service.ParticipantGetService;
 import bsmgg.bsmgg_backend.domain.participant.service.ParticipantService;
@@ -34,6 +36,7 @@ public class MatchService {
     private final MatchPostService matchPostService;
     private final MatchRepository matchRepository;
     private final ParticipantGetService participantGetService;
+    private final MatchJdbcRepository matchJdbcRepository;
 
     public void saveMatches(SummonerRequestDto dto) {
         Summoner summoner = summonerGetService.getSummonerByRiotName(dto.gameName(), dto.tagLine());
@@ -67,15 +70,12 @@ public class MatchService {
     public MatchResponseDto getMatches(String name, Integer page) {
         Summoner summoner = summonerGetService.getSummonerByRiotName(name);
         if (page == null) page = 0;
-        List<Match> matches = matchRepository.findAllBySummoner
-                (summoner.getPuuid(), PageRequest.of(page, 10, Sort.by("game_end_at").descending()));
-        List<Boolean> isWins = matchRepository.findIsWinBySummoner
-                (summoner.getPuuid(), PageRequest.of(page, 10, Sort.by("game_end_at").descending()));
+        List<MatchInfoDto> matches = matchJdbcRepository.findWithIsWin(summoner.getPuuid(), page*10);
 
         List<MatchInfoResponseDto> matchResponse = new ArrayList<>();
-        for (int i = 0; i < matches.size(); i++) {
-            List<ParticipantResponseDto> participants = participantGetService.getAllByMatches(matches.get(i));
-            matchResponse.add(new MatchInfoResponseDto(matches.get(i), isWins.get(i), participants));
+        for (MatchInfoDto match : matches) {
+            List<ParticipantResponseDto> participants = participantGetService.getAllByMatches(match);
+            matchResponse.add(new MatchInfoResponseDto(match, participants));
         }
 
         return new MatchResponseDto(matchResponse, page);

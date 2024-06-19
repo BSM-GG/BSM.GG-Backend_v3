@@ -71,12 +71,11 @@ public class RiotApiService {
 
     public <T> T throwRequest(String url, Class<T> responseType) {
         try {
-            log.info("Url     : {}", url);
+            log.info("Url: {}", url);
             ResponseEntity<Object> jsonResponse = restTemplate.getForEntity(url, Object.class);
             ObjectMapper objectMapper = new ObjectMapper();
             String stringResponse = objectMapper.writeValueAsString(jsonResponse.getBody());
-            log.info("Header  : {}", jsonResponse.getHeaders());
-            log.info("Response: {}", jsonResponse.getBody());
+            log.info("SUCCESS");
             return objectMapper.readValue(stringResponse, responseType);
         } catch (HttpClientErrorException.Forbidden e) {
             throw new BSMGGException(ErrorCode.INVALID_OR_EXPIRED_RIOT_TOKEN);

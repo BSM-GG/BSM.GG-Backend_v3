@@ -1,6 +1,7 @@
 package bsmgg.bsmgg_backend.domain.participant.service;
 
 import bsmgg.bsmgg_backend.domain.match.domain.Match;
+import bsmgg.bsmgg_backend.domain.match.repository.dto.MatchInfoDto;
 import bsmgg.bsmgg_backend.domain.participant.dto.ChangInfoDto;
 import bsmgg.bsmgg_backend.domain.participant.dto.ParticipantResponseDto;
 import bsmgg.bsmgg_backend.domain.participant.repository.ParticipantJdbcRepository;
@@ -21,7 +22,7 @@ public class ParticipantGetService {
         return participantRepository.findMostChampionsByPuuid(puuid);
     }
 
-    public List<ParticipantResponseDto> getAllByMatches(Match match) {
+    public List<ParticipantResponseDto> getAllByMatches(MatchInfoDto match) {
         return participantJdbcRepository.findAllByMatchIn(match);
     }
 

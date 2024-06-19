@@ -54,7 +54,7 @@ public class ChallengesDto {
     private Integer killAfterHiddenWithAlly;
     private Integer killedChampTookFullTeamDamageSurvived;
     private Integer killingSprees;
-    private Float killParticipation;
+    private float killParticipation;
     private Integer killsNearEnemyTurret;
     private Integer killsOnOtherLanesEarlyJungleAsLaner;
     private Integer killsOnRecentlyHealedByAramPack;

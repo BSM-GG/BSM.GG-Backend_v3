@@ -58,7 +58,8 @@ public class SummonerRankingRepository {
                     order by solo_point desc
                     ) as ranking
                 from summoner s
-                join bsmgg.user u on s.puuid = u.puuid""";
+                join bsmgg.user u on s.puuid = u.puuid
+                """;
         if (page >= 0) {
             query += "limit " + page * 10 + ", 10";
         }

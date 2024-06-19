@@ -1,6 +1,7 @@
 package bsmgg.bsmgg_backend.domain.match.controller.dto;
 
 import bsmgg.bsmgg_backend.domain.match.domain.Match;
+import bsmgg.bsmgg_backend.domain.match.repository.dto.MatchInfoDto;
 import bsmgg.bsmgg_backend.domain.participant.dto.ParticipantResponseDto;
 
 import java.util.List;
@@ -12,12 +13,12 @@ public record MatchInfoResponseDto(
         Long gameDuration,
         List<ParticipantResponseDto> participants
 ) {
-    public MatchInfoResponseDto(Match match, Boolean isWin, List<ParticipantResponseDto> participants) {
+    public MatchInfoResponseDto(MatchInfoDto match, List<ParticipantResponseDto> participants) {
         this(
-                match.getGameType(),
-                isWin,
-                match.getGameStartedAt(),
-                match.getGameDuration(),
+                match.gameType(),
+                match.isWin(),
+                match.gameStartedAt(),
+                match.gameDuration(),
                 participants
         );
     }

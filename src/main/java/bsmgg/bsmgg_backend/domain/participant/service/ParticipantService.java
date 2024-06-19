@@ -41,7 +41,7 @@ public class ParticipantService {
                     .isWin(dto.win())
                     .champion(mappingService.getChamp(dto.championName()))
                     .championLevel(dto.champLevel())
-                    .lane(getLane(count))
+                    .lane(count)
                     .team(getTeam(count))
                     .killRate(Math.round(dto.challenges().getKillParticipation()*100))
                     .kills(dto.kills())
@@ -87,16 +87,5 @@ public class ParticipantService {
 
     private String getTeam(int count) {
         return count < 5 ? "BLUE" : "RED";
-    }
-
-    private String getLane(int count) {
-        return switch (count % 5) {
-            case 0 -> "TOP";
-            case 1 -> "JUNGLE";
-            case 2 -> "MIDDLE";
-            case 3 -> "ADC";
-            case 4 -> "SUPPORT";
-            default -> "NONE";
-        };
     }
 }

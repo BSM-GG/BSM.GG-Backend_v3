@@ -874,6 +874,7 @@ public class MappingService {
         queueMap.put(1300, "돌격 넥서스");
         queueMap.put(1400, "궁극기 주문서");
         queueMap.put(1700, "아레나");
+        queueMap.put(1710, "아레나");
         queueMap.put(2000, "튜토리얼");
         queueMap.put(2010, "튜토리얼");
         queueMap.put(2020, "튜토리얼");
