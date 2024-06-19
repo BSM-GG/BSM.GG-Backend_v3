@@ -39,7 +39,7 @@ public class ParticipantService {
                     .match(match)
                     .summoner(summoner)
                     .isWin(dto.win())
-                    .champion(mappingService.getChamp(dto.championName()))
+                    .champion(dto.championName())
                     .championLevel(dto.champLevel())
                     .lane(count)
                     .team(getTeam(count))

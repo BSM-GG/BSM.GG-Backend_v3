@@ -1,9 +1,9 @@
 package bsmgg.bsmgg_backend.domain.participant.repository;
 
-import bsmgg.bsmgg_backend.domain.match.domain.Match;
 import bsmgg.bsmgg_backend.domain.match.repository.dto.MatchInfoDto;
 import bsmgg.bsmgg_backend.domain.participant.dto.ChangInfoDto;
 import bsmgg.bsmgg_backend.domain.participant.dto.ParticipantResponseDto;
+import bsmgg.bsmgg_backend.global.mapping.MappingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -17,45 +17,7 @@ import java.util.List;
 public class ParticipantJdbcRepository {
 
     private final JdbcTemplate jdbcTemplate;
-    private final RowMapper<ParticipantResponseDto> participantRowMapper = (rs, rowNum) ->
-            ParticipantResponseDto.builder()
-                    .gameName(rs.getString("game_name"))
-                    .tagLine(rs.getString("tag_line"))
-                    .soloTier(rs.getString("solo_tier"))
-                    .soloPoint(rs.getInt("solo_point"))
-                    .flexTier(rs.getString("flex_tier"))
-                    .flexPoint(rs.getInt("flex_point"))
-                    .level(rs.getInt("level"))
-                    .champion(rs.getString("champion"))
-                    .championLevel(rs.getInt("champion_level"))
-                    .lane(rs.getInt("lane"))
-                    .team(rs.getString("team"))
-                    .spell1(rs.getString("spell1"))
-                    .spell2(rs.getString("spell2"))
-                    .mainPerk(rs.getString("main_perk"))
-                    .subPerk(rs.getString("sub_perk_style"))
-                    .killRate(rs.getInt("kill_rate"))
-                    .kills(rs.getInt("kills"))
-                    .assists(rs.getInt("assists"))
-                    .deaths(rs.getInt("deaths"))
-                    .damage(rs.getInt("damage"))
-                    .gainDamage(rs.getInt("gain_damage"))
-                    .cs(rs.getInt("cs"))
-                    .visionScore(rs.getInt("vision_score"))
-                    .sightWard(rs.getInt("sight_ward"))
-                    .visionWard(rs.getInt("vision_ward"))
-                    .items(new ArrayList<>() {
-                        {
-                            add(rs.getString("item1"));
-                            add(rs.getString("item2"));
-                            add(rs.getString("item3"));
-                            add(rs.getString("item4"));
-                            add(rs.getString("item5"));
-                            add(rs.getString("item6"));
-                        }
-                    })
-                    .ward(rs.getString("ward"))
-                    .build();
+    private final MappingService mappingService;
     private final RowMapper<ChangInfoDto> changRowMapper = (rs, rowNum) ->
             ChangInfoDto.builder()
                     .playedGames(rs.getInt("playedGames"))
@@ -84,7 +46,48 @@ public class ParticipantJdbcRepository {
                 JOIN bsmgg.summoner s ON s.puuid = p.puuid
                 WHERE match_id = ?
                 """;
-        return jdbcTemplate.query(query, participantRowMapper, match.id());
+        return jdbcTemplate.query(
+                query,
+                (rs, rowNum) -> ParticipantResponseDto.builder()
+                        .gameName(rs.getString("game_name"))
+                        .tagLine(rs.getString("tag_line"))
+                        .soloTier(rs.getString("solo_tier"))
+                        .soloPoint(rs.getInt("solo_point"))
+                        .flexTier(rs.getString("flex_tier"))
+                        .flexPoint(rs.getInt("flex_point"))
+                        .level(rs.getInt("level"))
+                        .championE(rs.getString("champion"))
+                        .championK(mappingService.getChamp(rs.getString("champion")))
+                        .championLevel(rs.getInt("champion_level"))
+                        .lane(rs.getInt("lane"))
+                        .team(rs.getString("team"))
+                        .spell1(rs.getString("spell1"))
+                        .spell2(rs.getString("spell2"))
+                        .mainPerk(rs.getString("main_perk"))
+                        .subPerk(rs.getString("sub_perk_style"))
+                        .killRate(rs.getInt("kill_rate"))
+                        .kills(rs.getInt("kills"))
+                        .assists(rs.getInt("assists"))
+                        .deaths(rs.getInt("deaths"))
+                        .damage(rs.getInt("damage"))
+                        .gainDamage(rs.getInt("gain_damage"))
+                        .cs(rs.getInt("cs"))
+                        .visionScore(rs.getInt("vision_score"))
+                        .sightWard(rs.getInt("sight_ward"))
+                        .visionWard(rs.getInt("vision_ward"))
+                        .items(new ArrayList<>() {
+                            {
+                                add(rs.getString("item1"));
+                                add(rs.getString("item2"));
+                                add(rs.getString("item3"));
+                                add(rs.getString("item4"));
+                                add(rs.getString("item5"));
+                                add(rs.getString("item6"));
+                            }
+                        })
+                        .ward(rs.getString("ward"))
+                        .build(),
+                match.id());
     }
 
     public ChangInfoDto findChangByPuuid(String puuid, long prevWeekStart, long prevWeekEnd) {

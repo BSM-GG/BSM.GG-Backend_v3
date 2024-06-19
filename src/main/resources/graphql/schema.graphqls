@@ -61,7 +61,8 @@ type ParticipantResponseDto{
     flexTier: String
     flexPoint: Int
     level: Int
-    champion: String
+    championE: String
+    championK: String
     championLevel: Int
     lane: Int
     team: String
