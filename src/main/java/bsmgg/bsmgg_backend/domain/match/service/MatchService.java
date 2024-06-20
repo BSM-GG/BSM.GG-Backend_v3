@@ -17,8 +17,6 @@ import bsmgg.bsmgg_backend.domain.summoner.domain.Summoner;
 import bsmgg.bsmgg_backend.domain.summoner.service.SummonerGetService;
 import bsmgg.bsmgg_backend.domain.summoner.service.SummonerPostService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -61,10 +59,11 @@ public class MatchService {
                 if (newMatch.getGameEndAt() != null)
                     summoner.setLastUpdated(newMatch.getGameEndAt());
             }
+            summonerPostService.save(summoner);
             if (matchIds.size() < 100)
                 break;
         }
-        summonerPostService.updateMostChampions(summoner, summoner.getLastUpdated());
+        summonerPostService.updateMostChampions(summoner);
     }
 
     public MatchResponseDto getMatches(String name, Integer page) {

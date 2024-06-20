@@ -62,11 +62,10 @@ public class SummonerPostService {
                 .findFirst().orElse(null);
     }
 
-    public void updateMostChampions(Summoner summoner, Long lastMatchTime) {
+    public void updateMostChampions(Summoner summoner) {
         List<String> mostChampions = participantGetService.getMostChampions(summoner.getPuuid());
         summoner = updateSummoner(summoner.getGameName(), summoner.getTagLine());
         summoner.setMostChampions(mostChampions);
-        summoner.setLastUpdated(lastMatchTime);
         save(summoner);
     }
 }

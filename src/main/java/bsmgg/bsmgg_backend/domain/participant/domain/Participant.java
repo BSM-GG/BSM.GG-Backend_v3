@@ -81,19 +81,19 @@ public class Participant {
     @Column
     private Integer spell2Used;
     @Column
-    private String item1;
+    private Integer item1;
     @Column
-    private String item2;
+    private Integer item2;
     @Column
-    private String item3;
+    private Integer item3;
     @Column
-    private String item4;
+    private Integer item4;
     @Column
-    private String item5;
+    private Integer item5;
     @Column
-    private String item6;
+    private Integer item6;
     @Column
-    private String ward;
+    private Integer ward;
     @Column
     private String mainPerk;
     @Column

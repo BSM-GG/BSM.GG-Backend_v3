@@ -7,4 +7,7 @@ public record PerkStyleDto(
         List<PerkStyleSelectionDto> selections,
         Integer style
 ) {
+    public PerkStyleDto(Integer style) {
+        this("", List.of(), style);
+    }
 }

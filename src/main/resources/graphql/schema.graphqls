@@ -61,15 +61,14 @@ type ParticipantResponseDto{
     flexTier: String
     flexPoint: Int
     level: Int
-    championE: String
-    championK: String
+    champion: Champion
     championLevel: Int
     lane: Int
     team: String
-    spell1: String
-    spell2: String
-    mainPerk: String
-    subPerk: String
+    spell1: Spell
+    spell2: Spell
+    mainPerk: Perk
+    subPerk: Perk
     killRate: Int
     kills: Int
     assists: Int
@@ -80,8 +79,28 @@ type ParticipantResponseDto{
     visionScore: Int
     sightWard: Int
     visionWard: Int
-    items: [String]
-    ward: String
+    items: [Item]
+    ward: Item
+}
+
+type Perk{
+    id: Int
+    name: String
+}
+
+type Champion{
+    id: String
+    name: String
+}
+
+type Item{
+    id: Int
+    name: String
+}
+
+type Spell{
+    id: String
+    name: String
 }
 
 type ChangResponseDto{

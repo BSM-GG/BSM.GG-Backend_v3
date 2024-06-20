@@ -8,8 +8,10 @@ import java.util.Map;
 @Service
 public class MappingService {
 
-    private Map<Integer, String> perkMap;
-    private Map<Integer, String> spellMap;
+    private Map<Integer, String> perkIdMap;
+    private Map<String, String> perkNameMap;
+    private Map<Integer, String> spellIdMap;
+    private Map<String, String> spellNameMap;
     private Map<Integer, String> queueMap;
     private Map<String, String> champMap;
     private Map<Integer, String> itemMap;
@@ -773,83 +775,150 @@ public class MappingService {
     }
 
     private void initPerkMap() {
-        perkMap = new HashMap<>();
+        perkIdMap = new HashMap<>();
+        perkNameMap = new HashMap<>();
 
-        perkMap.put(5008, "적응형 능력치");
-        perkMap.put(5005, "공격 속도");
-        perkMap.put(5007, "스킬 가속");
-        perkMap.put(5010, "이동 속도");
-        perkMap.put(5001, "레벨 비례 체력");
-        perkMap.put(5011, "체력");
-        perkMap.put(5012, "방어력 및 마법 저항력");
-        perkMap.put(5013, "강인함 및 둔화 저항");
-        perkMap.put(5002, "방어력");
-        perkMap.put(5003, "마법 저항력");
-        perkMap.put(8100, "지배");
-        perkMap.put(8112, "감전");
-        perkMap.put(8128, "어둠의 수확");
-        perkMap.put(9923, "칼날비");
-        perkMap.put(8126, "비열한 한 방");
-        perkMap.put(8139, "피의 맛");
-        perkMap.put(8143, "돌발 일격");
-        perkMap.put(8136, "좀비 와드");
-        perkMap.put(8120, "유령 포로");
-        perkMap.put(8138, "사냥의 증표");
-        perkMap.put(8135, "보물 사냥꾼");
-        perkMap.put(8105, "끈질긴 사냥꾼");
-        perkMap.put(8106, "궁극의 사냥꾼");
-        perkMap.put(8300, "영감");
-        perkMap.put(8351, "빙결 강화");
-        perkMap.put(8360, "봉인 풀린 주문서");
-        perkMap.put(8369, "선제공격");
-        perkMap.put(8306, "마법공학 점멸기");
-        perkMap.put(8304, "마법의 신발");
-        perkMap.put(8321, "환급");
-        perkMap.put(8313, "삼중 물약");
-        perkMap.put(8352, "시간 왜곡 물약");
-        perkMap.put(8345, "비스킷 배달");
-        perkMap.put(8347, "우주적 통찰력");
-        perkMap.put(8410, "쾌속 접근");
-        perkMap.put(8316, "다재다능");
-        perkMap.put(8000, "정밀");
-        perkMap.put(8005, "집중 공격");
-        perkMap.put(8021, "기민한 발놀림");
-        perkMap.put(8010, "정복자");
-        perkMap.put(9101, "생명 흡수");
-        perkMap.put(9111, "승전보");
-        perkMap.put(8009, "침착");
-        perkMap.put(9104, "전설: 민첩함");
-        perkMap.put(9105, "전설: 가속");
-        perkMap.put(9103, "전설: 핏빛 길");
-        perkMap.put(8014, "최후의 일격");
-        perkMap.put(8017, "체력차 극복");
-        perkMap.put(8299, "최후의 저항");
-        perkMap.put(8400, "결의");
-        perkMap.put(8437, "착취의 손아귀");
-        perkMap.put(8439, "여진");
-        perkMap.put(8465, "수호자");
-        perkMap.put(8446, "철거");
-        perkMap.put(8463, "생명의 샘");
-        perkMap.put(8401, "보호막 강타");
-        perkMap.put(8429, "사전 준비");
-        perkMap.put(8444, "재생의 바람");
-        perkMap.put(8473, "뼈 방패");
-        perkMap.put(8451, "과잉성장");
-        perkMap.put(8453, "소생");
-        perkMap.put(8242, "불굴의 의지");
-        perkMap.put(8200, "마법");
-        perkMap.put(8214, "콩콩이 소환");
-        perkMap.put(8229, "신비로운 유성");
-        perkMap.put(8230, "난입");
-        perkMap.put(8224, "무효화 구체");
-        perkMap.put(8226, "마나순환 팔찌");
-        perkMap.put(8275, "빛의 망토");
-        perkMap.put(8210, "깨달음");
-        perkMap.put(8234, "기민함");
-        perkMap.put(8233, "절대 집중");
-        perkMap.put(8237, "주문 작열");
-        perkMap.put(8232, "물 위를 걷는 자");
-        perkMap.put(8236, "폭풍의 결집");
+        perkIdMap.put(5008, "적응형 능력치");
+        perkIdMap.put(5005, "공격 속도");
+        perkIdMap.put(5007, "스킬 가속");
+        perkIdMap.put(5010, "이동 속도");
+        perkIdMap.put(5001, "레벨 비례 체력");
+        perkIdMap.put(5011, "체력");
+        perkIdMap.put(5012, "방어력 및 마법 저항력");
+        perkIdMap.put(5013, "강인함 및 둔화 저항");
+        perkIdMap.put(5002, "방어력");
+        perkIdMap.put(5003, "마법 저항력");
+        perkIdMap.put(8100, "지배");
+        perkIdMap.put(8112, "감전");
+        perkIdMap.put(8128, "어둠의 수확");
+        perkIdMap.put(9923, "칼날비");
+        perkIdMap.put(8126, "비열한 한 방");
+        perkIdMap.put(8139, "피의 맛");
+        perkIdMap.put(8143, "돌발 일격");
+        perkIdMap.put(8136, "좀비 와드");
+        perkIdMap.put(8120, "유령 포로");
+        perkIdMap.put(8138, "사냥의 증표");
+        perkIdMap.put(8135, "보물 사냥꾼");
+        perkIdMap.put(8105, "끈질긴 사냥꾼");
+        perkIdMap.put(8106, "궁극의 사냥꾼");
+        perkIdMap.put(8300, "영감");
+        perkIdMap.put(8351, "빙결 강화");
+        perkIdMap.put(8360, "봉인 풀린 주문서");
+        perkIdMap.put(8369, "선제공격");
+        perkIdMap.put(8306, "마법공학 점멸기");
+        perkIdMap.put(8304, "마법의 신발");
+        perkIdMap.put(8321, "환급");
+        perkIdMap.put(8313, "삼중 물약");
+        perkIdMap.put(8352, "시간 왜곡 물약");
+        perkIdMap.put(8345, "비스킷 배달");
+        perkIdMap.put(8347, "우주적 통찰력");
+        perkIdMap.put(8410, "쾌속 접근");
+        perkIdMap.put(8316, "다재다능");
+        perkIdMap.put(8000, "정밀");
+        perkIdMap.put(8005, "집중 공격");
+        perkIdMap.put(8021, "기민한 발놀림");
+        perkIdMap.put(8010, "정복자");
+        perkIdMap.put(9101, "생명 흡수");
+        perkIdMap.put(9111, "승전보");
+        perkIdMap.put(8009, "침착");
+        perkIdMap.put(9104, "전설: 민첩함");
+        perkIdMap.put(9105, "전설: 가속");
+        perkIdMap.put(9103, "전설: 핏빛 길");
+        perkIdMap.put(8014, "최후의 일격");
+        perkIdMap.put(8017, "체력차 극복");
+        perkIdMap.put(8299, "최후의 저항");
+        perkIdMap.put(8400, "결의");
+        perkIdMap.put(8437, "착취의 손아귀");
+        perkIdMap.put(8439, "여진");
+        perkIdMap.put(8465, "수호자");
+        perkIdMap.put(8446, "철거");
+        perkIdMap.put(8463, "생명의 샘");
+        perkIdMap.put(8401, "보호막 강타");
+        perkIdMap.put(8429, "사전 준비");
+        perkIdMap.put(8444, "재생의 바람");
+        perkIdMap.put(8473, "뼈 방패");
+        perkIdMap.put(8451, "과잉성장");
+        perkIdMap.put(8453, "소생");
+        perkIdMap.put(8242, "불굴의 의지");
+        perkIdMap.put(8200, "마법");
+        perkIdMap.put(8214, "콩콩이 소환");
+        perkIdMap.put(8229, "신비로운 유성");
+        perkIdMap.put(8230, "난입");
+        perkIdMap.put(8224, "무효화 구체");
+        perkIdMap.put(8226, "마나순환 팔찌");
+        perkIdMap.put(8275, "빛의 망토");
+        perkIdMap.put(8210, "깨달음");
+        perkIdMap.put(8234, "기민함");
+        perkIdMap.put(8233, "절대 집중");
+        perkIdMap.put(8237, "주문 작열");
+        perkIdMap.put(8232, "물 위를 걷는 자");
+        perkIdMap.put(8236, "폭풍의 결집");
+
+        perkNameMap.put("지배", "7200_Domination");
+        perkNameMap.put("감전", "Domination/Electrocute/Electrocute");
+        perkNameMap.put("어둠의 수확", "Domination/DarkHarvest/DarkHarvest");
+        perkNameMap.put("칼날비", "Domination/HailOfBlades/HailOfBlades");
+        perkNameMap.put("비열한 한 방", "Domination/CheapShot/CheapShot");
+        perkNameMap.put("피의 맛", "Domination/TasteOfBlood/GreenTerror_TasteOfBlood");
+        perkNameMap.put("돌발 일격", "Domination/SuddenImpact/SuddenImpact");
+        perkNameMap.put("좀비 와드", "Domination/ZombieWard/ZombieWard");
+        perkNameMap.put("유령 포로", "Domination/GhostPoro/GhostPoro");
+        perkNameMap.put("사냥의 증표", "Domination/EyeballCollection/EyeballCollection");
+        perkNameMap.put("보물 사냥꾼", "Domination/TreasureHunter/TreasureHunter");
+        perkNameMap.put("끈질긴 사냥꾼", "Domination/RelentlessHunter/RelentlessHunter");
+        perkNameMap.put("궁극의 사냥꾼", "Domination/UltimateHunter/UltimateHunter");
+        perkNameMap.put("영감", "7203_Whimsy");
+        perkNameMap.put("빙결 강화", "Inspiration/GlacialAugment/GlacialAugment");
+        perkNameMap.put("봉인 풀린 주문서", "Inspiration/UnsealedSpellbook/UnsealedSpellbook");
+        perkNameMap.put("선제공격", "Inspiration/FirstStrike/FirstStrike");
+        perkNameMap.put("마법공학 점멸기", "Inspiration/HextechFlashtraption/HextechFlashtraption");
+        perkNameMap.put("마법의 신발", "Inspiration/MagicalFootwear/MagicalFootwear");
+        perkNameMap.put("환급", "Inspiration/CashBack/CashBack2");
+        perkNameMap.put("삼중 물약", "Inspiration/PerfectTiming/AlchemistCabinet");
+        perkNameMap.put("시간 왜곡 물약", "Inspiration/TimeWarpTonic/TimeWarpTonic");
+        perkNameMap.put("비스킷 배달", "Inspiration/BiscuitDelivery/BiscuitDelivery");
+        perkNameMap.put("우주적 통찰력", "Inspiration/CosmicInsight/CosmicInsight");
+        perkNameMap.put("쾌속 접근", "Resolve/ApproachVelocity/ApproachVelocity");
+        perkNameMap.put("다재다능", "Inspiration/JackOfAllTrades/JackofAllTrades2");
+        perkNameMap.put("정밀", "7201_Precision");
+        perkNameMap.put("집중 공격", "Precision/PressTheAttack/PressTheAttack");
+        perkNameMap.put("기민한 발놀림", "Precision/FleetFootwork/FleetFootwork");
+        perkNameMap.put("정복자", "Precision/Conqueror/Conqueror");
+        perkNameMap.put("생명 흡수", "Precision/AbsorbLife/AbsorbLife");
+        perkNameMap.put("승전보", "Precision/Triumph");
+        perkNameMap.put("침착", "Precision/PresenceOfMind/PresenceOfMind");
+        perkNameMap.put("전설: 민첩함", "Precision/LegendAlacrity/LegendAlacrity");
+        perkNameMap.put("전설: 가속", "Precision/LegendHaste/LegendHaste");
+        perkNameMap.put("전설: 핏빛 길", "Precision/LegendBloodline/LegendBloodline");
+        perkNameMap.put("최후의 일격", "Precision/CoupDeGrace/CoupDeGrace");
+        perkNameMap.put("체력차 극복", "Precision/CutDown/CutDown");
+        perkNameMap.put("최후의 저항", "Sorcery/LastStand/LastStand");
+        perkNameMap.put("결의", "7204_Resolve");
+        perkNameMap.put("착취의 손아귀", "Resolve/GraspOfTheUndying/GraspOfTheUndying");
+        perkNameMap.put("여진", "Resolve/VeteranAftershock/VeteranAftershock");
+        perkNameMap.put("수호자", "Resolve/Guardian/Guardian");
+        perkNameMap.put("철거", "Resolve/Demolish/Demolish");
+        perkNameMap.put("생명의 샘", "Resolve/FontOfLife/FontOfLife");
+        perkNameMap.put("보호막 강타", "Resolve/MirrorShell/MirrorShell");
+        perkNameMap.put("사전 준비", "Resolve/Conditioning/Conditioning");
+        perkNameMap.put("재생의 바람", "Resolve/SecondWind/SecondWind");
+        perkNameMap.put("뼈 방패", "Resolve/BonePlating/BonePlating");
+        perkNameMap.put("과잉성장", "Resolve/Overgrowth/Overgrowth");
+        perkNameMap.put("소생", "Resolve/Revitalize/Revitalize");
+        perkNameMap.put("불굴의 의지", "Sorcery/Unflinching/Unflinching");
+        perkNameMap.put("마법", "7202_Sorcery");
+        perkNameMap.put("콩콩이 소환", "Sorcery/SummonAery/SummonAery");
+        perkNameMap.put("신비로운 유성", "Sorcery/ArcaneComet/ArcaneComet");
+        perkNameMap.put("난입", "Sorcery/PhaseRush/PhaseRush");
+        perkNameMap.put("무효화 구체", "Sorcery/NullifyingOrb/Pokeshield");
+        perkNameMap.put("마나순환 팔찌", "Sorcery/ManaflowBand/ManaflowBand");
+        perkNameMap.put("빛의 망토", "Sorcery/NimbusCloak/6361");
+        perkNameMap.put("깨달음", "Sorcery/Transcendence/Transcendence");
+        perkNameMap.put("기민함", "Sorcery/Celerity/CelerityTemp");
+        perkNameMap.put("절대 집중", "Sorcery/AbsoluteFocus/AbsoluteFocus");
+        perkNameMap.put("주문 작열", "Sorcery/Scorch/Scorch");
+        perkNameMap.put("물 위를 걷는 자", "Sorcery/Waterwalking/Waterwalking");
+        perkNameMap.put("폭풍의 결집", "Sorcery/GatheringStorm/GatheringStorm");
     }
 
     private void initQueueMap() {
@@ -881,34 +950,62 @@ public class MappingService {
     }
 
     private void initSpellMap() {
-        spellMap = new HashMap<>();
+        spellIdMap = new HashMap<>();
+        spellNameMap = new HashMap<>();
 
-        spellMap.put(1, "정화");
-        spellMap.put(3, "탈진");
-        spellMap.put(4, "점멸");
-        spellMap.put(6, "유체화");
-        spellMap.put(7, "회복");
-        spellMap.put(11, "강타");
-        spellMap.put(12, "순간이동");
-        spellMap.put(13, "총명");
-        spellMap.put(14, "점화");
-        spellMap.put(21, "방어막");
-        spellMap.put(30, "왕을 향해!");
-        spellMap.put(31, "포로 던지기");
-        spellMap.put(32, "표식");
-        spellMap.put(39, "표식");
-        spellMap.put(54, "게임 시작 후 결정");
-        spellMap.put(55, "TBD 및 공격-강타");
-        spellMap.put(2201, "도주");
-        spellMap.put(2202, "점멸");
+        spellIdMap.put(1, "SummonerBoost");
+        spellIdMap.put(3, "SummonerExhaust");
+        spellIdMap.put(4, "SummonerFlash");
+        spellIdMap.put(6, "SummonerHaste");
+        spellIdMap.put(7, "SummonerHeal");
+        spellIdMap.put(11, "SummonerSmite");
+        spellIdMap.put(12, "SummonerTeleport");
+        spellIdMap.put(13, "SummonerMana");
+        spellIdMap.put(14, "SummonerDot");
+        spellIdMap.put(21, "SummonerBarrier");
+        spellIdMap.put(30, "SummonerPoroRecall");
+        spellIdMap.put(31, "SummonerPoroThrow");
+        spellIdMap.put(32, "SummonerSnowball");
+        spellIdMap.put(39, "SummonerSnowURFSnowball_Mark");
+        spellIdMap.put(54, "Summoner_UltBookPlaceholder");
+        spellIdMap.put(55, "Summoner_UltBookSmitePlaceholder");
+        spellIdMap.put(2201, "SummonerCherryHold");
+        spellIdMap.put(2202, "SummonerCherryFlash");
+
+        spellNameMap.put("SummonerBoost", "정화");
+        spellNameMap.put("SummonerExhaust", "탈진");
+        spellNameMap.put("SummonerFlash", "점멸");
+        spellNameMap.put("SummonerHaste", "유체화");
+        spellNameMap.put("SummonerHeal", "회복");
+        spellNameMap.put("SummonerSmite", "강타");
+        spellNameMap.put("SummonerTeleport", "순간이동");
+        spellNameMap.put("SummonerMana", "총명");
+        spellNameMap.put("SummonerDot", "점화");
+        spellNameMap.put("SummonerBarrier", "SummonerBarrier");
+        spellNameMap.put("SummonerPoroRecall", "왕을 향해!");
+        spellNameMap.put("SummonerPoroThrow", "포로 던지기");
+        spellNameMap.put("SummonerSnowball", "표식");
+        spellNameMap.put("SummonerSnowURFSnowball_Mark", "표식");
+        spellNameMap.put("Summoner_UltBookPlaceholder", "게임 시작 후 결정");
+        spellNameMap.put("Summoner_UltBookSmitePlaceholder", "TBD 및 공격-강타");
+        spellNameMap.put("SummonerCherryHold", "도주");
+        spellNameMap.put("SummonerCherryFlash", "점멸");
     }
 
-    public String getPerk(Integer id) {
-        return perkMap.getOrDefault(id, "");
+    public String getPerkName(Integer id) {
+        return perkIdMap.getOrDefault(id, "");
     }
 
-    public String getSpell(Integer id) {
-        return spellMap.getOrDefault(id, "");
+    public String getPerkUri(String id) {
+        return perkNameMap.getOrDefault(id, "");
+    }
+
+    public String getSpellId(Integer id) {
+        return spellIdMap.getOrDefault(id, "");
+    }
+
+    public String getSpellName(String id) {
+        return spellNameMap.getOrDefault(id, "");
     }
 
     public String getQueue(Integer id) {

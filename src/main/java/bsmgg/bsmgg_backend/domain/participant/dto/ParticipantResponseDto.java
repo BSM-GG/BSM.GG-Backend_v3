@@ -1,5 +1,6 @@
 package bsmgg.bsmgg_backend.domain.participant.dto;
 
+import bsmgg.bsmgg_backend.global.mapping.MappingService;
 import lombok.Builder;
 
 import java.util.List;
@@ -13,15 +14,14 @@ public record ParticipantResponseDto(
         String flexTier,
         Integer flexPoint,
         Integer level,
-        String championE,
-        String championK,
+        Champion champion,
         Integer championLevel,
         Integer lane,
         String team,
-        String spell1,
-        String spell2,
-        String mainPerk,
-        String subPerk,
+        Spell spell1,
+        Spell spell2,
+        Perk mainPerk,
+        Perk subPerk,
         Integer killRate,
         Integer kills,
         Integer assists,
@@ -32,7 +32,18 @@ public record ParticipantResponseDto(
         Integer visionScore,
         Integer sightWard,
         Integer visionWard,
-        List<String> items,
-        String ward
+        List<Item> items,
+        Item ward
 ) {
+    public void update(MappingService mappingService) {
+        champion.setName(mappingService.getChamp(champion.getId()));
+        spell1.setName(mappingService.getSpellName(spell1.getId()));
+        spell2.setName(mappingService.getSpellName(spell2.getId()));
+        for (Item i : items) {
+            i.setName(mappingService.getItem(i.getId()));
+        }
+        ward.setName(mappingService.getItem(ward.getId()));
+        mainPerk.setId(mappingService.getPerkUri(mainPerk.getName()));
+        subPerk.setId(mappingService.getPerkUri(subPerk.getName()));
+    }
 }
