@@ -72,7 +72,7 @@ public class Summoner {
     @Column(length = 15)
     @Builder.Default
     private String most1 = "";
-    @Column( length = 15)
+    @Column(length = 15)
     @Builder.Default
     private String most2 = "";
     @Column(length = 15)

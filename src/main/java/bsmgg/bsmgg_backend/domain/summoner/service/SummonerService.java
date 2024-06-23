@@ -1,5 +1,6 @@
 package bsmgg.bsmgg_backend.domain.summoner.service;
 
+import bsmgg.bsmgg_backend.domain.match.service.MatchService;
 import bsmgg.bsmgg_backend.domain.summoner.controller.dto.ChangResponseDto;
 import bsmgg.bsmgg_backend.domain.summoner.controller.dto.SummonerRankingResponseDto;
 import bsmgg.bsmgg_backend.domain.summoner.controller.dto.SummonerRequestDto;
@@ -10,6 +11,7 @@ import bsmgg.bsmgg_backend.domain.user.service.UserGetService;
 import bsmgg.bsmgg_backend.domain.user.service.UserPostService;
 import bsmgg.bsmgg_backend.global.error.exception.BSMGGException;
 import bsmgg.bsmgg_backend.global.error.exception.ErrorCode;
+import bsmgg.bsmgg_backend.global.mapping.MappingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,8 @@ public class SummonerService {
     private final UserGetService userGetService;
     private final UserPostService userPostService;
     private final SummonerGetService summonerGetService;
+    private final MatchService matchService;
+    private final MappingService mappingService;
 
     @Value("${riot.season-started-time}")
     private Long seasonStartedTime;
@@ -54,7 +58,10 @@ public class SummonerService {
 
     public SummonerRankingResponseDto getRanking(Integer page) {
         if (page == null) page = 0;
-        List<SummonerResponseDto> summoners = summonerGetService.getSummonerRanking(page);
+        List<SummonerResponseDto> summoners = summonerGetService.getAllRanking(page);
+        for(SummonerResponseDto summoner : summoners) {
+            summoner.update(mappingService);
+        }
         return new SummonerRankingResponseDto(summoners, page);
     }
 

@@ -1,5 +1,6 @@
 package bsmgg.bsmgg_backend.domain.summoner.repository;
 
+import bsmgg.bsmgg_backend.domain.participant.dto.Champion;
 import bsmgg.bsmgg_backend.domain.summoner.controller.dto.SummonerResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -33,9 +34,9 @@ public class SummonerRankingRepository {
                     .flexPoint(rs.getInt("flex_point"))
                     .mostChampions(new ArrayList<>() {
                         {
-                            add(rs.getString("most1"));
-                            add(rs.getString("most2"));
-                            add(rs.getString("most3"));
+                            add(new Champion(rs.getString("most1")));
+                            add(new Champion(rs.getString("most2")));
+                            add(new Champion(rs.getString("most3")));
                         }
                     })
                     .email(rs.getString("email"))

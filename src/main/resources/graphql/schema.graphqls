@@ -33,7 +33,7 @@ type SummonerResponseDto {
     flexLp: Int
     flexWins: Int
     flexLoses: Int
-    mostChampions: [String]
+    mostChampions: [Champion]
     soloPoint: Int!
     flexPoint: Int!
     ranking: Int!

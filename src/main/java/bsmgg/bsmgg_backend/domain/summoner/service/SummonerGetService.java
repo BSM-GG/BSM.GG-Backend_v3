@@ -11,6 +11,7 @@ import bsmgg.bsmgg_backend.domain.summoner.repository.SummonerRepository;
 import bsmgg.bsmgg_backend.domain.user.service.UserGetService;
 import bsmgg.bsmgg_backend.global.error.exception.BSMGGException;
 import bsmgg.bsmgg_backend.global.error.exception.ErrorCode;
+import bsmgg.bsmgg_backend.global.mapping.MappingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ public class SummonerGetService {
     private final SummonerRepository summonerRepository;
     private final SummonerRankingRepository summonerRankingRepository;
     private final ParticipantGetService participantGetService;
+    private final MappingService mappingService;
 
     @Value("${riot.season-started-time}")
     private Long seasonStartedTime;
@@ -64,34 +66,28 @@ public class SummonerGetService {
     }
 
     public SummonerResponseDto getSummonerWithRank(String puuid) {
-        List<SummonerResponseDto> dtos = getSummonerRanking();
+        List<SummonerResponseDto> dtos = getAllRanking();
         Integer userCount = userGetService.getUserCount();
         for (SummonerResponseDto dto : dtos) {
-            if (dto.puuid().equals(puuid)) {
-                return new SummonerResponseDto(dto, userCount);
+            if (dto.getPuuid().equals(puuid)) {
+                dto.setUserCount(userCount);
+                return dto;
             }
         }
-        return new SummonerResponseDto(getSummonerById(puuid), userCount);
+        return new SummonerResponseDto(getSummonerById(puuid), userCount, mappingService);
     }
 
     public SummonerResponseDto getSummonerWithRank(String gameName, String tagLine) {
-        List<SummonerResponseDto> dtos = getSummonerRanking();
+        List<SummonerResponseDto> dtos = getAllRanking();
         Integer userCount = userGetService.getUserCount();
         for (SummonerResponseDto dto : dtos) {
-            if (dto.gameName().replace(" ", "").equalsIgnoreCase(gameName.replace(" ", ""))
-            && dto.tagLine().replace(" ", "").equalsIgnoreCase(tagLine.replace(" ", ""))) {
-                return new SummonerResponseDto(dto, userCount);
+            if (dto.getGameName().replace(" ", "").equalsIgnoreCase(gameName.replace(" ", ""))
+            && dto.getTagLine().replace(" ", "").equalsIgnoreCase(tagLine.replace(" ", ""))) {
+                dto.setUserCount(userCount);
+                return dto;
             }
         }
-        return new SummonerResponseDto(getSummonerByRiotName(gameName, tagLine), userCount);
-    }
-
-    public List<SummonerResponseDto> getSummonerRanking() {
-        return summonerRankingRepository.findAllWithRanking(-1);
-    }
-
-    public List<SummonerResponseDto> getSummonerRanking(int page) {
-        return summonerRankingRepository.findAllWithRanking(page);
+        return new SummonerResponseDto(getSummonerByRiotName(gameName, tagLine), userCount, mappingService);
     }
 
     public ChangResponseDto getChang(long prevWeekStart, long prevWeekEnd) {
@@ -99,5 +95,13 @@ public class SummonerGetService {
         SummonerResponseDto summonerInfo = getSummonerWithRank(puuid);
         ChangInfoDto changInfo = participantGetService.getChangByPuuid(puuid, prevWeekStart, prevWeekEnd);
         return new ChangResponseDto(summonerInfo, changInfo);
+    }
+
+    public List<SummonerResponseDto> getAllRanking() {
+        return summonerRankingRepository.findAllWithRanking(-1);
+    }
+
+    public List<SummonerResponseDto> getAllRanking(int page) {
+        return summonerRankingRepository.findAllWithRanking(page);
     }
 }
