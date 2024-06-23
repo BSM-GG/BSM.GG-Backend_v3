@@ -63,8 +63,8 @@ public class RiotApiService {
 
     public List<String> getMatches(String puuid, Long startTime) {
         return Arrays.asList(throwRequest(
-                String.format("%s/lol/match/v5/matches/by-puuid/%s/ids?startTime=%d&start=0&count=100&api_key=%s"
-                        , riotAsiaUrl, puuid, startTime, apiKey),
+                String.format("%s/lol/match/v5/matches/by-puuid/%s/ids?startTime=%d&endTime=%d&start=0&count=100&api_key=%s"
+                        , riotAsiaUrl, puuid, startTime, startTime+1296000, apiKey),
                 String[].class
         ));
     }

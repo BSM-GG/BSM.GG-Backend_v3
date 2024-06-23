@@ -56,12 +56,10 @@ public class MatchService {
                 List<ParticipantDto> participants = match.info().participants();
                 participantService.saveAll(newMatch, participants);
 
-                if (newMatch.getGameEndAt() != null)
-                    summoner.setLastUpdated(newMatch.getGameEndAt());
+                if (newMatch.getGameEndAt() >= summoner.getLastUpdated())
+                    summoner.setLastUpdated(newMatch.getGameEndAt()+1);
             }
             summonerPostService.save(summoner);
-            if (matchIds.size() < 100)
-                break;
         }
         summonerPostService.updateMostChampions(summoner);
     }
