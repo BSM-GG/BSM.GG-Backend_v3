@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ParticipantGetService {
+public class    ParticipantGetService {
 
     private final ParticipantRepository participantRepository;
     private final ParticipantJdbcRepository participantJdbcRepository;

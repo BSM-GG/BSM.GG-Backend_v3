@@ -23,6 +23,11 @@ public class MatchController {
         matchService.saveMatches(dto);
     }
 
+    @PostMapping("/most")
+    public void most(@RequestBody SummonerRequestDto dto) {
+        matchService.updateMost(dto);
+    }
+
     @QueryMapping
     public MatchResponseDto getMatches(@Argument String name, @Argument Integer page) {
         return matchService.getMatches(name, page);

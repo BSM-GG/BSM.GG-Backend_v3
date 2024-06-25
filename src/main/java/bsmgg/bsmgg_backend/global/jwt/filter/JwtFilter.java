@@ -38,7 +38,7 @@ public class JwtFilter extends OncePerRequestFilter {
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT token", e);
         } catch (ExpiredJwtException e) {
-            reissueAccessToken(request, response, e);
+            log.info("Expired JWT token", e);
         } catch (UnsupportedJwtException e) {
             log.info("Unsupported JWT token", e);
         } catch (IllegalArgumentException e) {
@@ -46,21 +46,5 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
-    }
-
-    private void reissueAccessToken(HttpServletRequest request, HttpServletResponse response, Exception exception) {
-        try {
-            String refreshToken = request.getHeader("Refresh-Token");
-            if (refreshToken == null) {
-                throw exception;
-            }
-            jwtUtil.validateRefreshToken(refreshToken);
-            String newAccessToken = jwtUtil.recreateAccessToken(refreshToken);
-            Authentication authentication = jwtUtil.getAuthentication(newAccessToken);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            response.setHeader("New-Authorization", newAccessToken);
-        } catch (Exception e) {
-            request.setAttribute("exception", e);
-        }
     }
 }

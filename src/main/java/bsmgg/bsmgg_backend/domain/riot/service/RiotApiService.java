@@ -81,6 +81,8 @@ public class RiotApiService {
             throw new BSMGGException(ErrorCode.INVALID_OR_EXPIRED_RIOT_TOKEN);
         } catch (HttpClientErrorException.NotFound e) {
             throw new BSMGGException(ErrorCode.SUMMONER_NOT_FOUND);
+        } catch (HttpClientErrorException.TooManyRequests e) {
+            throw new BSMGGException(ErrorCode.RIOT_API_REACHED_LIMIT);
         } catch(RestClientException e) {
             log.error(e.getMessage());
             throw new BSMGGException(ErrorCode.INTERNAL_SERVER_ERROR);

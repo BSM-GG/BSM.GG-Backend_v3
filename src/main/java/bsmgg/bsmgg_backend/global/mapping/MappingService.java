@@ -928,7 +928,7 @@ public class MappingService {
         queueMap.put(420, "솔로랭크");
         queueMap.put(430, "일반");
         queueMap.put(440, "자유랭크");
-        queueMap.put(450, "칼바람");
+        queueMap.put(450, "칼바람나락");
         queueMap.put(490, "빠른대전");
         queueMap.put(700, "격전");
         queueMap.put(800, "AI대전");

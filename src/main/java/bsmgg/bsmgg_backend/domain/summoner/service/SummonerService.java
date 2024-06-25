@@ -26,7 +26,6 @@ public class SummonerService {
     private final UserGetService userGetService;
     private final UserPostService userPostService;
     private final SummonerGetService summonerGetService;
-    private final MatchService matchService;
     private final MappingService mappingService;
 
     @Value("${riot.season-started-time}")
@@ -67,12 +66,12 @@ public class SummonerService {
 
     public ChangResponseDto getChang() {
         long nowTime = System.currentTimeMillis() / 1000;
-        long startTime = seasonStartedTime - (3600*24*2);
+        long startTime = seasonStartedTime - 172800;
         long diff = nowTime - startTime;
-        long week = 60 * 60 * 24 * 7L;
+        long week = 604800;
         long div = diff / week;
         long prevWeekStart = (div - 1) * week + startTime;
-        long prevWeekEnd = div* week + startTime;
+        long prevWeekEnd = div * week + startTime;
 
         return summonerGetService.getChang(prevWeekStart, prevWeekEnd);
     }

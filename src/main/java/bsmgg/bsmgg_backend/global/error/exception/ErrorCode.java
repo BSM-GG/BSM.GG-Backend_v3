@@ -43,6 +43,7 @@ public enum ErrorCode {
     OAUTH_INVALID_CLIENT(403, "잘못된 클라이언트 정보입니다."),
 
     //RiotAPI
+    RIOT_API_REACHED_LIMIT(429, "보낼 수 있는 요청이 한계에 달했습니다. 잠시후 요청해주세요."),
     INVALID_OR_EXPIRED_RIOT_TOKEN(403, "라이엇 토큰이 잘못/만료 되었습니다."),
     SUMMONER_NOT_FOUND(404, "소환사를 찾을 수 없습니다.");
 

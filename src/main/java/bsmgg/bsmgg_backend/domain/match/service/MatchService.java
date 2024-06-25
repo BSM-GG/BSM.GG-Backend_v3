@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,11 +40,11 @@ public class MatchService {
     public void saveMatches(SummonerRequestDto dto) {
         Summoner summoner = summonerGetService.getSummonerByRiotName(dto.gameName(), dto.tagLine());
 
-        List<String> matchIds;
         while (true) {
-            matchIds = riotApiService.getMatches(summoner.getPuuid(), summoner.getLastUpdated());
+            List<String> matchIds = riotApiService.getMatches(summoner.getPuuid(), summoner.getLastUpdated());
             if (matchIds.isEmpty())
                 break;
+            Collections.reverse(matchIds);
 
             for (String matchId : matchIds) {
                 Optional<Match> existingMatch = matchRepository.findById(matchId);
@@ -61,6 +62,11 @@ public class MatchService {
             }
             summonerPostService.save(summoner);
         }
+        summonerPostService.updateMostChampions(summoner);
+    }
+
+    public void updateMost(SummonerRequestDto dto) {
+        Summoner summoner = summonerGetService.getSummonerByRiotName(dto.gameName(), dto.tagLine());
         summonerPostService.updateMostChampions(summoner);
     }
 

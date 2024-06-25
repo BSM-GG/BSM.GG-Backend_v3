@@ -84,7 +84,7 @@ type ParticipantResponseDto{
 }
 
 type Perk{
-    id: Int
+    id: String
     name: String
 }
 
