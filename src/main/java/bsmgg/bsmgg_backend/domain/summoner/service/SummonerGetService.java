@@ -6,7 +6,7 @@ import bsmgg.bsmgg_backend.domain.riot.dto.ParticipantDto;
 import bsmgg.bsmgg_backend.domain.summoner.controller.dto.ChangResponseDto;
 import bsmgg.bsmgg_backend.domain.summoner.controller.dto.SummonerResponseDto;
 import bsmgg.bsmgg_backend.domain.summoner.domain.Summoner;
-import bsmgg.bsmgg_backend.domain.summoner.repository.SummonerRankingRepository;
+import bsmgg.bsmgg_backend.domain.summoner.repository.SummonerJdbcRepository;
 import bsmgg.bsmgg_backend.domain.summoner.repository.SummonerRepository;
 import bsmgg.bsmgg_backend.domain.user.service.UserGetService;
 import bsmgg.bsmgg_backend.global.error.exception.BSMGGException;
@@ -24,7 +24,7 @@ public class SummonerGetService {
 
     private final UserGetService userGetService;
     private final SummonerRepository summonerRepository;
-    private final SummonerRankingRepository summonerRankingRepository;
+    private final SummonerJdbcRepository summonerJdbcRepository;
     private final ParticipantGetService participantGetService;
     private final MappingService mappingService;
 
@@ -91,17 +91,17 @@ public class SummonerGetService {
     }
 
     public ChangResponseDto getChang(long prevWeekStart, long prevWeekEnd) {
-        String puuid = summonerRankingRepository.findChangPuuidByTimes(prevWeekStart, prevWeekEnd);
+        String puuid = summonerJdbcRepository.findChangPuuidByTimes(prevWeekStart, prevWeekEnd);
         SummonerResponseDto summonerInfo = getSummonerWithRank(puuid);
         ChangInfoDto changInfo = participantGetService.getChangByPuuid(puuid, prevWeekStart, prevWeekEnd);
         return new ChangResponseDto(summonerInfo, changInfo);
     }
 
     public List<SummonerResponseDto> getAllRanking() {
-        return summonerRankingRepository.findAllWithRanking(-1);
+        return summonerJdbcRepository.findAllWithRanking(-1);
     }
 
     public List<SummonerResponseDto> getAllRanking(int page) {
-        return summonerRankingRepository.findAllWithRanking(page);
+        return summonerJdbcRepository.findAllWithRanking(page);
     }
 }

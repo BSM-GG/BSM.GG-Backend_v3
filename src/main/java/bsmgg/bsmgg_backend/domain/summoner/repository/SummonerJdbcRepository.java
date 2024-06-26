@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class SummonerRankingRepository {
+public class SummonerJdbcRepository {
 
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<SummonerResponseDto> mapper = (rs, rowNum) ->

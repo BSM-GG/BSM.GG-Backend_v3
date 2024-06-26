@@ -46,12 +46,11 @@ public class SummonerService {
         if (name == null || name.isEmpty()) {
             User user = userGetService.getUser();
             return summonerGetService.getSummonerWithRank(user.getSummoner().getPuuid());
-        } else {
-            String[] nameInfo = name.split("-");
-            if (nameInfo.length != 2)
-                throw new BSMGGException(ErrorCode.SUMMONER_NOT_FOUND);
-            return summonerGetService.getSummonerWithRank(nameInfo[0], nameInfo[1]);
         }
+        String[] nameInfo = name.split("-");
+        if (nameInfo.length != 2)
+            throw new BSMGGException(ErrorCode.SUMMONER_NOT_FOUND);
+        return summonerGetService.getSummonerWithRank(nameInfo[0], nameInfo[1]);
     }
 
     public SummonerRankingResponseDto getRanking(Integer page) {

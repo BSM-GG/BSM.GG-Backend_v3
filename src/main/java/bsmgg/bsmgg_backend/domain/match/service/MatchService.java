@@ -10,7 +10,6 @@ import bsmgg.bsmgg_backend.domain.participant.dto.ParticipantResponseDto;
 import bsmgg.bsmgg_backend.domain.participant.service.ParticipantGetService;
 import bsmgg.bsmgg_backend.domain.participant.service.ParticipantService;
 import bsmgg.bsmgg_backend.domain.riot.dto.MatchDto;
-import bsmgg.bsmgg_backend.domain.riot.dto.ParticipantDto;
 import bsmgg.bsmgg_backend.domain.riot.service.RiotApiService;
 import bsmgg.bsmgg_backend.domain.summoner.controller.dto.SummonerRequestDto;
 import bsmgg.bsmgg_backend.domain.summoner.domain.Summoner;
@@ -42,8 +41,14 @@ public class MatchService {
 
         while (true) {
             List<String> matchIds = riotApiService.getMatches(summoner.getPuuid(), summoner.getLastUpdated());
-            if (matchIds.isEmpty())
+
+            long nowTime = System.currentTimeMillis() / 1000;
+            long endTime = summoner.getLastUpdated() + 1296000;
+            if (matchIds.isEmpty() && nowTime < endTime) {
+                summoner.setLastUpdated(endTime);
+            } else if(matchIds.isEmpty()) {
                 break;
+            }
             Collections.reverse(matchIds);
 
             for (String matchId : matchIds) {
@@ -53,9 +58,7 @@ public class MatchService {
 
                 MatchDto match = riotApiService.getMatch(matchId);
                 Match newMatch = matchPostService.save(matchId, match.info());
-
-                List<ParticipantDto> participants = match.info().participants();
-                participantService.saveAll(newMatch, participants);
+                participantService.saveAll(newMatch, match.info().participants());
 
                 if (newMatch.getGameEndAt() >= summoner.getLastUpdated())
                     summoner.setLastUpdated(newMatch.getGameEndAt()+1);
