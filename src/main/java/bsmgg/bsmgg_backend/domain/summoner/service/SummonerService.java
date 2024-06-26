@@ -1,6 +1,5 @@
 package bsmgg.bsmgg_backend.domain.summoner.service;
 
-import bsmgg.bsmgg_backend.domain.match.service.MatchService;
 import bsmgg.bsmgg_backend.domain.summoner.controller.dto.ChangResponseDto;
 import bsmgg.bsmgg_backend.domain.summoner.controller.dto.SummonerRankingResponseDto;
 import bsmgg.bsmgg_backend.domain.summoner.controller.dto.SummonerRequestDto;

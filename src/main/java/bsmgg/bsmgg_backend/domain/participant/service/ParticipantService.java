@@ -2,6 +2,7 @@ package bsmgg.bsmgg_backend.domain.participant.service;
 
 import bsmgg.bsmgg_backend.domain.match.domain.Match;
 import bsmgg.bsmgg_backend.domain.participant.domain.Participant;
+import bsmgg.bsmgg_backend.domain.participant.repository.ParticipantJdbcRepository;
 import bsmgg.bsmgg_backend.domain.participant.repository.ParticipantRepository;
 import bsmgg.bsmgg_backend.domain.riot.dto.ParticipantDto;
 import bsmgg.bsmgg_backend.domain.riot.dto.PerkStyleDto;
@@ -22,6 +23,7 @@ public class ParticipantService {
     private final SummonerGetService summonerGetService;
     private final ParticipantRepository participantRepository;
     private final MappingService mappingService;
+    private final ParticipantJdbcRepository participantJdbcRepository;
 
     public void saveAll(Match match, List<ParticipantDto> dtos) {
         List<Participant> participants = new ArrayList<>();
@@ -82,7 +84,7 @@ public class ParticipantService {
                     .build());
             count++;
         }
-        participantRepository.saveAll(participants);
+        participantJdbcRepository.saveAll(participants);
     }
 
     private String getTeam(int count) {
