@@ -16,6 +16,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -62,11 +63,11 @@ public class RiotApiService {
     }
 
     public List<String> getMatches(String puuid, Long startTime) {
-        return Arrays.asList(throwRequest(
+        return new ArrayList<>(Arrays.asList(throwRequest(
                 String.format("%s/lol/match/v5/matches/by-puuid/%s/ids?startTime=%d&endTime=%d&start=0&count=100&api_key=%s"
                         , riotAsiaUrl, puuid, startTime, startTime+1296000, apiKey),
                 String[].class
-        ));
+        )));
     }
 
     public <T> T throwRequest(String url, Class<T> responseType) {
@@ -75,7 +76,6 @@ public class RiotApiService {
             ResponseEntity<Object> jsonResponse = restTemplate.getForEntity(url, Object.class);
             ObjectMapper objectMapper = new ObjectMapper();
             String stringResponse = objectMapper.writeValueAsString(jsonResponse.getBody());
-            log.info("SUCCESS");
             return objectMapper.readValue(stringResponse, responseType);
         } catch (HttpClientErrorException.Forbidden e) {
             throw new BSMGGException(ErrorCode.INVALID_OR_EXPIRED_RIOT_TOKEN);

@@ -4,7 +4,6 @@ import bsmgg.bsmgg_backend.domain.match.controller.dto.MatchInfoResponseDto;
 import bsmgg.bsmgg_backend.domain.match.controller.dto.MatchResponseDto;
 import bsmgg.bsmgg_backend.domain.match.domain.Match;
 import bsmgg.bsmgg_backend.domain.match.repository.MatchJdbcRepository;
-import bsmgg.bsmgg_backend.domain.match.repository.MatchRepository;
 import bsmgg.bsmgg_backend.domain.match.repository.dto.MatchInfoDto;
 import bsmgg.bsmgg_backend.domain.participant.dto.ParticipantResponseDto;
 import bsmgg.bsmgg_backend.domain.participant.service.ParticipantGetService;
@@ -19,9 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,8 +28,8 @@ public class MatchService {
     private final SummonerGetService summonerGetService;
     private final SummonerPostService summonerPostService;
     private final ParticipantService participantService;
+    private final MatchGetService matchGetService;
     private final MatchPostService matchPostService;
-    private final MatchRepository matchRepository;
     private final ParticipantGetService participantGetService;
     private final MatchJdbcRepository matchJdbcRepository;
 
@@ -40,22 +37,11 @@ public class MatchService {
         Summoner summoner = summonerGetService.getSummonerByRiotName(dto.gameName(), dto.tagLine());
 
         while (true) {
-            List<String> matchIds = riotApiService.getMatches(summoner.getPuuid(), summoner.getLastUpdated());
-
-            long nowTime = System.currentTimeMillis() / 1000;
-            long endTime = summoner.getLastUpdated() + 1296000;
-            if (matchIds.isEmpty() && nowTime < endTime) {
-                summoner.setLastUpdated(endTime);
-            } else if(matchIds.isEmpty()) {
+            List<String> matchIds = matchGetService.getNonExistMatchIds(summoner);
+            if(matchIds == null)
                 break;
-            }
-            Collections.reverse(matchIds);
 
             for (String matchId : matchIds) {
-                Optional<Match> existingMatch = matchRepository.findById(matchId);
-                if (existingMatch.isPresent())
-                    continue;
-
                 MatchDto match = riotApiService.getMatch(matchId);
                 Match newMatch = matchPostService.save(matchId, match.info());
                 participantService.saveAll(newMatch, match.info().participants());
