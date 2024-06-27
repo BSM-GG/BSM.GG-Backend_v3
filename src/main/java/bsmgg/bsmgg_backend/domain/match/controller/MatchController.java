@@ -29,7 +29,7 @@ public class MatchController {
     }
 
     @QueryMapping
-    public MatchResponseDto getMatches(@Argument String name, @Argument Integer page) {
-        return matchService.getMatches(name, page);
+    public MatchResponseDto getMatches(@Argument String name, @Argument String gameType, @Argument Integer page) {
+        return matchService.getMatches(name, gameType, page);
     }
 }

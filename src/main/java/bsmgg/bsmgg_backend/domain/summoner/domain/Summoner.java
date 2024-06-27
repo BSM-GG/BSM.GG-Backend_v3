@@ -19,7 +19,8 @@ public class Summoner {
 
     @Id
     @Column(length = 100)
-    private String puuid;
+    @Builder.Default
+    private String puuid = "";
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "puuid")
@@ -27,15 +28,20 @@ public class Summoner {
     private List<Participant> participant;
 
     @Column(unique = true, nullable = false, length = 100)
-    private String riotId;
+    @Builder.Default
+    private String riotId = "";
     @Column(nullable = false, length = 50)
-    private String gameName;
+    @Builder.Default
+    private String gameName = "";
     @Column(nullable = false, length = 20)
-    private String tagLine;
+    @Builder.Default
+    private String tagLine = "";
     @Column(nullable = false)
-    private Integer profileIcon;
+    @Builder.Default
+    private Integer profileIcon = 0;
     @Column(nullable = false)
-    private Long level;
+    @Builder.Default
+    private Long level = 0L;
     @Column(nullable = false)
     @Builder.Default
     private Long revisionDate = 0L;
@@ -80,7 +86,8 @@ public class Summoner {
     private String most3 = "";
     @Column(nullable = false)
     @Setter
-    private Long lastUpdated;
+    @Builder.Default
+    private Long lastUpdated = 0L;
 
     public void updateAccount(RiotAccountDto account, SummonerDto summoner) {
         gameName = account.gameName();

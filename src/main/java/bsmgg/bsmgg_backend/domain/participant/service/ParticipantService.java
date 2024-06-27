@@ -3,7 +3,6 @@ package bsmgg.bsmgg_backend.domain.participant.service;
 import bsmgg.bsmgg_backend.domain.match.domain.Match;
 import bsmgg.bsmgg_backend.domain.participant.domain.Participant;
 import bsmgg.bsmgg_backend.domain.participant.repository.ParticipantJdbcRepository;
-import bsmgg.bsmgg_backend.domain.participant.repository.ParticipantRepository;
 import bsmgg.bsmgg_backend.domain.riot.dto.ParticipantDto;
 import bsmgg.bsmgg_backend.domain.riot.dto.PerkStyleDto;
 import bsmgg.bsmgg_backend.domain.summoner.domain.Summoner;
@@ -21,7 +20,6 @@ import java.util.Objects;
 public class ParticipantService {
 
     private final SummonerGetService summonerGetService;
-    private final ParticipantRepository participantRepository;
     private final MappingService mappingService;
     private final ParticipantJdbcRepository participantJdbcRepository;
 
@@ -41,7 +39,7 @@ public class ParticipantService {
                     .match(match)
                     .summoner(summoner)
                     .isWin(dto.win())
-                    .champion(dto.championName())
+                    .champion(Objects.equals(dto.championName(), "FiddleSticks") ? "Fiddlesticks": dto.championName())
                     .championLevel(dto.champLevel())
                     .lane(count)
                     .team(getTeam(count))

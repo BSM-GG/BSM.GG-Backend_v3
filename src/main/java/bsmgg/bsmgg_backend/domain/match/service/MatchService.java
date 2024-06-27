@@ -34,7 +34,7 @@ public class MatchService {
     private final MatchJdbcRepository matchJdbcRepository;
 
     public void saveMatches(SummonerRequestDto dto) {
-        Summoner summoner = summonerGetService.getSummonerByRiotName(dto.gameName(), dto.tagLine());
+        Summoner summoner = summonerGetService.getSummonerByRiotNameOrThrow(dto.gameName(), dto.tagLine());
 
         while (true) {
             List<String> matchIds = matchGetService.getNonExistMatchIds(summoner);
@@ -55,14 +55,15 @@ public class MatchService {
     }
 
     public void updateMost(SummonerRequestDto dto) {
-        Summoner summoner = summonerGetService.getSummonerByRiotName(dto.gameName(), dto.tagLine());
+        Summoner summoner = summonerGetService.getSummonerByRiotNameOrThrow(dto.gameName(), dto.tagLine());
         summonerPostService.updateMostChampions(summoner);
     }
 
-    public MatchResponseDto getMatches(String name, Integer page) {
-        Summoner summoner = summonerGetService.getSummonerByRiotName(name);
+    public MatchResponseDto getMatches(String name, String gameType, Integer page) {
+        Summoner summoner = summonerGetService.getSummonerByRiotNameOrThrow(name);
         if (page == null) page = 0;
-        List<MatchInfoDto> matches = matchJdbcRepository.findWithIsWin(summoner.getPuuid(), page*10);
+        if (gameType == null) gameType = "";
+        List<MatchInfoDto> matches = matchJdbcRepository.findWithIsWin(summoner.getPuuid(), gameType, page*10);
 
         List<MatchInfoResponseDto> matchResponse = new ArrayList<>();
         for (MatchInfoDto match : matches) {

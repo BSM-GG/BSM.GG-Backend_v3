@@ -35,12 +35,17 @@ public class SummonerGetService {
         return summonerRepository.findByPuuid(puuid);
     }
 
-    public Summoner getSummonerByRiotName(String gameName, String tagLine) {
+    public Summoner getSummonerByRiotNameOrThrow(String gameName, String tagLine) {
         return summonerRepository.findByGameNameAndTagLine(gameName, tagLine)
                 .orElseThrow(() -> new BSMGGException(ErrorCode.SUMMONER_NOT_FOUND));
     }
 
-    public Summoner getSummonerByRiotName(String name) {
+    public Summoner getSummonerByRiotName(String gameName, String tagLine) {
+        return summonerRepository.findByGameNameAndTagLine(gameName, tagLine)
+                .orElse(Summoner.builder().build());
+    }
+
+    public Summoner getSummonerByRiotNameOrThrow(String name) {
         String[] nameInfo = name.split("-");
         if (nameInfo.length != 2)
             throw new BSMGGException(ErrorCode.SUMMONER_NOT_FOUND);
