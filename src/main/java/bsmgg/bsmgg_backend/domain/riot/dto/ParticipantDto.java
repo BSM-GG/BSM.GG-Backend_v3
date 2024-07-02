@@ -1,138 +1,144 @@
 package bsmgg.bsmgg_backend.domain.riot.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record ParticipantDto(
-        Integer allInPings,
-        Integer assistMePings,
-        Integer assists,
-        Integer baronKills,
-        Integer bountyLevel,
-        Integer champExperience,
-        Integer champLevel,
-        Integer championId,
-        String championName,
-        Integer commandPings,
-        Integer championTransform,
-        Integer consumablesPurchased,
-        ChallengesDto challenges,
-        Integer damageDealtToBuildings,
-        Integer damageDealtToObjectives,
-        Integer damageDealtToTurrets,
-        Integer dangerPings,
-        Integer damageSelfMitigated,
-        Integer deaths,
-        Integer detectorWardsPlaced,
-        Integer doubleKills,
-        Integer dragonKills,
-        Boolean eligibleForProgression,
-        Integer enemyMissingPings,
-        Integer enemyVisionPings,
-        Boolean firstBloodAssist,
-        Boolean firstBloodKill,
-        Boolean firstTowerAssist,
-        Boolean firstTowerKill,
-        Boolean gameEndedInEarlySurrender,
-        Boolean gameEndedInSurrender,
-        Integer holdPings,
-        Integer getBackPings,
-        Integer goldEarned,
-        Integer goldSpent,
-        String individualPosition,
-        Integer inhibitorKills,
-        Integer inhibitorTakedowns,
-        Integer inhibitorsLost,
-        Integer item0,
-        Integer item1,
-        Integer item2,
-        Integer item3,
-        Integer item4,
-        Integer item5,
-        Integer item6,
-        Integer itemsPurchased,
-        Integer killingSprees,
-        Integer kills,
-        String lane,
-        Integer largestCriticalStrike,
-        Integer largestKillingSpree,
-        Integer largestMultiKill,
-        Integer longestTimeSpentLiving,
-        Integer magicDamageDealt,
-        Integer magicDamageDealtToChampions,
-        Integer magicDamageTaken,
-        MissionsDto missions,
-        Integer neutralMinionsKilled,
-        Integer needVisionPings,
-        Integer nexusKills,
-        Integer nexusTakedowns,
-        Integer nexusLost,
-        Integer objectivesStolen,
-        Integer objectivesStolenAssists,
-        Integer onMyWayPings,
-        Integer participantId,
-        Integer pentaKills,
-        PerksDto perks,
-        Integer physicalDamageDealt,
-        Integer physicalDamageDealtToChampions,
-        Integer physicalDamageTaken,
-        Integer placement,
-        Integer playerAugment1,
-        Integer playerAugment2,
-        Integer playerAugment3,
-        Integer playerAugment4,
-        Integer playerSubteamId,
-        Integer pushPings,
-        Integer profileIcon,
-        String puuid,
-        Integer quadraKills,
-        String riotIdGameName,
-        String riotIdName,
-        String riotIdTagline,
-        String role,
-        Integer sightWardsBoughtInGame,
-        Integer spell1Casts,
-        Integer spell2Casts,
-        Integer spell3Casts,
-        Integer spell4Casts,
-        Integer subteamPlacement,
-        Integer summoner1Casts,
-        Integer summoner1Id,
-        Integer summoner2Casts,
-        Integer summoner2Id,
-        String summonerId,
-        Integer summonerLevel,
-        String summonerName,
-        Boolean teamEarlySurrendered,
-        Integer teamId,
-        String teamPosition,
-        Integer timeCCingOthers,
-        Integer timePlayed,
-        Integer totalAllyJungleMinionsKilled,
-        Integer totalDamageDealt,
-        Integer totalDamageDealtToChampions,
-        Integer totalDamageShieldedOnTeammates,
-        Integer totalDamageTaken,
-        Integer totalEnemyJungleMinionsKilled,
-        Integer totalHeal,
-        Integer totalHealsOnTeammates,
-        Integer totalMinionsKilled,
-        Integer totalTimeCCDealt,
-        Integer totalTimeSpentDead,
-        Integer totalUnitsHealed,
-        Integer tripleKills,
-        Integer trueDamageDealt,
-        Integer trueDamageDealtToChampions,
-        Integer trueDamageTaken,
-        Integer turretKills,
-        Integer turretTakedowns,
-        Integer turretsLost,
-        Integer unrealKills,
-        Integer visionScore,
-        Integer visionClearedPings,
-        Integer visionWardsBoughtInGame,
-        Integer wardsKilled,
-        Integer wardsPlaced,
-        Boolean win
-) {
+@Getter
+@AllArgsConstructor
+public class ParticipantDto {
+    private Integer allInPings;
+    private Integer assistMePings;
+    private Integer assists;
+    private Integer baronKills;
+    private Integer bountyLevel;
+    private Integer champExperience;
+    private Integer champLevel;
+    private Integer championId;
+    private String championName;
+    private Integer commandPings;
+    private Integer championTransform;
+    private Integer consumablesPurchased;
+    private ChallengesDto challenges;
+    private Integer damageDealtToBuildings;
+    private Integer damageDealtToObjectives;
+    private Integer damageDealtToTurrets;
+    private Integer dangerPings;
+    private Integer damageSelfMitigated;
+    private Integer deaths;
+    private Integer detectorWardsPlaced;
+    private Integer doubleKills;
+    private Integer dragonKills;
+    private Boolean eligibleForProgression;
+    private Integer enemyMissingPings;
+    private Integer enemyVisionPings;
+    private Boolean firstBloodAssist;
+    private Boolean firstBloodKill;
+    private Boolean firstTowerAssist;
+    private Boolean firstTowerKill;
+    private Boolean gameEndedInEarlySurrender;
+    private Boolean gameEndedInSurrender;
+    private Integer holdPings;
+    private Integer getBackPings;
+    private Integer goldEarned;
+    private Integer goldSpent;
+    private String individualPosition;
+    private Integer inhibitorKills;
+    private Integer inhibitorTakedowns;
+    private Integer inhibitorsLost;
+    private Integer item0;
+    private Integer item1;
+    private Integer item2;
+    private Integer item3;
+    private Integer item4;
+    private Integer item5;
+    private Integer item6;
+    private Integer itemsPurchased;
+    private Integer killingSprees;
+    private Integer kills;
+    private String lane;
+    private Integer largestCriticalStrike;
+    private Integer largestKillingSpree;
+    private Integer largestMultiKill;
+    private Integer longestTimeSpentLiving;
+    private Integer magicDamageDealt;
+    private Integer magicDamageDealtToChampions;
+    private Integer magicDamageTaken;
+    private MissionsDto missions;
+    private Integer neutralMinionsKilled;
+    private Integer needVisionPings;
+    private Integer nexusKills;
+    private Integer nexusTakedowns;
+    private Integer nexusLost;
+    private Integer objectivesStolen;
+    private Integer objectivesStolenAssists;
+    private Integer onMyWayPings;
+    private Integer participantId;
+    private Integer pentaKills;
+    private PerksDto perks;
+    private Integer physicalDamageDealt;
+    private Integer physicalDamageDealtToChampions;
+    private Integer physicalDamageTaken;
+    private Integer placement;
+    private Integer playerAugment1;
+    private Integer playerAugment2;
+    private Integer playerAugment3;
+    private Integer playerAugment4;
+    private Integer playerSubteamId;
+    private Integer pushPings;
+    private Integer profileIcon;
+    private String puuid;
+    private Integer quadraKills;
+    private String riotIdGameName;
+    private String riotIdName;
+    private String riotIdTagline;
+    private String role;
+    @Setter
+    private Integer roleCnt;
+    private Integer sightWardsBoughtInGame;
+    private Integer spell1Casts;
+    private Integer spell2Casts;
+    private Integer spell3Casts;
+    private Integer spell4Casts;
+    private Integer subteamPlacement;
+    private Integer summoner1Casts;
+    private Integer summoner1Id;
+    private Integer summoner2Casts;
+    private Integer summoner2Id;
+    private String summonerId;
+    private Integer summonerLevel;
+    private String summonerName;
+    private Boolean teamEarlySurrendered;
+    private Integer teamId;
+    private String teamPosition;
+    private Integer timeCCingOthers;
+    private Integer timePlayed;
+    private Integer totalAllyJungleMinionsKilled;
+    private Integer totalDamageDealt;
+    private Integer totalDamageDealtToChampions;
+    private Integer totalDamageShieldedOnTeammates;
+    private Integer totalDamageTaken;
+    private Integer totalEnemyJungleMinionsKilled;
+    private Integer totalHeal;
+    private Integer totalHealsOnTeammates;
+    private Integer totalMinionsKilled;
+    private Integer totalTimeCCDealt;
+    private Integer totalTimeSpentDead;
+    private Integer totalUnitsHealed;
+    private Integer tripleKills;
+    private Integer trueDamageDealt;
+    private Integer trueDamageDealtToChampions;
+    private Integer trueDamageTaken;
+    private Integer turretKills;
+    private Integer turretTakedowns;
+    private Integer turretsLost;
+    private Integer unrealKills;
+    private Integer visionScore;
+    private Integer visionClearedPings;
+    private Integer visionWardsBoughtInGame;
+    private Integer wardsKilled;
+    private Integer wardsPlaced;
+    private Boolean win;
 }

@@ -2,7 +2,6 @@ package bsmgg.bsmgg_backend.domain.summoner.service;
 
 import bsmgg.bsmgg_backend.domain.participant.dto.ChangInfoDto;
 import bsmgg.bsmgg_backend.domain.participant.service.ParticipantGetService;
-import bsmgg.bsmgg_backend.domain.riot.dto.ParticipantDto;
 import bsmgg.bsmgg_backend.domain.summoner.controller.dto.ChangResponseDto;
 import bsmgg.bsmgg_backend.domain.summoner.controller.dto.SummonerResponseDto;
 import bsmgg.bsmgg_backend.domain.summoner.domain.Summoner;
@@ -16,7 +15,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -53,21 +54,13 @@ public class SummonerGetService {
                 .orElseThrow(() -> new BSMGGException(ErrorCode.SUMMONER_NOT_FOUND));
     }
 
-    public Summoner getSummonerByParticipant(ParticipantDto dto) {
-        Summoner summoner = summonerRepository.findByPuuid(dto.puuid());
-        if (summoner == null) {
-            summoner = summonerRepository.save(Summoner.builder()
-                    .puuid(dto.puuid())
-                    .riotId(dto.summonerId())
-                    .gameName(dto.riotIdGameName())
-                    .tagLine(dto.riotIdTagline())
-                    .level(0L)
-                    .profileIcon(dto.profileIcon())
-                    .lastUpdated(seasonStartedTime)
-                    .build()
-            );
+    public Map<String, Boolean> getExistingSummoners(List<String> puuids) {
+        List<String> existingPuuids = summonerRepository.findIdsByPuuids(puuids);
+        Map<String, Boolean> puuidMap = new HashMap<>();
+        for (String puuid : existingPuuids) {
+            puuidMap.put(puuid, true);
         }
-        return summoner;
+        return puuidMap;
     }
 
     public SummonerResponseDto getSummonerWithRank(String puuid) {

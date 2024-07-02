@@ -2,6 +2,7 @@ package bsmgg.bsmgg_backend.domain.summoner.service;
 
 import bsmgg.bsmgg_backend.domain.participant.service.ParticipantGetService;
 import bsmgg.bsmgg_backend.domain.riot.dto.LeagueEntryDTO;
+import bsmgg.bsmgg_backend.domain.riot.dto.ParticipantDto;
 import bsmgg.bsmgg_backend.domain.riot.dto.RiotAccountDto;
 import bsmgg.bsmgg_backend.domain.riot.dto.SummonerDto;
 import bsmgg.bsmgg_backend.domain.riot.service.RiotApiService;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -67,5 +69,21 @@ public class SummonerPostService {
         summoner = updateSummoner(summoner.getGameName(), summoner.getTagLine());
         summoner.setMostChampions(mostChampions);
         save(summoner);
+    }
+
+    public void saveFromParticipants(List<ParticipantDto> dtos) {
+        List<Summoner> summoners = new ArrayList<>();
+        for(ParticipantDto dto : dtos) {
+            summoners.add(Summoner.builder()
+                    .puuid(dto.getPuuid())
+                    .riotId(dto.getSummonerId())
+                    .gameName(dto.getRiotIdGameName())
+                    .tagLine(dto.getRiotIdTagline())
+                    .level(0L)
+                    .profileIcon(dto.getProfileIcon())
+                    .lastUpdated(seasonStartedTime)
+                    .build());
+        }
+        summonerRepository.saveAll(summoners);
     }
 }

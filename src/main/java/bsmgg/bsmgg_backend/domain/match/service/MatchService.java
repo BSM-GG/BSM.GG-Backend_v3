@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -62,7 +63,8 @@ public class MatchService {
     public MatchResponseDto getMatches(String name, String gameType, Integer page) {
         Summoner summoner = summonerGetService.getSummonerByRiotNameOrThrow(name);
         if (page == null) page = 0;
-        if (gameType == null) gameType = "";
+        if (Objects.equals(gameType, "전체")) gameType = "";
+
         List<MatchInfoDto> matches = matchJdbcRepository.findWithIsWin(summoner.getPuuid(), gameType, page*10);
 
         List<MatchInfoResponseDto> matchResponse = new ArrayList<>();

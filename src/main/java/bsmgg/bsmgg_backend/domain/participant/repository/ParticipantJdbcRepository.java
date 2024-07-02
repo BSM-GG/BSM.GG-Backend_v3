@@ -123,11 +123,11 @@ public class ParticipantJdbcRepository {
         String sql = """
                 INSERT INTO participant
                 (match_id,puuid,is_win,champion,champion_level,lane,team,kill_rate,kills,assists,deaths
-                ,cs,damage,damage_rate,heal,earned_gold,spent_gold,vision_ward,sight_ward,vision_score
+                ,cs,damage,damage_rate,gain_damage,heal,earned_gold,spent_gold,vision_ward,sight_ward,vision_score
                 ,skill_used,spell1,spell2,spell1used,spell2used,item1,item2,item3,item4,item5,item6,ward
                 ,main_perk,main_perk_part1,main_perk_part2,main_perk_part3,sub_perk_style,sub_perk_part1
                 ,sub_perk_part2,offense_perk,flex_perk,defense_perk)
-                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
                 """;
         jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
             @Override
@@ -147,34 +147,35 @@ public class ParticipantJdbcRepository {
                 ps.setInt(12, participant.getCs());
                 ps.setInt(13, participant.getDamage());
                 ps.setInt(14, participant.getDamageRate());
-                ps.setInt(15, participant.getHeal());
-                ps.setInt(16, participant.getEarnedGold());
-                ps.setInt(17, participant.getSpentGold());
-                ps.setInt(18, participant.getVisionWard());
-                ps.setInt(19, participant.getSightWard());
-                ps.setInt(20, participant.getVisionScore());
-                ps.setInt(21, participant.getSkillUsed());
-                ps.setString(22, participant.getSpell1());
-                ps.setString(23, participant.getSpell2());
-                ps.setInt(24, participant.getSpell1Used());
-                ps.setInt(25, participant.getSpell2Used());
-                ps.setInt(26, participant.getItem1());
-                ps.setInt(27, participant.getItem2());
-                ps.setInt(28, participant.getItem3());
-                ps.setInt(29, participant.getItem4());
-                ps.setInt(30, participant.getItem5());
-                ps.setInt(31, participant.getItem6());
-                ps.setInt(32, participant.getWard());
-                ps.setString(33, participant.getMainPerk());
-                ps.setString(34, participant.getMainPerkPart1());
-                ps.setString(35, participant.getMainPerkPart2());
-                ps.setString(36, participant.getMainPerkPart3());
-                ps.setString(37, participant.getSubPerkStyle());
-                ps.setString(38, participant.getSubPerkPart1());
-                ps.setString(39, participant.getSubPerkPart2());
-                ps.setString(40, participant.getOffensePerk());
-                ps.setString(41, participant.getFlexPerk());
-                ps.setString(42, participant.getDefensePerk());
+                ps.setInt(15, participant.getGainDamage());
+                ps.setInt(16, participant.getHeal());
+                ps.setInt(17, participant.getEarnedGold());
+                ps.setInt(18, participant.getSpentGold());
+                ps.setInt(19, participant.getVisionWard());
+                ps.setInt(20, participant.getSightWard());
+                ps.setInt(21, participant.getVisionScore());
+                ps.setInt(22, participant.getSkillUsed());
+                ps.setString(23, participant.getSpell1());
+                ps.setString(24, participant.getSpell2());
+                ps.setInt(25, participant.getSpell1Used());
+                ps.setInt(26, participant.getSpell2Used());
+                ps.setInt(27, participant.getItem1());
+                ps.setInt(28, participant.getItem2());
+                ps.setInt(29, participant.getItem3());
+                ps.setInt(30, participant.getItem4());
+                ps.setInt(31, participant.getItem5());
+                ps.setInt(32, participant.getItem6());
+                ps.setInt(33, participant.getWard());
+                ps.setString(34, participant.getMainPerk());
+                ps.setString(35, participant.getMainPerkPart1());
+                ps.setString(36, participant.getMainPerkPart2());
+                ps.setString(37, participant.getMainPerkPart3());
+                ps.setString(38, participant.getSubPerkStyle());
+                ps.setString(39, participant.getSubPerkPart1());
+                ps.setString(40, participant.getSubPerkPart2());
+                ps.setString(41, participant.getOffensePerk());
+                ps.setString(42, participant.getFlexPerk());
+                ps.setString(43, participant.getDefensePerk());
             }
 
             @Override
